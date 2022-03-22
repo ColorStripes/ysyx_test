@@ -3,5 +3,5 @@ all:
 
 sim:
 	$(call git_commit, "sim RTL") # DO NOT REMOVE THIS LINE!!!
-	verilator -Wall --cc --bulid --exe -- trace vsrc/*.v csrc/*.cpp	
+	verilator -Wall --cc  vsrc/*.v csrc/*.cpp	
 include ../Makefile
