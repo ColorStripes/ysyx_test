@@ -5,6 +5,7 @@
 #include "sdb.h"
 
 static int is_batch_mode = false;
+uint64_t n;
 
 void init_regex();
 void init_wp_pool();
@@ -41,8 +42,12 @@ static int cmd_help(char *args);
 
 
 static int cmd_si(char *args){
-   printf("%s",args);
-   cpu_exec(2);
+   //printf("%s",args);
+   if(args == NULL) 
+      n = 1;
+   else
+      sscanf(args,"%ld",&n);
+   cpu_exec(n);
    return 0;
 }
 
@@ -105,7 +110,7 @@ void sdb_mainloop() {
     /* treat the remaining string as the arguments,
      * which may need further parsing
      */
-    char *args = cmd + strlen(cmd) + 1;
+    char *args = cmd + strlen(cmd) + 1;           
     if (args >= str_end) {
       args = NULL;
     }
