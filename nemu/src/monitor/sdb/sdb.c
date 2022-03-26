@@ -51,6 +51,17 @@ static int cmd_si(char *args){
    return 0;
 }
 
+static int cmd_info(char *args){
+   if(strcmp(args, "r") == 0) 
+       isa_reg_display();
+   else if(strcmp(args, "w") == 0)    ;
+   //else {
+           //printf("Unknown parameter '%s'\n", args);
+           //return -1;
+   //}
+   return 0;
+}
+
 static struct {
   const char *name;
   const char *description;
@@ -60,6 +71,7 @@ static struct {
   { "c", "Continue the execution of the program", cmd_c },
   { "q", "Exit NEMU", cmd_q },
   { "si", "Single Step Execution", cmd_si },
+  { "info", "info r:Print register status/ninfo w:Print monitors information", cmd_info },
 
   /* TODO: Add more commands */
 
@@ -123,7 +135,7 @@ void sdb_mainloop() {
     int i;
     for (i = 0; i < NR_CMD; i ++) {
       if (strcmp(cmd, cmd_table[i].name) == 0) {
-        if (cmd_table[i].handler(args) < 0) { return; }
+        if (cmd_table[i].handler(args) < 0) { return; }              //Command Call
         break;
       }
     }
