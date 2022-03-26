@@ -57,7 +57,7 @@ static int cmd_info(char *args){
    else if(strcmp(args, "w") == 0)    ;
    else {
            //printf("Unknown parameter '%s'\n", args);
-           return -1;
+           //return -1;
    }
    return 0;
 }
