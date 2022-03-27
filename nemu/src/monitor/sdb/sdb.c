@@ -5,7 +5,7 @@
 #include "sdb.h"
 
 static int is_batch_mode = false;
-uint64_t n;
+
 
 void init_regex();
 void init_wp_pool();
@@ -42,25 +42,28 @@ static int cmd_help(char *args);
 
 
 static int cmd_si(char *args){
+   uint64_t n;
    //printf("%s",args);
-   if(args == NULL) 
-      n = 1;
-   else
-      sscanf(args,"%ld",&n);
-   cpu_exec(n);
-   return 0;
+    if(args == NULL) 
+       n = 1;
+    else
+       sscanf(args,"%ld",&n);
+    cpu_exec(n);
+    return 0;
 }
 
 static int cmd_info(char *args){
-   if(strcmp(args, "r") == 0) 
-       isa_reg_display();
-   else if(strcmp(args, "w") == 0)    ;
-   else 
-       printf("Unknown parameter '%s'\n", args);
+    if(strcmp(args, "r") == 0) 
+        isa_reg_display();
+    else if(strcmp(args, "w") == 0)    ;
+    else 
+        printf("Unknown parameter '%s'\n", args);
            //return -1;
    
-   return 0;
+    return 0;
 }
+
+
 
 static struct {
   const char *name;
