@@ -46,8 +46,9 @@ static int cmd_si(char *args){
    //printf("%s",args);
     if(args == NULL) 
        n = 1;
-    else
+    else{
        sscanf(args,"%ld",&n);
+       printf("%ld\n",n);}
     cpu_exec(n);
     return 0;
 }
