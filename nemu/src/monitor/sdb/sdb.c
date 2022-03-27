@@ -103,7 +103,7 @@ static struct {
   { "c", "Continue the execution of the program", cmd_c },
   { "q", "Exit NEMU", cmd_q },
   { "si", "Single Step Execution", cmd_si },
-  { "info", "info r:Print register status/ninfo w:Print monitors information", cmd_info },
+  { "info", "info r:Print register status\ninfo w:Print monitors information", cmd_info },
   { "x", "x N EXPR:To scan memory", cmd_x },
 
   /* TODO: Add more commands */
