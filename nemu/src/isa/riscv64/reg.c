@@ -10,7 +10,7 @@ const char *regs[] = {
 
 void isa_reg_display() {
     for(int i = 0;i < 32; i++){
-        printf("%5s = %-5ld",regs[i],cpu.gpr[i]);
+        printf("%-5s = %-5ld",regs[i],cpu.gpr[i]);
         if((i+1)%8 == 0)
             printf("\n");
     }
