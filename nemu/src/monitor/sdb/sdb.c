@@ -88,7 +88,7 @@ static int cmd_x(char *args){
           sscanf(add+2,"%lx",&addr);
           while(n--){
               printf("0x%lx: %lx\n",addr,vaddr_read(addr, 4));
-              addr++;
+              addr+=4;
           }
       }
       else{ 
