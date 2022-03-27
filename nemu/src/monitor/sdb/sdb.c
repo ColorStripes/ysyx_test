@@ -75,7 +75,7 @@ static int cmd_x(char *args){
 //    }
     char *agum = strtok(args, " ");
     char *add = agum + strlen(agum) + 1;           
-    if (agum >= str_end_x) {
+    if (add >= str_end_x) {
       add = NULL;
       printf("You need to put Address(0x) to set the start of the search\n");
       return -1;
