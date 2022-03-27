@@ -87,7 +87,7 @@ static int cmd_x(char *args){
       if(strncmp(add, "0x",2) == 0){
           sscanf(add+2,"%lx",&addr);
           while(n--){
-              printf("0x%lx: %lx\n",addr,vaddr_read(addr, 2));
+              printf("0x%lx: %lx\n",addr,vaddr_read(addr, 4));
               addr++;
           }
       }
