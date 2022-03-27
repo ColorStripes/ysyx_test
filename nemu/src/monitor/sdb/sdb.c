@@ -69,13 +69,13 @@ static int cmd_x(char *args){
    //for (char *str; args != NULL; )
     char *str_end_x = args + strlen(args);
     uint64_t addr;
-    if (args == NULL){  
-        printf("The command must be: x N 0x..."); 
-        return 0;
-    }
+//    if (args == NULL){  
+//        printf("The command must be: x N 0x..."); 
+//        return 0;
+//    }
     char *agum = strtok(args, " ");
     char *add = agum + strlen(agum) + 1;           
-    if (add >= str_end_x) {
+    if (agum >= str_end_x) {
       add = NULL;
       printf("You need to put N to set the scope of the search");
       return -1;
