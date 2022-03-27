@@ -2,6 +2,7 @@
 #include <cpu/cpu.h>
 #include <readline/readline.h>
 #include <readline/history.h>
+#include <memory/vaddr.h>
 #include "sdb.h"
 
 static int is_batch_mode = false;
@@ -46,9 +47,9 @@ static int cmd_si(char *args){
    //printf("%s",args);
     if(args == NULL) 
        n = 1;
-    else{
+    else
        sscanf(args,"%ld",&n);
-       printf("%ld\n",n);}
+       //printf("%ld\n",n);
     cpu_exec(n);
     return 0;
 }
@@ -64,7 +65,34 @@ static int cmd_info(char *args){
     return 0;
 }
 
-
+static int cmd_x(char *args){
+   //for (char *str; args != NULL; )
+    char *str_end_x = args + strlen(args);
+    uint64_t addr;
+    if (args == NULL){  
+        printf("The command must be: x N 0x..."); 
+        return -1;
+    }
+    char *agum = strtok(args, " ");
+    char *add = agum + strlen(agum) + 1;           
+    if (add >= str_end_x) {
+      add = NULL;
+      printf("You need to put N to set the scope of the search");
+      return -1;
+    }
+    else {
+      if(strncmp(add, "0x",2) == 0)
+          add = add + 2;
+      else{
+          printf("Address must be 0x....");
+          return -1;
+      }
+      sscanf(add,"%lx",&addr);
+      //printf("%lx",vaddr_read(addr, 3));
+    }
+    vaddr_read(addr, 3);
+    return 0;
+}
 
 static struct {
   const char *name;
@@ -76,6 +104,7 @@ static struct {
   { "q", "Exit NEMU", cmd_q },
   { "si", "Single Step Execution", cmd_si },
   { "info", "info r:Print register status/ninfo w:Print monitors information", cmd_info },
+  { "x", "x N EXPR:To scan memory", cmd_x },
 
   /* TODO: Add more commands */
 
