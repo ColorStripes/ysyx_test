@@ -77,7 +77,7 @@ static int cmd_x(char *args){
     char *add = agum + strlen(agum) + 1;           
     if (agum >= str_end_x) {
       add = NULL;
-      printf("You need to put N to set the scope of the search");
+      printf("You need to put Address(0x) to set the start of the search\n");
       return -1;
     }
     else {
