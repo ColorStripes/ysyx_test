@@ -84,7 +84,7 @@ static int cmd_x(char *args){
       if(strncmp(add, "0x",2) == 0)
           add = add + 2;
       else{
-          printf("Address must be 0x....");
+          printf("Address must be 0x....\n");
           return -1;
       }
       sscanf(add,"%lx",&addr);
