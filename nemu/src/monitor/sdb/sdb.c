@@ -90,7 +90,7 @@ static int cmd_x(char *args){
       sscanf(add,"%lx",&addr);
       //printf("%lx",vaddr_read(addr, 3));
     }
-    vaddr_read(addr, 3);
+    printf("%lx",vaddr_read(addr, 3));
     return 0;
 }
 
