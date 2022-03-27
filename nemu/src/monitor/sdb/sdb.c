@@ -30,8 +30,7 @@ static char* rl_gets() {
 }
 
 static int cmd_c(char *args) {
-  printf("%lx",vaddr_read(0x87ffffff, 4));
-  //cpu_exec(-1);
+  cpu_exec(-1);
   return 0;
 }
 
