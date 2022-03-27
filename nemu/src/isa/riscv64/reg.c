@@ -10,7 +10,7 @@ const char *regs[] = {
 
 void isa_reg_display() {
     //for(int i = 0;i < 32; i++)
-        printf("%d\n",*regs[1]);
+        printf("%d\n",*regs[7]);
 }
 
 word_t isa_reg_str2val(const char *s, bool *success) {
