@@ -82,16 +82,15 @@ static int cmd_x(char *args){
       return -1;
     }
     else {
-      if(strncmp(add, "0x",2) == 0)
-          add = add + 2;
+      if(strncmp(add, "0x",2) == 0){
+          sscanf(add+2,"%lx",&addr);
+          printf("%s : %lx\n",add,vaddr_read(addr, 4));
+      }
       else{
           printf("Address must be 0x....\n");
           return -1;
       }
-      sscanf(add,"%lx",&addr);
-      printf("%lx",vaddr_read(addr, 3));
     }
-    //printf("%lx",vaddr_read(addr, 3));
     return 0;
 }
 
