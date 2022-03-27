@@ -71,7 +71,7 @@ static int cmd_x(char *args){
     uint64_t addr;
     if (args == NULL){  
         printf("The command must be: x N 0x..."); 
-        return -1;
+        return 0;
     }
     char *agum = strtok(args, " ");
     char *add = agum + strlen(agum) + 1;           
