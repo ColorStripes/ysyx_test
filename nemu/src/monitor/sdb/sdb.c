@@ -74,7 +74,10 @@ static int cmd_x(char *args){
 //        return 0;
 //    }
     char *agum = strtok(args, " ");
-    char *add = agum + strlen(agum) + 1;           
+    char *add = agum + strlen(agum) + 1;  
+    
+    int n;
+    sscanf(agum,"%d",&n);         
     if (add >= str_end_x) {
       add = NULL;
       printf("You need to put Address(0x) to set the start of the search\n");
@@ -83,9 +86,13 @@ static int cmd_x(char *args){
     else {
       if(strncmp(add, "0x",2) == 0){
           sscanf(add+2,"%lx",&addr);
-          printf("%s : %lx\n",add,vaddr_read(addr, 4));
+          while(n--){
+              printf("%s: %lx\n",add,vaddr_read(addr, 4));
+              addr++;
+          }
       }
       else{
+          
           printf("Address must be 0x....\n");
           return -1;
       }
