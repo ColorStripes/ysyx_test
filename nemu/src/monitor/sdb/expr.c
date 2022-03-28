@@ -88,9 +88,7 @@ static bool make_token(char *e) {
         switch (rules[i].token_type) {
 	  case 9:
 		  tokens[nr_token].type = TK_NUMBER; 
-		 // sscanf(substr_start,"%s",tokens[nr_token++].str);
-		 // token[nr_token].str = &substr_start;
-		  strncpy(tokens[nr_token].str, substr_start, 5);
+		  strncpy(tokens[nr_token++].str, substr_start, substr_len);
 		  break;
 	  case '+':
 		  tokens[i].type = '+';
@@ -109,14 +107,12 @@ static bool make_token(char *e) {
 	          nr_token ++;
 	          break;
 	  case '(':
-		  tokens[i].type = '(';
-		  sscanf(substr_start,"%s",tokens[i].str);
-	          nr_token ++;
+		  tokens[nr_token].type = '(';
+		  strcpy(tokens[nr_token++].str, substr_start);
 	          break;
 	  case ')':
-                  tokens[i].type = ')';
-		  sscanf(substr_start,"%s",tokens[i].str);
-	          nr_token ++;
+                  tokens[nr_token].type = ')';
+		  strcpy(tokens[nr_token++].str, substr_start);
                   break;
 	 
           default:
