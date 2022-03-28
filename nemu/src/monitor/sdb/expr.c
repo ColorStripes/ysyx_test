@@ -27,8 +27,8 @@ static struct rule {
   {"-", '-'},
   {"\\*", '*'},
   {"/", '/'},
-  {"(", '('},
-  {")", ')'},
+  {"\(", '('},
+  {"\\)", ')'},
   {"\\d", TK_NUMBER},
 };
 
@@ -109,12 +109,12 @@ static bool make_token(char *e) {
 	          break;
 	  case '(':
 		  tokens[i].type = '(';
-		  //sscanf(substr_start,"%s",tokens[i].str);
+		  sscanf(substr_start,"%s",tokens[i].str);
 	          nr_token ++;
 	          break;
 	  case ')':
                   tokens[i].type = ')';
-		  //sscanf(substr_start,"%s",tokens[i].str);
+		  sscanf(substr_start,"%s",tokens[i].str);
 	          nr_token ++;
                   break;
 	 
