@@ -262,7 +262,7 @@ word_t expr(char *e, bool *success) {
      int t = 0;
      for(int i = 0; i < 32;i++)
      if(tokens[i].type != 0)  t++;
-     printf("%d\n",eval(0,t-1));
+     printf("%u\n",eval(0,t-1));
 
   return 0;
 }
