@@ -119,7 +119,7 @@ static bool make_token(char *e) {
 		  break;
 
         }
-        printf("%d,%c\n",i,rules[i].token_type);
+        //printf("%d,%c\n",i,rules[i].token_type);
         break;
       }
     }
@@ -256,7 +256,7 @@ word_t expr(char *e, bool *success) {
   for(int i = 0; i < 32;i++)
   printf("%d:%c\n",i,tokens[i].type);
   /* TODO: Insert codes to evaluate the expression. */
-     //eval(0,31);
+     eval(0,31);
 
   return 0;
 }
