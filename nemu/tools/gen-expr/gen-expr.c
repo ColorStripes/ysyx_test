@@ -5,7 +5,7 @@
 #include <assert.h>
 #include <string.h>
 
-#define EXP_LONG  31;
+#define EXP_LONG  30;
 
 // this should be enough
 static char buf[65536] = {};
