@@ -255,7 +255,7 @@ word_t expr(char *e, bool *success) {
     return 0;
   }
   //for(int i = 0; i < 32;i++)
-  printf("%ld\n",sizeof(tokens));
+  printf("%ld\n",sizeof(tokens)/sizeof(tokens[0]));
   //printf("%d:%c\n",i,tokens[i].type);
   /* TODO: Insert codes to evaluate the expression. */
      //eval(0,sizeof(tokens));
