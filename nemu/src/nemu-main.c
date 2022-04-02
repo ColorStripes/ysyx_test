@@ -19,7 +19,7 @@ int main(int argc, char *argv[]) {
   FILE *fp = fopen("/home/xu/ysyx-workbench/nemu/tools/gen-expr/build/input","r");
   if(fp == NULL)
   assert(fp);
-  while(fp != NULL){
+  while(fgetc(fp) != EOF){
     if(fscanf(fp,"%d %s",&result,exp));
     printf("%d,%s\n",result,exp);
   }
