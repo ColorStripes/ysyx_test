@@ -254,8 +254,10 @@ word_t expr(char *e, bool *success) {
     *success = false;
     return 0;
   }
+  for(int i = 0; i < 32;i++)
+  printf("%c\n",tokens[i].type);
   /* TODO: Insert codes to evaluate the expression. */
-     eval(0,31);
+     //eval(0,31);
 
   return 0;
 }
