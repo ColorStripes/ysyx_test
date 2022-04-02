@@ -4,6 +4,7 @@ void init_monitor(int, char *[]);
 void am_init_monitor();
 void engine_start();
 int is_exit_status_bad();
+word_t expr(char *e, bool *success);
 
 int main(int argc, char *argv[]) {
   /* Initialize the monitor. */
@@ -19,9 +20,12 @@ int main(int argc, char *argv[]) {
   FILE *fp = fopen("/home/xu/ysyx-workbench/nemu/tools/gen-expr/build/input","r");
   if(fp == NULL)
   assert(fp);
+ bool b = true;
   while(fgetc(fp) != EOF){
     if(fscanf(fp,"%d %s",&result,exp));
-    printf("%d,%s\n",result,exp);
+    int q = expr(exp,&b);
+    
+    printf("%d,%s,%d\n",result,exp,q);
   }
   fclose(fp);
 

@@ -255,7 +255,7 @@ word_t expr(char *e, bool *success) {
   }
 
   /* TODO: Insert codes to evaluate the expression. */
-  TODO();
+     eval(0,sizeof(tokens));
 
   return 0;
 }
