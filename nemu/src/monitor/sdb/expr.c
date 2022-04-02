@@ -259,8 +259,10 @@ word_t expr(char *e, bool *success) {
   //printf("%ld\n",sizeof(tokens)/sizeof(tokens[0]));
   
   /* TODO: Insert codes to evaluate the expression. */
-     //if(tokens.type
-     //eval(0,sizeof(tokens));
+     int t = 0;
+     for(int i = 0; i < 32;i++)
+     if(tokens[i].type != 0)  t++;
+     eval(0,t-1);
 
   return 0;
 }
