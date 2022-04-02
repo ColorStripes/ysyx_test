@@ -120,7 +120,7 @@ static bool make_token(char *e) {
 		  break;
 
         }
-
+        printf("%d,%c\n",i,rules[i].token_type);
         break;
       }
     }
