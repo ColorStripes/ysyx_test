@@ -29,7 +29,7 @@ static struct rule {
   {"/", '/'},
   {"\\(", '('},
   {"\\)", ')'},
-  {"[1-9]+", TK_NUMBER},
+  {"[0-9]+", TK_NUMBER},
 };
 
 #define NR_REGEX ARRLEN(rules)
