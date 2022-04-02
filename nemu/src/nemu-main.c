@@ -20,7 +20,7 @@ int main(int argc, char *argv[]) {
   if(fp == NULL)
   assert(fp);
   for(int i = 0; i < 1; i++){
-  if(fscanf(fp,"%d",&result));
+  if(fscanf(fp,"%s %d",exp,&result));
   printf("%d,%s\n",result,exp);
   }
   fclose(fp);
