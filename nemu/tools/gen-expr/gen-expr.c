@@ -35,6 +35,8 @@ static void gen(char f){
 }
 
 static void gen_rand_op(){
+    if(q - n > 0){
+      
 	switch (choose(4)){
 	  case 0: buf[n++] = '+'; break;
           case 1: buf[n++] = '-'; break;
@@ -42,6 +44,7 @@ static void gen_rand_op(){
 	  case 3: buf[n++] = '/'; break;
 	  default: buf[n++] = ' '; break;
 	}
+    }
 }
 
 static void gen_num(){
@@ -62,8 +65,10 @@ static void gen_rand_expr( ) {
   //printf("gens:%c\n",buf[1]);
   //printf("genb:%ld\n",strlen(buf));
 
-    if(q - n <= 1){
+    if(q - n == 1||q - n == 0){
     	    gen_num();
+    }
+    else if(q < n){
     }
     else{
         switch (choose(3)) {
@@ -73,7 +78,7 @@ static void gen_rand_expr( ) {
         }
 	
     }
-
+    if(q > n){ gen_rand_op(); gen_rand_expr();}
 
 	    
 }
