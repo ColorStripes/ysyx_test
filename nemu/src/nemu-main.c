@@ -13,9 +13,19 @@ int main(int argc, char *argv[]) {
   init_monitor(argc, argv);
 #endif
 
-  printf("DDD");
+
+  uint32_t result;
+  char exp[33]={};
+  FILE *fp = fopen("../tools/gen-expr/build/input","r");
+  for(int i = 0; i < 3; i++){
+  if(fscanf(fp,"%d %s",&result,exp));
+  printf("%d,%s\n",result,exp);
+  }
+  fclose(fp);
+
+
   /* Start engine. */
- engine_start();
+  engine_start();
 
   return is_exit_status_bad();
 }
