@@ -17,6 +17,7 @@ int main(int argc, char *argv[]) {
   uint32_t result;
   char exp[33]={};
   FILE *fp = fopen("home/xu/ysyx-workbench/nemu/tools/gen-expr/build/input","r");
+  assert(fp != NULL);
   for(int i = 0; i < 3; i++){
   if(fscanf(fp,"%d %s",&result,exp));
   printf("%d,%s\n",result,exp);
