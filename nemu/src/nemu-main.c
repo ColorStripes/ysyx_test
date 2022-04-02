@@ -13,9 +13,9 @@ int main(int argc, char *argv[]) {
   init_monitor(argc, argv);
 #endif
 
-
+  printf("DDD");
   /* Start engine. */
- // engine_start();
+ engine_start();
 
   return is_exit_status_bad();
 }
