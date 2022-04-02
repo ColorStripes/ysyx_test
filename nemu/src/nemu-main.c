@@ -15,12 +15,12 @@ int main(int argc, char *argv[]) {
 
 
   uint32_t result;
-  char exp[33]={};
+  char exp[33];
   FILE *fp = fopen("/home/xu/ysyx-workbench/nemu/tools/gen-expr/build/input","r");
   if(fp == NULL)
   assert(fp);
   //for(int i = 0; i < 1; i++){
-  if(fscanf(fp,"%d",&result));
+  if(fscanf(fp,"%s",exp));
   printf("%d,%s\n",result,exp);
   //}
   fclose(fp);
