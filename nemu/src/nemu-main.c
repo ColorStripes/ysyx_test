@@ -19,10 +19,10 @@ int main(int argc, char *argv[]) {
   FILE *fp = fopen("/home/xu/ysyx-workbench/nemu/src/input","r");
   if(fp == NULL)
   assert(fp);
-  for(int i = 0; i < 1; i++){
-  if(fscanf(fp,"%s %d",exp,&result));
+  //for(int i = 0; i < 1; i++){
+  if(fscanf(fp,"%d",&result));
   printf("%d,%s\n",result,exp);
-  }
+  //}
   fclose(fp);
 
 
