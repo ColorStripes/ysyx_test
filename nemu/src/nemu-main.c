@@ -20,13 +20,13 @@ int main(int argc, char *argv[]) {
   FILE *fp = fopen("/home/xu/ysyx-workbench/nemu/tools/gen-expr/build/input","r");
   if(fp == NULL)
   assert(fp);
- bool b = true;
-  while(fgetc(fp) != EOF){
+  bool b = true;
+  do{
     if(fscanf(fp,"%d %s",&result,exp));
     int q = expr(exp,&b);
     
     printf("%d,%s,%d\n",result,exp,q);
-  }
+  }while(fgetc(fp) != EOF);
   fclose(fp);
 
 
