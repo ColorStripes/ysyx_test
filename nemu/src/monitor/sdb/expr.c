@@ -91,32 +91,31 @@ static bool make_token(char *e) {
 		  strncpy(tokens[nr_token++].str, substr_start, substr_len);
 		  break;
 	  case '+':
-		  tokens[i].type = '+';
-	          nr_token ++;
+		  tokens[nr_token ++].type = '+';
 		  break;
 	  case '-':
-                  tokens[i].type = '-';
-	          nr_token ++;
+                  tokens[nr_token ++].type = '-';
+	          
 	          break;
 	  case '*':
-                  tokens[i].type = '*';
-	          nr_token ++;
+                  tokens[nr_token ++].type = '*';
+	          
 		  break;
 	  case '/':
-                  tokens[i].type = '/';
-	          nr_token ++;
+                  tokens[nr_token ++].type = '/';
+	          
 	          break;
 	  case '(':
-		  tokens[nr_token].type = '(';
-		  strcpy(tokens[nr_token++].str, substr_start);
+		  tokens[nr_token++].type = '(';
+		  //strcpy(tokens[nr_token++].str, substr_start);
 	          break;
 	  case ')':
-                  tokens[nr_token].type = ')';
-		  strcpy(tokens[nr_token++].str, substr_start);
+                  tokens[nr_token++].type = ')';
+		  //strcpy(tokens[nr_token++].str, substr_start);
                   break;
 	 
           default:
-		  tokens[i].type = 256;
+		  tokens[nr_token ++].type = 256;
 		  break;
 
         }
