@@ -259,9 +259,6 @@ uint32_t eval(int p,int q) {
 	       return 0;
     }
   }
-
-
-
 }
 
 word_t expr(char *e, bool *success) {
