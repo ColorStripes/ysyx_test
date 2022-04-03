@@ -149,6 +149,8 @@ bool check_parentheses(int p , int q){
 			tmp[cnt++] = tokens[p].type;
 		}
 		else if (cnt != 0 && (tmp[cnt - 1] + 1 == tokens[p].type || tmp[cnt - 1] + 2 == tokens[p].type)) {
+		if(cnt == 1)
+		   printf("cnt :%d\n",q);
 			if(cnt  == 1 && p != q)
 				NW_paren = 1;
 			cnt--;
