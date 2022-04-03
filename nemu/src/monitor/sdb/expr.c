@@ -244,8 +244,8 @@ uint32_t eval(int p,int q) {
       //assert(0);
       uint32_t val1 = eval(p, op - 1);
       uint32_t val2 = eval(op + 1, q);
-      int cc = 13;
-      int dd = -2;
+      unsigned int cc = 13;
+      unsigned int dd = -2;
       uint32_t b= cc / dd;
       printf("www:%u %u %u\n",cc,dd,b);
       //uint32_t b= val1 / val2;
