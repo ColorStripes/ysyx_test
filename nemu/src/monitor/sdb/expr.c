@@ -250,7 +250,7 @@ uint32_t eval(int p,int q) {
       //printf("www:%u %u %u\n",cc,dd,b);
       //uint32_t b= val1 / val2;
       //printf("www:%u %u %u\n",val1,val2,b);
-      //printf("val1:%d, op:%c, val2:%d   ops:%d\n",val1,tokens[op].type,val2,op);
+      printf("val1:%d, op:%c, val2:%d   ops:%d\n",val1,tokens[op].type,val2,op);
 
     switch (tokens[op].type) {
       case '+': //printf("val1:%d, op:%c, val2:%d   ops:%d    res:%u\n",val1,tokens[op].type,val2,op,val1+val2);
