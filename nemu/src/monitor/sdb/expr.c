@@ -210,7 +210,7 @@ uint32_t eval(int p,int q) {
 
      if(tokens[p].type == TK_NUMBER) {
 	     uint32_t n;
-	     sscanf(tokens[p].str,"%d",&n);
+	     sscanf(tokens[p].str,"%u",&n);
 	     return n;
      }
      else{
@@ -265,7 +265,6 @@ word_t expr(char *e, bool *success) {
      
      //for(int i = 0; i < 32;i++)
      //printf("%d:%c\n",i,tokens[i].type);
-     
      
      return eval(0,nr_token-1);
 
