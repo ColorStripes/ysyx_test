@@ -23,8 +23,8 @@ int main(int argc, char *argv[]) {
   bool b = true;
   do{
     if(fscanf(fp,"%d %s",&result,exp));
-    int q = expr(exp,&b);
-    printf("%d,%s,%d\n",result,exp,q);
+    uint32_t q = expr(exp,&b);
+    printf("%u,%s,%u\n",result,exp,q);
     if(q == result)
        printf("yes!\n");
     else

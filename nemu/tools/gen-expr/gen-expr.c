@@ -13,7 +13,7 @@ static char code_buf[65536 + 128] = {}; // a little larger than `buf`
 static char *code_format =
 "#include <stdio.h>\n"
 "int main() { "
-"  unsigned result = %s; "
+"  unsigned result = 232/59+((((((75+((18*17)))))))); "
 "  printf(\"%%u\", result); "
 "  return 0; "
 "}";
@@ -50,7 +50,7 @@ static void gen_rand_op(){
 static void gen_num(){
 //printf("ssb:%s\n",buf);
 //printf("yn:%d\n",n);
-	unsigned int num = (rand() % (1 << 8)) % (10*(q-n+1));
+	uint32_t num = (rand() % (1 << 8)) % (10*(q-n+1));
 	//printf("*%d*\n",num);
 	//printf("st:%ld\n",strlen(buf));
 	char*now_buff = &buf[n]; 
