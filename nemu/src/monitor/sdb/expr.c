@@ -253,18 +253,18 @@ uint32_t eval(int p,int q) {
       //printf("val1:%d, op:%c, val2:%d   ops:%d\n",val1,tokens[op].type,val2,op);
 
     switch (tokens[op].type) {
-      case '+': printf("val1:%d, op:%c, val2:%d   ops:%d    res:%u\n",val1,tokens[op].type,val2,op,val1+val2);
+      case '+': printf("val1:%d, op:%c, val2:%d   ops:%d    res:%u   p:%d,  q:%d\n",val1,tokens[op].type,val2,op,val1+val2,p,q);
       return val1 + val2;
-      case '-': printf("val1:%d, op:%c, val2:%d   ops:%d    res:%u\n",val1,tokens[op].type,val2,op,val1-val2);
+      case '-': printf("val1:%d, op:%c, val2:%d   ops:%d    res:%u   p:%d,  q:%d\n",val1,tokens[op].type,val2,op,val1-val2,p,q);
       return val1 - val2;
-      case '*': printf("val1:%d, op:%c, val2:%d   ops:%d    res:%u\n",val1,tokens[op].type,val2,op,val1*val2);
+      case '*': printf("val1:%d, op:%c, val2:%d   ops:%d    res:%u   p:%d,  q:%d\n",val1,tokens[op].type,val2,op,val1*val2,p,q);
       return val1 * val2;
       case '/': if(val2 == 0){
 			printf("####This is division by 0 expression.#####\n");
 		        return 0;
 		}
 		else{
-		        printf("val1:%d, op:%c, val2:%d   ops:%d    res:%u\n",val1,tokens[op].type,val2,op,val1/val2);
+		        printf("val1:%d, op:%c, val2:%d   ops:%d    res:%u  p:%d,  q:%d\n",val1,tokens[op].type,val2,op,val1/val2,p,q);
 		        return val1 / val2;
 		        }
       default: assert(0);
