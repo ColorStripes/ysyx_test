@@ -150,7 +150,7 @@ bool check_parentheses(int p , int q){
 			//printf("cnt :%c\n",tmp[cnt-1]);
 		}
 		else if (cnt != 0 && (tmp[cnt - 1] + 1 == tokens[i].type || tmp[cnt - 1] + 2 == tokens[i].type)){
-		printf("wc :%d\n",q);
+		//printf("wc :%d\n",q);
 			if(cnt  == 1 && p != q)
 				NW_paren = 1;
 			cnt--;
