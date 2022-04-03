@@ -242,12 +242,12 @@ uint32_t eval(int p,int q) {
       int op = Primary_op(p,q);                  // the position of 主运算符 in the token expression;
       //printf("%d,%c,%d,%d\n",op,tokens[op].type,p,q);
       //assert(0);
-      uint32_t val1 = eval(p, op - 1);
-      uint32_t val2 = eval(op + 1, q);
-      unsigned int cc = 13;
-      unsigned int dd = -2;
-      uint32_t b= cc / dd;
-      printf("www:%u %u %u\n",cc,dd,b);
+      int val1 = eval(p, op - 1);
+      int val2 = eval(op + 1, q);
+      //unsigned int cc = 13;
+      //unsigned int dd = -2;
+      //uint32_t b= cc / dd;
+      //printf("www:%u %u %u\n",cc,dd,b);
       //uint32_t b= val1 / val2;
       //printf("www:%u %u %u\n",val1,val2,b);
       //printf("val1:%d, op:%c, val2:%d   ops:%d\n",val1,tokens[op].type,val2,op);
