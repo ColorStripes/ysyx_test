@@ -278,7 +278,7 @@ word_t expr(char *e, bool *success) {
      //for(int i = 0; i < 32;i++)
      //printf("%d:%c\n",i,tokens[i].type);
      uint32_t a = eval(0,nr_token-1);
-     printf("a:%u\n",a);
+     //printf("a:%u\n",a);
      return a;
 
   return 0;
