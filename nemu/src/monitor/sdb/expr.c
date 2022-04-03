@@ -263,6 +263,9 @@ word_t expr(char *e, bool *success) {
      for(int i = 0; i < 32;i++)
      if(tokens[i].type != 0)  t++;
      printf("long:%d\n",t);
+     for(int i = 0; i < 32;i++)
+     printf("%d:%d\n",i,tokens[i].type);
+     
      return eval(0,t-1);
 
   return 0;
