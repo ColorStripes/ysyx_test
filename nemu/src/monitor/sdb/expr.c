@@ -89,6 +89,7 @@ static bool make_token(char *e) {
 	  case 9:
 		  tokens[nr_token].type = TK_NUMBER; 
 		  strncpy(tokens[nr_token++].str, substr_start, substr_len);
+		  printf("wwwww:%s\n",substr_start);
 		  break;
 	  case '+':
 		  tokens[nr_token ++].type = '+';
