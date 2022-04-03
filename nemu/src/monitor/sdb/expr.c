@@ -129,6 +129,7 @@ static bool make_token(char *e) {
       return false;
     }
   }
+  
 
   return true;
 }
@@ -259,14 +260,14 @@ word_t expr(char *e, bool *success) {
   //printf("%ld\n",sizeof(tokens)/sizeof(tokens[0]));
   
   /* TODO: Insert codes to evaluate the expression. */
-     int t = 0;
-     for(int i = 0; i < 32;i++)
-     if(tokens[i].type != 0)  t++;
-     printf("long:%d\n",t);
+     printf("long:%d\n",nr_token);
+     
+     
      for(int i = 0; i < 32;i++)
      printf("%d:%c\n",i,tokens[i].type);
      
-     return eval(0,t-1);
+     
+     return eval(0,nr_token-1);
 
   return 0;
 }
