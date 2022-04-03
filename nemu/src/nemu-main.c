@@ -26,9 +26,9 @@ int main(int argc, char *argv[]) {
     int q = expr(exp,&b);
     printf("%d,%s,%d\n",result,exp,q);
     if(q == result)
-       printf("yes!/n");
+       printf("yes!\n");
     else
-       printf("no!/n");
+       printf("no!\n");
   }while(fgetc(fp) != EOF);
   fclose(fp);
 
