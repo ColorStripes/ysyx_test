@@ -257,7 +257,7 @@ uint32_t eval(int p,int q) {
 		        return 0;
 		}
 		else{
-		        printf("val1:%d, op:%c, val2:%d   ops:%d    res:%d\n",val1,tokens[op].type,val2,op,val1/val2);return val1 / val2;
+		        printf("val1:%d, op:%c, val2:%d   ops:%d    res:%u\n",val1,tokens[op].type,val2,op,val1/val2);return val1 / val2;
 		        }
       default: assert(0);
 	       return 0;
