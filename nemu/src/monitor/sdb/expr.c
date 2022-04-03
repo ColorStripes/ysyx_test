@@ -162,8 +162,10 @@ bool check_parentheses(int p , int q){
 
 	if(NW_paren)
 		return false;
-	else
+	else{
+	        printf("true:%d %d\n",p,q);
 		return true;
+		}
 }
 
 
