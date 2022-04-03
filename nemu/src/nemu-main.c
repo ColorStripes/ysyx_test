@@ -22,7 +22,7 @@ int main(int argc, char *argv[]) {
   assert(fp);
   bool b = true;
   do{
-    if(fscanf(fp,"%d %s",&result,exp));
+    if(fscanf(fp,"%u %s",&result,exp));
     uint32_t q = expr(exp,&b);
     printf("%u,%s,%u\n",result,exp,q);
     if(q == result)
