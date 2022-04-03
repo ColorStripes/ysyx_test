@@ -244,8 +244,8 @@ uint32_t eval(int p,int q) {
       //assert(0);
       uint32_t val1 = eval(p, op - 1);
       uint32_t val2 = eval(op + 1, q);
-      
-      
+      uint32_t b= 13 / -2;
+      printf("www:%d %u\n",b,b);
       //printf("val1:%d, op:%c, val2:%d   ops:%d\n",val1,tokens[op].type,val2,op);
 
     switch (tokens[op].type) {
