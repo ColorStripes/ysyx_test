@@ -153,7 +153,7 @@ bool check_parentheses(int p , int q){
 		//printf("wc :%d\n",q);
 		//if(cnt == 1)
 			  //if(i != q)
-			       printf("wc :%d ,%d\n",i,q);
+			       printf("wc :%d ,%d, %d\n",i,q,cnt);
 				//NW_paren = 1;
 			cnt--;
 			
