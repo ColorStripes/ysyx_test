@@ -240,13 +240,13 @@ uint32_t eval(int p,int q) {
   else {
     /* We should do more things here. */
       int op = Primary_op(p,q);                  // the position of 主运算符 in the token expression;
-      printf("%d,%c,%d,%d\n",op,tokens[op].type,p,q);
+      //printf("%d,%c,%d,%d\n",op,tokens[op].type,p,q);
       //assert(0);
       uint32_t val1 = eval(p, op - 1);
       uint32_t val2 = eval(op + 1, q);
       
       
-      printf("val1:%d,op:%c,val2:%d\n",val1,tokens[op].type,val2);
+      printf("val1:%d, op:%c, val2:%d   ops:%d\n",val1,tokens[op].type,val2,op);
 
     switch (tokens[op].type) {
       case '+': return val1 + val2;
