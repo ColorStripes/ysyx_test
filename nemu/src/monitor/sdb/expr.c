@@ -58,7 +58,7 @@ typedef struct token {
   char str[32];
 } Token;
 
-static Token tokens[32]  = {};
+static Token tokens[32] __attribute__((used)) = {};
 static int nr_token __attribute__((used))  = 0;
 
 static bool make_token(char *e) {
@@ -278,6 +278,7 @@ word_t expr(char *e, bool *success) {
     *success = false;
     return 0;
   }
+  printf("9 is %s\n",tokens[9].str);
   //for(int i = 0; i < 32;i++)
   //printf("%d:%d\n",i,tokens[i].type);
   //printf("%ld\n",sizeof(tokens)/sizeof(tokens[0]));
