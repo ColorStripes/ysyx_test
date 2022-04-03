@@ -185,7 +185,6 @@ int Primary_op(int p , int q){
                                         break;
                                 }
                         }
-
                 }
                 else if(tokens[i].type == '+' || tokens[i].type == '-' || tokens[i].type == '*' || tokens[i].type == '/'){
                         if(tokens[i].type == '+' || tokens[i].type == '-')
@@ -240,8 +239,9 @@ uint32_t eval(int p,int q) {
     /* We should do more things here. */
       int op = Primary_op(p,q);                  // the position of 主运算符 in the token expression;
       printf("%d,%c,%d,%d\n",op,tokens[op].type,p,q);
-      assert(0);
+      
       uint32_t val1 = eval(p, op - 1);
+      assert(0);
       uint32_t val2 = eval(op + 1, q);
 
     switch (tokens[op].type) {
