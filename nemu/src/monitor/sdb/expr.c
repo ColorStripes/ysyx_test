@@ -180,8 +180,10 @@ int Primary_op(int p , int q){
         for(int i = p; i <= q; i++){
                 if(tokens[i].type == '{' || tokens[i].type == '[' || tokens[i].type == '('){
                         for(int j = q ;j > p; j--){
-                                if(check_parentheses(i , j))
+                                if(check_parentheses(i , j)){
                                         i = j + 1;
+                                        break;
+                                }
                         }
 
                 }
