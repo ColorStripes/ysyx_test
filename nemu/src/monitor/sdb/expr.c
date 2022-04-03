@@ -147,9 +147,10 @@ bool check_parentheses(int p , int q){
 	for (int i = p; i <= q; i++) {
 		if (tokens[p].type == '{' || tokens[p].type == '[' || tokens[p].type == '(') {
 			tmp[cnt++] = tokens[p].type;
-			printf("cnt :%d\n",cnt);
+			//printf("cnt :%d\n",cnt);
 		}
 		else if (cnt != 0 && (tmp[cnt - 1] + 1 == tokens[p].type || tmp[cnt - 1] + 2 == tokens[p].type)) {
+		printf("cnt :%d\n",q);
 		if(cnt == 1)
 		   printf("cnt :%d\n",q);
 			if(cnt  == 1 && p != q)
