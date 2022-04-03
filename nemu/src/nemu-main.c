@@ -24,7 +24,7 @@ int main(int argc, char *argv[]) {
   do{
     if(fscanf(fp,"%u %s",&result,exp));
     uint32_t q = expr(exp,&b);
-    printf("%u,%s,%u\n",result,exp,q);
+    //printf("%u,%s,%u\n",result,exp,q);
     if(q == result)
        printf("yes!\n");
     else
