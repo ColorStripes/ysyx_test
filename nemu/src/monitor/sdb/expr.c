@@ -238,8 +238,8 @@ uint32_t eval(int p,int q) {
   else {
     /* We should do more things here. */
       int op = Primary_op(p,q);                  // the position of 主运算符 in the token expression;
-      //printf("%d,%c,%d,%d\n",op,tokens[op].type,p,q);
-      //assert(0);
+      printf("%d,%c,%d,%d\n",op,tokens[op].type,p,q);
+      assert(0);
       uint32_t val1 = eval(p, op - 1);
       uint32_t val2 = eval(op + 1, q);
 
