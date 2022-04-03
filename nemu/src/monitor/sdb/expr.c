@@ -145,8 +145,8 @@ bool check_parentheses(int p , int q){
 		NW_paren = 1;
 	}
 	for (int i = p; i <= q; i++) {
-		if (tokens[p].type == '{' || tokens[p].type == '[' || tokens[p].type == '(') {
-			tmp[cnt++] = tokens[p].type;
+		if (tokens[i].type == '{' || tokens[i].type == '[' || tokens[i].type == '(') {
+			tmp[cnt++] = tokens[i].type;
 			//printf("cnt :%c\n",tmp[cnt-1]);
 		}
 		else if (cnt != 0 && (tmp[cnt - 1] + 1 == tokens[i].type || tmp[cnt - 1] + 2 == tokens[i].type)){
