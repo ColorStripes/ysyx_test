@@ -149,7 +149,7 @@ bool check_parentheses(int p , int q){
 			tmp[cnt++] = tokens[p].type;
 			//printf("cnt :%c\n",tmp[cnt-1]);
 		}
-		else if (cnt != 0 && (tmp[cnt - 1] + 1 == tokens[p].type || tmp[cnt - 1] + 2 == tokens[p].type)) {
+		else if (tmp[cnt - 1] + 1 == tokens[p].type || tmp[cnt - 1] + 2 == tokens[p].type){
 		printf("wc :%d\n",q);
 		if(cnt == 1)
 		   printf("cnt :%d\n",q);
