@@ -209,7 +209,7 @@ int Primary_op(int p , int q){
 uint32_t eval(int p,int q) {
   if (p > q) {
     printf("p is %d > q is %d\n",p,q);
-    assert("This is a bad expression. Stop!\n");
+    assert(0);
     return 0;    
   }
   else if (p == q) {
