@@ -211,7 +211,7 @@ int Primary_op(int p , int q){
 }
 
 
-uint32_t eval(int p,int q) {
+uint64_t eval(int p,int q) {
   if (p > q) {
     printf("p is %d > q is %d\n",p,q);
     //assert(0);
@@ -224,8 +224,8 @@ uint32_t eval(int p,int q) {
      */
 
      if(tokens[p].type == TK_NUMBER) {
-	     uint32_t n;
-	     sscanf(tokens[p].str,"%u",&n);
+	     uint64_t n;
+	     sscanf(tokens[p].str,"%lu",&n);
 	     return n;
      }
      else{
@@ -293,8 +293,8 @@ word_t expr(char *e, bool *success) {
      
      //for(int i = 0; i < 32;i++)
      //printf("%d:%c\n",i,tokens[i].type);
-     uint32_t a = eval(0,nr_token-1);
-     //printf("a:%u\n",a);
+     uint64_t a = eval(0,nr_token-1);
+     //printf("a:%lu\n",a);
      return a;
 
   return 0;
