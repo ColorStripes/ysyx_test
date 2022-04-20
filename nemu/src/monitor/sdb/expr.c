@@ -6,7 +6,7 @@
 #include <regex.h>
 
 enum {
-  TK_NOTYPE = 256, TK_EQ = 255, TK_NQ = 254, TK_NUMBER = 253, TK_HEXNUM = 252, TK_REG = 251, DEREF = 250, TK_AND = 249, NEGAT = 248,
+  TK_NOTYPE = 256, TK_EQ = 255, TK_NQ = 254, TK_NUMBER = 253, TK_HEXNUM = 252, TK_REG = 251, TK_ASS = 250, DEREF = 249, TK_AND = 248, NEGAT = 247,
 
   /* TODO: Add more token types */
 
@@ -26,6 +26,7 @@ static struct rule {
   {"==", TK_EQ},        // equal
   {"!=", TK_NQ},
   {"&&", TK_AND},
+  {"::=", TK_ASS},
   {"-", '-'},
   {"\\*", '*'},
   {"/", '/'},
@@ -120,22 +121,25 @@ static bool make_token(char *e) {
                   break;
 	  case TK_EQ:
                   tokens[nr_token ++].type = TK_EQ;
-	          
 	          break;
 	  case TK_NQ:
                   tokens[nr_token ++].type = TK_NQ;
-	          
 	          break;
 	  case TK_AND:
                   tokens[nr_token ++].type = TK_AND;
-	          
 	          break;
 	  case TK_HEXNUM:
-                  tokens[nr_token ++].type = TK_HEXNUM;
-	          
+                  tokens[nr_token].type = TK_HEXNUM;
+                  strncpy(tokens[nr_token].str, substr_start, substr_len);
+		  tokens[nr_token++].str[substr_len] = '\n';
 	          break;
 	  case TK_REG:
-                  tokens[nr_token ++].type = TK_REG;
+                  tokens[nr_token].type = TK_REG;
+	          strncpy(tokens[nr_token].str, substr_start, substr_len);
+		  tokens[nr_token++].str[substr_len] = '\n';
+	          break;
+	  case TK_ASS:
+                  tokens[nr_token ++].type = TK_ASS;
 	          
 	          break;
           default:
