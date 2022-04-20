@@ -206,7 +206,7 @@ int Primary_op(int p , int q){
         }
         if(op == -1)
                 printf("no main option.\n");
-                assert(0);
+                //assert(0);
         return op;
 }
 
