@@ -6,7 +6,7 @@
 #include <regex.h>
 
 enum {
-  TK_NOTYPE = 256, TK_EQ = 255, TK_NQ = 254, TK_NUMBER = 253,TK_HEXNUM = 252, DEREF = 251, NEGAT = 250,
+  TK_NOTYPE = 256, TK_EQ = 255, TK_NQ = 254, TK_NUMBER = 253, TK_HEXNUM = 252, TK_REG = 251, DEREF = 250, TK_AND = 249, NEGAT = 248,
 
   /* TODO: Add more token types */
 
@@ -25,6 +25,7 @@ static struct rule {
   {"\\+", '+'},         // plus
   {"==", TK_EQ},        // equal
   {"!=", TK_NQ},
+  {"&&", TK_AND},
   {"-", '-'},
   {"\\*", '*'},
   {"/", '/'},
@@ -32,7 +33,7 @@ static struct rule {
   {"\\)", ')'},
   {"\\b0[xX][0-9a-fA-F]+\\b",TK_HEXNUM},
   {"[0-9]+", TK_NUMBER},
-  //{"\\b\\$[\$arsgt]
+  {"\\$[$AaRrSsGgTt0][AaPp]*[0-9]*\\b",TK_REG},
 };
 
 #define NR_REGEX ARRLEN(rules)
@@ -117,7 +118,26 @@ static bool make_token(char *e) {
                   tokens[nr_token++].type = ')';
 		  //strcpy(tokens[nr_token++].str, substr_start);
                   break;
-	 
+	  case TK_EQ:
+                  tokens[nr_token ++].type = TK_EQ;
+	          
+	          break;
+	  case TK_NQ:
+                  tokens[nr_token ++].type = TK_NQ;
+	          
+	          break;
+	  case TK_AND:
+                  tokens[nr_token ++].type = TK_AND;
+	          
+	          break;
+	  case TK_HEXNUM:
+                  tokens[nr_token ++].type = TK_HEXNUM;
+	          
+	          break;
+	  case TK_REG:
+                  tokens[nr_token ++].type = TK_REG;
+	          
+	          break;
           default:
 		  tokens[nr_token ++].type = 256;
 		  break;
