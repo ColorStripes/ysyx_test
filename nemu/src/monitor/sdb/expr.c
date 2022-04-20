@@ -6,7 +6,7 @@
 #include <regex.h>
 
 enum {
-  TK_NOTYPE = 256, TK_EQ,TK_NUMBER = 9,
+  TK_NOTYPE = 256, TK_EQ = 254,TK_NUMBER = 9,DEREF = 255, NEGAT,
 
   /* TODO: Add more token types */
 
@@ -246,8 +246,8 @@ uint64_t eval(int p,int q) {
       int op = Primary_op(p,q);                  // the position of 主运算符 in the token expression;
       //printf("%d,%c,%d,%d\n",op,tokens[op].type,p,q);
       //assert(0);
-      int val1 = eval(p, op - 1);
-      int val2 = eval(op + 1, q);
+      long int val1 = eval(p, op - 1);
+      long int val2 = eval(op + 1, q);
       //unsigned int cc = 13;
       //unsigned int dd = -2;
       //uint32_t b= cc / dd;
@@ -291,11 +291,24 @@ word_t expr(char *e, bool *success) {
      //printf("long:%d\n",nr_token);
      
      
+  for (int i = 0; i < nr_token; i ++) {
+  	if (tokens[i].type == '*' && (i == 0 || tokens[i - 1].type == '(') ) {
+   	      tokens[i].type = DEREF;
+  	}
+  	else if (tokens[i].type == '-' && (i == 0 || tokens[i - 1].type == '(') ) {
+   	      tokens[i].type = NEGAT;
+  	}
+  }
+
+return eval(0,nr_token-1);
+
+
+
      //for(int i = 0; i < 32;i++)
      //printf("%d:%c\n",i,tokens[i].type);
-     uint64_t a = eval(0,nr_token-1);
+     //uint64_t a = eval(0,nr_token-1);
      //printf("a:%lu\n",a);
-     return a;
+     //return a;
 
   return 0;
 }
