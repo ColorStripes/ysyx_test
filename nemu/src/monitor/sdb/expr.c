@@ -164,7 +164,8 @@ bool check_parentheses(int p , int q){
 	}
 
 	if (cnt != 0)
-		assert("The expression is illegal.\n");
+		printf("The expression is illegal.\n");
+		assert(0);
 
 	if(NW_paren){
                 //printf("flase:%d %d\n",p,q);
@@ -204,7 +205,8 @@ int Primary_op(int p , int q){
                 }
         }
         if(op == -1)
-                assert("no main option.\n");
+                printf("no main option.\n");
+                assert(0);
         return op;
 }
 
@@ -227,7 +229,8 @@ uint32_t eval(int p,int q) {
 	     return n;
      }
      else{
-	     assert("(fuhao)\n");
+	     printf("(fuhao)\n");
+	     assert(0);
 	     return 0;
      }
   }
