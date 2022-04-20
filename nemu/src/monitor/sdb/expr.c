@@ -165,7 +165,7 @@ bool check_parentheses(int p , int q){
 
 	if (cnt != 0)
 		printf("The expression is illegal.\n");
-		assert(0);
+		//assert(0);
 
 	if(NW_paren){
                 //printf("flase:%d %d\n",p,q);
