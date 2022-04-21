@@ -34,7 +34,7 @@ static struct rule {
   {"\\)", ')'},
   {"\\b0[xX][0-9a-fA-F]+\\b",TK_HEXNUM},
   {"[0-9]+", TK_NUMBER},
-  {"\\$[$AaRrSsGgTt0][AaPp]*[0-9]*\\b",TK_REG},
+  {"\\$[$arsgt0][ap]*[0-9]*\\b",TK_REG},
 };
 
 #define NR_REGEX ARRLEN(rules)

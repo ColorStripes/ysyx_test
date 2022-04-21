@@ -25,4 +25,45 @@ void init_wp_pool() {
 }
 
 /* TODO: Implement the functionality of watchpoint */
+WP* new_wp(){
+  if(head == NULL){
+     head = free_;
+  }
+  else{
+     free_ = free_->next;
+  }
+  if(free_ == NULL)
+     assert(0);
+     
+  return free_;
+}
+
+
+void free_wp(WP *wp){
+ if(head == NULL){
+   printf("There is no watchpoint");
+ }
+ else{
+   WP *ispoint = head;          //is this point want to cut?
+   WP *prpoint = NULL;          //the present point of which want to cut 
+   while(ispoint != free_->next){
+       if(wp == ispoint){
+          prpoint->next = ispoint->next;       //delet
+          
+          ispoint->next = free_->next;          //insert
+          free_->next = ispoint;
+          
+          break;
+       }   
+       else{
+          prpoint = ispoint;
+          ispoint = ispoint->next;
+       }   
+   }
+ }
+
+}
+
+
+
 
