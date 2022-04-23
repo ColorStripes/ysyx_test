@@ -211,7 +211,7 @@ bool check_parentheses(int p , int q){
 int Primary_op(int p , int q){
         int op = -1;
         for(int i = p; i <= q; i++){
-        printf("*%d,%d,%d\n",i,op,tokens[op].type);
+        
         if(op == 1){
                  printf("%d,%d,%d\n",i,op,tokens[op].type);
                  assert(0);
@@ -263,6 +263,7 @@ int Primary_op(int p , int q){
                  //printf("%d,%d,%d\n",i,op,tokens[op].type);
                  //assert(0);
               }
+              printf("*%d,%d,%d\n",i,op,tokens[op].type);
         }
         
         
