@@ -160,7 +160,7 @@ static bool make_token(char *e) {
     }
   }
   
-
+  printf("123\n");
   return true;
 }
 
