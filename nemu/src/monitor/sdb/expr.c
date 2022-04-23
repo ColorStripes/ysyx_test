@@ -357,6 +357,7 @@ uint64_t eval(int p,int q) {
 word_t expr(char *e, bool *success) {
   if (!make_token(e)) {
     *success = false;
+    printf("***** ***\n");
     return 0;
   }
   //printf("9 is %s\n",tokens[9].str);
@@ -367,7 +368,7 @@ word_t expr(char *e, bool *success) {
   /* TODO: Insert codes to evaluate the expression. */
      //printf("long:%d\n",nr_token);
      
-  printf("*****%d ***\n",*success);  
+  //printf("*****%d ***\n",*success);  
   for (int i = 0; i < nr_token; i ++) {
   	if (tokens[i].type == '*' && 
   	   (i == 0 || tokens[i - 1].type == '(' || 
@@ -383,7 +384,7 @@ word_t expr(char *e, bool *success) {
   	}
   }
 
-   return eval(0,nr_token-1);
+  return eval(0,nr_token-1);
 
 
 
