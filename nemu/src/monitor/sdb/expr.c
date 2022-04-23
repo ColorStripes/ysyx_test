@@ -301,7 +301,7 @@ uint64_t eval(int p,int q) {
   else {
     /* We should do more things here. */
       int op = Primary_op(p,q);                  // the position of 主运算符 in the token expression;
-      //printf("%d,%c,%d,%d\n",op,tokens[op].type,p,q);
+      printf("%d,%c,%d,%d\n",op,tokens[op].type,p,q);
       //assert(0);
       long int val1 = 0;
       if(tokens[op].type != DEREF && tokens[op].type != NEGAT){
@@ -364,14 +364,14 @@ word_t expr(char *e, bool *success) {
      //printf("long:%d\n",nr_token);
      
      
- // for (int i = 0; i < nr_token; i ++) {
-  //	if (tokens[i].type == '*' && (i == 0 || tokens[i - 1].type == '(') ) {
-   //	      tokens[i].type = DEREF;
-  //	}
-  //	else if (tokens[i].type == '-' && (i == 0 || tokens[i - 1].type == '(') ) {
-   //	      tokens[i].type = NEGAT;
-  //	}
- // }
+  for (int i = 0; i < nr_token; i ++) {
+  	if (tokens[i].type == '*' && (i == 0 || tokens[i - 1].type == '(') ) {
+   	      tokens[i].type = DEREF;
+  	}
+  	else if (tokens[i].type == '-' && (i == 0 || tokens[i - 1].type == '(') ) {
+   	      tokens[i].type = NEGAT;
+  	}
+  }
 
 return eval(0,nr_token-1);
 
