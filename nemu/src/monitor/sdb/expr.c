@@ -210,7 +210,7 @@ bool check_parentheses(int p , int q){
 
 int Primary_op(int p , int q){
         int op = -1;
-        for(int i = p; i <= q; i++){
+        for(int i = 5; i <= 5; i++){
         
         if(op == 1){
                  //printf("%d,%d,%d\n",i,op,tokens[op].type);
