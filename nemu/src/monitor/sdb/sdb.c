@@ -98,7 +98,7 @@ static int cmd_x(char *args){
 }
 
 static int cmd_p(char *args){
-  bool success;
+  bool success=true;
   uint64_t expre = expr(args,&success);
   if(success){
      printf("The '%s' result is %lu.\n",args,expre);
