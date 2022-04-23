@@ -302,7 +302,7 @@ uint64_t eval(int p,int q) {
     /* We should do more things here. */
       int op = Primary_op(p,q);                  // the position of 主运算符 in the token expression;
       printf("%d,%c,%d,%d\n",op,tokens[op].type,p,q);
-      //assert(0);
+      assert(0);
       long int val1 = 0;
       if(tokens[op].type != DEREF && tokens[op].type != NEGAT){
                val1 = eval(p, op - 1);
