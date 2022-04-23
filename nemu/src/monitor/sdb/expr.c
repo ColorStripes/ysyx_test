@@ -261,7 +261,7 @@ int Primary_op(int p , int q){
               
               if(op == 1){
                  //printf("%d,%d,%d\n",i,op,tokens[op].type);
-                 assert(0);
+                 //assert(0);
               }
         }
         
