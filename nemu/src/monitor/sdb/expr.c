@@ -244,11 +244,12 @@ int Primary_op(int p , int q){
 				else if(tokens[op].type == '*' || tokens[op].type == '/')
 					op = i;
                         }
+                        printf("%d,%d,%d\n",i,op,tokens[op].type);
                 }
                 else{
                         continue;
                 }
-               printf("%d,%d,%d\n",i,op,tokens[op].type);
+              // printf("%d,%d,%d\n",i,op,tokens[op].type);
         }
         
         //printf("%d,,\n",op);
