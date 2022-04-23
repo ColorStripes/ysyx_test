@@ -211,6 +211,7 @@ bool check_parentheses(int p , int q){
 int Primary_op(int p , int q){
         int op = -1;
         for(int i = p; i <= q; i++){
+        printf("*%d,%d,%d\n",i,op,tokens[op].type);
                 if(tokens[i].type == '{' || tokens[i].type == '[' || tokens[i].type == '('){
                         for(int j = q ;j > p; j--){
                                 if(check_parentheses(i , j)){
@@ -219,7 +220,20 @@ int Primary_op(int p , int q){
                                 }
                         }
                 }
-
+                else if(tokens[i].type == TK_EQ || tokens[i].type == TK_NQ || tokens[i].type == TK_AND || tokens[i].type == DEREF || tokens[i].type == NEGAT){
+                        //printf("*%d,%d,%d\n",i,op,tokens[op].type);
+                        if(tokens[i].type == DEREF || tokens[i].type == NEGAT){
+                                 op = i;
+                                 break;
+                        }
+                        else if((tokens[i].type == TK_EQ || tokens[i].type == TK_NQ) && (op == -1 || tokens[op].type != TK_AND))
+                        {
+                                 op = i;
+                        }
+                        else if(tokens[i].type == TK_AND ){
+                                 op = i;
+                        }
+                }
                 else if((tokens[i].type == '+' || tokens[i].type == '-' || tokens[i].type == '*' || tokens[i].type == '/')&&
                         (op = -1 || tokens[op].type == '+' || tokens[op].type == '-' || tokens[op].type == '*' || tokens[op].type == '/'  ))
                 {//printf("*%d,%d,%d\n",i,op,tokens[op].type);
