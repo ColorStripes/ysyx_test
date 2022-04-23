@@ -210,7 +210,7 @@ bool check_parentheses(int p , int q){
 
 int Primary_op(int p , int q){
         int op = -1;
-        for(int i = 5; i <= 5; i++){
+        for(int i = p; i <= q; i++){
                 if(tokens[i].type == '{' || tokens[i].type == '[' || tokens[i].type == '('){
                         for(int j = q ;j > p; j--){
                                 if(check_parentheses(i , j)){
