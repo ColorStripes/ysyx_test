@@ -259,11 +259,11 @@ int Primary_op(int p , int q){
 }
 
 
-uint64_t eval(int p,int q) {
+uint64_t eval(int p,int q,bool *success) {
   if (p > q) {
     printf("p is %d > q is %d\n",p,q);
     assert(0);
-    return 0;    
+    //return 0;    
   }
   else if (p == q) {
     /* Single token.
@@ -282,9 +282,9 @@ uint64_t eval(int p,int q) {
              return n;
      }
      else if(tokens[p].type == TK_REG){
-             bool success;
-             uint64_t reg = isa_reg_str2val(tokens[p].str,&success);
-             if(success)
+             //bool success;
+             uint64_t reg = isa_reg_str2val(tokens[p].str,success);
+             if(*success)
                 return reg;
              else
                 assert(0);
@@ -300,7 +300,7 @@ uint64_t eval(int p,int q) {
      * If that is the case, just throw away the parentheses.
      */
      //printf("true:%d %d\n",p,q);
-    return eval(p + 1, q - 1);
+    return eval(p + 1, q - 1,success);
   }
   else {
     /* We should do more things here. */
@@ -309,9 +309,9 @@ uint64_t eval(int p,int q) {
       //assert(0);
       long int val1 = 0;
       if(tokens[op].type != DEREF && tokens[op].type != NEGAT){
-               val1 = eval(p, op - 1);
+               val1 = eval(p, op - 1,success);
       }
-      long int val2 = eval(op + 1, q);
+      long int val2 = eval(op + 1, q,success);
       //unsigned int cc = 13;
       //unsigned int dd = -2;
       //uint32_t b= cc / dd;
@@ -384,7 +384,7 @@ word_t expr(char *e, bool *success) {
   	}
   }
 
-  return eval(0,nr_token-1);
+  return eval(0,nr_token-1,success);
 
 
 
