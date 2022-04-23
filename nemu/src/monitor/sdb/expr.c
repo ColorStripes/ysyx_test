@@ -4,6 +4,8 @@
  * Type 'man regex' for more information about POSIX regex functions.
  */
 #include <regex.h>
+#include <memory/vaddr.h>
+
 
 enum {
   TK_NOTYPE = 256, TK_EQ = 255, TK_NQ = 254, TK_NUMBER = 253, TK_HEXNUM = 252, TK_REG = 251, TK_ASS = 250, DEREF = 249, TK_AND = 248, NEGAT = 247,
@@ -217,7 +219,22 @@ int Primary_op(int p , int q){
                                 }
                         }
                 }
-                else if(tokens[i].type == '+' || tokens[i].type == '-' || tokens[i].type == '*' || tokens[i].type == '/'){
+                else if(tokens[i].type == TK_EQ || tokens[i].type == TK_NQ || tokens[i].type == TK_AND || tokens[i].type == DEREF || tokens[i].type == NEGAT){
+                        if(tokens[i].type == DEREF || tokens[i].type == NEGAT){
+                                 op = i;
+                                 break;
+                        }
+                        else if((tokens[i].type == TK_EQ || tokens[i].type == TK_NQ) && (op == -1 || tokens[op].type != TK_AND))
+                        {
+                                 op = i;
+                        }
+                        else if(tokens[i].type == TK_AND ){
+                                 op = i;
+                        }
+                }
+                else if((tokens[i].type == '+' || tokens[i].type == '-' || tokens[i].type == '*' || tokens[i].type == '/')&&
+                        (op = -1 || tokens[op].type == '+' || tokens[op].type == '-' || tokens[op].type == '*' || tokens[op].type == '/'  ))
+                {
                         if(tokens[i].type == '+' || tokens[i].type == '-')
                                 op = i;
                         else{
@@ -255,6 +272,19 @@ uint64_t eval(int p,int q) {
 	     sscanf(tokens[p].str,"%lu",&n);
 	     return n;
      }
+     else if(tokens[p].type == TK_HEXNUM){
+             uint64_t n;
+             sscanf(tokens[p].str+2,"%lu",&n);
+             return n;
+     }
+     else if(tokens[p].type == TK_REG){
+             bool success;
+             uint64_t reg = isa_reg_str2val(tokens[p].str,&success);
+             if(success)
+                return reg;
+             else
+                assert(0);
+     }
      else{
 	     printf("(fuhao)\n");
 	     assert(0);
@@ -273,7 +303,10 @@ uint64_t eval(int p,int q) {
       int op = Primary_op(p,q);                  // the position of 主运算符 in the token expression;
       //printf("%d,%c,%d,%d\n",op,tokens[op].type,p,q);
       //assert(0);
-      long int val1 = eval(p, op - 1);
+      long int val1 = 0;
+      if(tokens[op].type != DEREF && tokens[op].type != NEGAT){
+               val1 = eval(p, op - 1);
+      }
       long int val2 = eval(op + 1, q);
       //unsigned int cc = 13;
       //unsigned int dd = -2;
@@ -285,11 +318,11 @@ uint64_t eval(int p,int q) {
 
     switch (tokens[op].type) {
       case '+': //printf("val1:%d, op:%c, val2:%d   ops:%d    res:%u   p:%d,  q:%d\n",val1,tokens[op].type,val2,op,val1+val2,p,q);
-      return val1 + val2;
+                return val1 + val2;
       case '-': //printf("val1:%d, op:%c, val2:%d   ops:%d    res:%u   p:%d,  q:%d\n",val1,tokens[op].type,val2,op,val1-val2,p,q);
-      return val1 - val2;
+                return val1 - val2;
       case '*': //printf("val1:%d, op:%c, val2:%d   ops:%d    res:%u   p:%d,  q:%d\n",val1,tokens[op].type,val2,op,val1*val2,p,q);
-      return val1 * val2;
+                return val1 * val2;
       case '/': if(val2 == 0){
 			printf("####This is division by 0 expression.#####\n");
 		        return 0;
@@ -297,7 +330,20 @@ uint64_t eval(int p,int q) {
 		else{
 		        //printf("val1:%d, op:%c, val2:%d   ops:%d    res:%u  p:%d,  q:%d\n",val1,tokens[op].type,val2,op,val1/val2,p,q);
 		        return val1 / val2;
-		        }
+		}
+      case TK_EQ:
+                 if(val1 == val2) return 1;
+                 else return 0;
+      case TK_NQ:
+                 if(val1 != val2) return 1;
+                 else return 0;
+      case TK_AND:
+                 if(val1 && val2) return 1;
+                 else return 0;
+      case NEGAT:
+                 return -val2;
+      case DEREF:
+                 return vaddr_read(val2, 8);
       default: assert(0);
 	       return 0;
     }

@@ -42,6 +42,7 @@ WP* new_wp(){
 void free_wp(WP *wp){
  if(head == NULL){
    printf("There is no watchpoint");
+   return;
  }
  else{
    WP *ispoint = head;          //is this point want to cut?
@@ -63,6 +64,25 @@ void free_wp(WP *wp){
  }
 
 }
+
+
+void print_wp(){
+  if(head == NULL){
+     printf("No watchpoints!\n");
+     return;
+  }
+  else{
+     WP *now = head;
+     while(now != free_->next){
+         printf("NUM       TYPE                    DISP        ENB        Adress                 What              ");
+         //printf("%-10d%-24s%-12s%-12c0x%-24ld%-24s\n",&now->NO,keep,enb,address,what);
+         now = now->next;
+     }
+  }
+}
+
+
+
 
 
 
