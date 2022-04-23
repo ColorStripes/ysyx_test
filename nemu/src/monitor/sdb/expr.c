@@ -218,9 +218,10 @@ int Primary_op(int p , int q){
                                         break;
                                 }
                         }
+                        printf("*%d,%d,%d\n",i,op,tokens[op].type);
                 }
                 else if(tokens[i].type == TK_EQ || tokens[i].type == TK_NQ || tokens[i].type == TK_AND || tokens[i].type == DEREF || tokens[i].type == NEGAT){
-                        printf("*%d,%d,%d\n",i,op,tokens[op].type);
+                        //printf("*%d,%d,%d\n",i,op,tokens[op].type);
                         if(tokens[i].type == DEREF || tokens[i].type == NEGAT){
                                  op = i;
                                  break;
