@@ -104,7 +104,7 @@ static int cmd_p(char *args){
      printf("The '%s' result is %lu.\n",args,expre);
   }
   else{
-     printf("The EXPR have error.\n");
+     printf("The EXPR has error.\n");
   }
   return 0;
 }
