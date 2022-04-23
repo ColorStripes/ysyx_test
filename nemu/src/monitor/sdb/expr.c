@@ -213,7 +213,7 @@ int Primary_op(int p , int q){
         for(int i = p; i <= q; i++){
         
         if(op == 1){
-                 printf("%d,%d,%d\n",i,op,tokens[5].type);
+                 //printf("%d,%d,%d\n",i,op,tokens[op].type);
                  assert(0);
               }
                 if(tokens[i].type == '{' || tokens[i].type == '[' || tokens[i].type == '('){
@@ -223,6 +223,7 @@ int Primary_op(int p , int q){
                                         break;
                                 }
                         }
+                        printf("*%d,%d,%d\n",i,op,tokens[op].type);
                 }
                 else if(tokens[i].type == TK_EQ || tokens[i].type == TK_NQ || tokens[i].type == TK_AND || tokens[i].type == DEREF || tokens[i].type == NEGAT){
                         //printf("*%d,%d,%d\n",i,op,tokens[op].type);
@@ -237,6 +238,7 @@ int Primary_op(int p , int q){
                         else if(tokens[i].type == TK_AND ){
                                  op = i;
                         }
+                        printf("**%d,%d,%d\n",i,op,tokens[op].type);
                 }
                 else if((tokens[i].type == '+' || tokens[i].type == '-' || tokens[i].type == '*' || tokens[i].type == '/')&&
                         (op = -1 || tokens[op].type == '+' || tokens[op].type == '-' || tokens[op].type == '*' || tokens[op].type == '/'  ))
@@ -252,14 +254,14 @@ int Primary_op(int p , int q){
 					op = i;
 			        //printf("***%d,%d,%d\n",i,op,tokens[op].type);
                         }
-                        //printf("**%d,%d,%d\n",i,op,tokens[op].type);
+                        printf("***%d,%d,%d\n",i,op,tokens[op].type);
                 }
                 else{
                         continue;
                 }
               // printf("%d,%d,%d\n",i,op,tokens[op].type);
               
-              printf("*%d,%d,%d\n",i,op,tokens[op].type);
+              //printf("*%d,%d,%d\n",i,op,tokens[op].type);
         }
         
         
