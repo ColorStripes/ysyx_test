@@ -248,7 +248,7 @@ int Primary_op(int p , int q){
                 else{
                         continue;
                 }
-               printf("%d,%d\n",op,tokens[op].type);
+               printf("%d,%d,%d\n",i,op,tokens[op].type);
         }
         
         //printf("%d,,\n",op);
