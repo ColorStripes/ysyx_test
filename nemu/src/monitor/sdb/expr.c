@@ -213,7 +213,7 @@ int Primary_op(int p , int q){
         for(int i = p; i <= q; i++){
         printf("*%d,%d,%d\n",i,op,tokens[op].type);
         if(op == 1){
-                 //printf("%d,%d,%d\n",i,op,tokens[op].type);
+                 printf("%d,%d,%d\n",i,op,tokens[op].type);
                  assert(0);
               }
                 if(tokens[i].type == '{' || tokens[i].type == '[' || tokens[i].type == '('){
@@ -250,7 +250,7 @@ int Primary_op(int p , int q){
                                         op = i;
 				else if(tokens[op].type == '*' || tokens[op].type == '/')
 					op = i;
-			        printf("***%d,%d,%d\n",i,op,tokens[op].type);
+			        //printf("***%d,%d,%d\n",i,op,tokens[op].type);
                         }
                         //printf("**%d,%d,%d\n",i,op,tokens[op].type);
                 }
