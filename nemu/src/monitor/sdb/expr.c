@@ -215,7 +215,7 @@ int Primary_op(int p , int q){
                        printf("666\n");
                         for(int j = q ;j > p; j--){
                                 if(check_parentheses(i , j)){
-                                        printf("5555\n");
+                                        printf("%d,%d\n",i,j);
                                         i = j;
                                         break;
                                 }
