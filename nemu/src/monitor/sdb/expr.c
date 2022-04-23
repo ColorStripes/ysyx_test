@@ -212,16 +212,16 @@ int Primary_op(int p , int q){
         int op = -1;
         for(int i = p; i <= q; i++){
                 if(tokens[i].type == '{' || tokens[i].type == '[' || tokens[i].type == '('){
-                       printf("666\n");
                         for(int j = q ;j > p; j--){
                                 if(check_parentheses(i , j)){
-                                        printf("%d,%d\n",i,j);
+                                        //printf("%d,%d\n",i,j);
                                         i = j;
                                         break;
                                 }
                         }
                 }
                 else if(tokens[i].type == TK_EQ || tokens[i].type == TK_NQ || tokens[i].type == TK_AND || tokens[i].type == DEREF || tokens[i].type == NEGAT){
+                        printf("%d,%d\n",i,tokens[i].type);
                         if(tokens[i].type == DEREF || tokens[i].type == NEGAT){
                                  op = i;
                                  break;
