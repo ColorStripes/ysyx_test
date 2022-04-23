@@ -236,15 +236,18 @@ int Primary_op(int p , int q){
                 else if((tokens[i].type == '+' || tokens[i].type == '-' || tokens[i].type == '*' || tokens[i].type == '/')&&
                         (op = -1 || tokens[op].type == '+' || tokens[op].type == '-' || tokens[op].type == '*' || tokens[op].type == '/'  ))
                 {//printf("%d,%d\n",i,tokens[i].type);
-                        if(tokens[i].type == '+' || tokens[i].type == '-')
+                        if(tokens[i].type == '+' || tokens[i].type == '-'){
                                 op = i;
+                                printf("**%d,%d,%d\n",i,op,tokens[op].type);
+                        }
                         else{
                                 if(op == -1)
                                         op = i;
 				else if(tokens[op].type == '*' || tokens[op].type == '/')
 					op = i;
+			        printf("*%d,%d,%d\n",i,op,tokens[op].type);
                         }
-                        printf("%d,%d,%d\n",i,op,tokens[op].type);
+                        //printf("%d,%d,%d\n",i,op,tokens[op].type);
                 }
                 else{
                         continue;
