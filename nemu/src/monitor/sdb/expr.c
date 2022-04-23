@@ -235,7 +235,7 @@ int Primary_op(int p , int q){
                 }
                 else if((tokens[i].type == '+' || tokens[i].type == '-' || tokens[i].type == '*' || tokens[i].type == '/')&&
                         (op = -1 || tokens[op].type == '+' || tokens[op].type == '-' || tokens[op].type == '*' || tokens[op].type == '/'  ))
-                {printf("%d,%d\n",i,tokens[i].type);
+                {//printf("%d,%d\n",i,tokens[i].type);
                         if(tokens[i].type == '+' || tokens[i].type == '-')
                                 op = i;
                         else{
@@ -248,7 +248,7 @@ int Primary_op(int p , int q){
                 else{
                         continue;
                 }
-               // printf("%d,%d\n",i,tokens[i].type);
+               printf("%d,%d\n",op,tokens[op].type);
         }
         
         //printf("%d,,\n",op);
