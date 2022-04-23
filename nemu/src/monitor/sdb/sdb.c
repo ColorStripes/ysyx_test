@@ -85,7 +85,7 @@ static int cmd_x(char *args){
       if(strncmp(add, "0x",2) == 0){
           sscanf(add+2,"%lx",&addr);
           while(n--){
-              printf("0x%lx: %08lx\n",addr,vaddr_read(addr, 8));
+              printf("0x%lx: %08lx\n",addr,vaddr_read(addr, 4));
               addr+=4;
           }
       }
@@ -111,9 +111,28 @@ static int cmd_p(char *args){
 
 
 static int cmd_w(char *args){
-return 0;}
+     
+     bool success;
+     set_wp(args,&success);
+     if(success){
+       return 0;
+     }
+     else{
+       printf("The EXPR have error.\n");
+       return -1;
+     }
+     
+     
+}
+
+
 static int cmd_d(char *args){
-return 0;}
+     int n;
+     sscanf(args,"%d",&n);
+     delete_wp(n);
+     printf("The watchpoint-%-d was delete.\n",n);
+     return 0;
+}
 
 static struct {
   const char *name;
@@ -128,7 +147,7 @@ static struct {
   { "x", "x N EXPR: To scan memory", cmd_x },
   { "p", "x EXPR: To evaluation", cmd_p },
   { "w", "w EXPR: To set watchpoint", cmd_w },
-  { "w", "d N: To delete watchpoint", cmd_d }
+  { "d", "d N: To delete watchpoint", cmd_d }
   /* TODO: Add more commands */
 
 };

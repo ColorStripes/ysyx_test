@@ -7,7 +7,9 @@ typedef struct watchpoint {
   struct watchpoint *next;
 
   /* TODO: Add more members if necessary */
-
+  char Type[16];
+  char What[32];
+  uint64_t result;
 } WP;
 
 static WP wp_pool[NR_WP] = {};
@@ -16,7 +18,7 @@ static WP *head = NULL, *free_ = NULL;
 void init_wp_pool() {
   int i;
   for (i = 0; i < NR_WP; i ++) {
-    wp_pool[i].NO = i;
+    wp_pool[i].NO = i+1;
     wp_pool[i].next = (i == NR_WP - 1 ? NULL : &wp_pool[i + 1]);
   }
 
@@ -74,16 +76,63 @@ void print_wp(){
   else{
      WP *now = head;
      while(now != free_->next){
-         printf("NUM       TYPE                    DISP        ENB        Adress                 What              ");
-         //printf("%-10d%-24s%-12s%-12c0x%-24ld%-24s\n",&now->NO,keep,enb,address,what);
+         printf("NUM          TYPE            What              ");
+         printf("%-5d%-32s%-32s\n",now->NO,now->Type,now->What);
          now = now->next;
      }
   }
 }
 
+void delete_wp(int n){
+    free_wp(&wp_pool[n-1]);
+}
+
+void set_wp(char *expre,bool *successed){
+    bool success;
+    expr(expre,&success);
+    if(success){
+        WP* NEW = new_wp();
+        strcpy(NEW->Type, "hw watchpoints");
+        strcpy(NEW->What, expre);
+
+    }
+      
+    successed = &success;  
+   
+}
 
 
 
+
+static void print_s_wp(WP *wp,uint64_t new_result){
+    printf("%-16s %-d: %-s\n",wp->Type,wp->NO,wp->What);
+    printf("Old value = %-ld\nNew value = %-ld\n",wp->result,new_result);
+    wp->result = new_result;
+}
+
+void scan_wp(bool *isdebug){
+    if(head == NULL){
+       return;
+    }
+    else{
+       WP *now = head;
+       while(now != free_->next){
+           bool success;
+           uint64_t expre = expr(now->What,&success);
+           if(now->result == expre){
+               continue;
+           }
+           else{
+               
+               print_s_wp(now,expre);
+               *isdebug = true;
+               printf("\n");
+               //now->result = expre;
+           }
+           now = now->next;
+       }
+    }
+}
 
 
 

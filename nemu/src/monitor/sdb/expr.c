@@ -348,7 +348,7 @@ uint64_t eval(int p,int q) {
       case NEGAT:
                  return -val2;
       case DEREF:
-                 return vaddr_read(val2, 8);
+                 return vaddr_read(val2, 4);
       default: assert(0);
 	       return 0;
     }
