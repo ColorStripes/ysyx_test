@@ -249,11 +249,12 @@ int Primary_op(int p , int q){
                 else{
                         continue;
                 }
+                printf("%d,%d\n",i,tokens[i].type);
         }
         if(op == -1)
                 printf("no main option.\n");
                 //assert(0);
-        printf("%d,%d\n",op,tokens[op].type);
+        
         return op;
 }
 
