@@ -364,14 +364,14 @@ word_t expr(char *e, bool *success) {
      //printf("long:%d\n",nr_token);
      
      
-  for (int i = 0; i < nr_token; i ++) {
-  	if (tokens[i].type == '*' && (i == 0 || tokens[i - 1].type == '(') ) {
-   	      tokens[i].type = DEREF;
-  	}
-  	else if (tokens[i].type == '-' && (i == 0 || tokens[i - 1].type == '(') ) {
-   	      tokens[i].type = NEGAT;
-  	}
-  }
+ // for (int i = 0; i < nr_token; i ++) {
+  //	if (tokens[i].type == '*' && (i == 0 || tokens[i - 1].type == '(') ) {
+   //	      tokens[i].type = DEREF;
+  //	}
+  //	else if (tokens[i].type == '-' && (i == 0 || tokens[i - 1].type == '(') ) {
+   //	      tokens[i].type = NEGAT;
+  //	}
+ // }
 
 return eval(0,nr_token-1);
 
