@@ -212,8 +212,10 @@ int Primary_op(int p , int q){
         int op = -1;
         for(int i = p; i <= q; i++){
                 if(tokens[i].type == '{' || tokens[i].type == '[' || tokens[i].type == '('){
+                       printf("666\n");
                         for(int j = q ;j > p; j--){
                                 if(check_parentheses(i , j)){
+                                        printf("5555\n");
                                         i = j;
                                         break;
                                 }
