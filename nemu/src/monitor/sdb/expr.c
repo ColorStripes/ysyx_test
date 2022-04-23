@@ -212,6 +212,10 @@ int Primary_op(int p , int q){
         int op = -1;
         for(int i = p; i <= q; i++){
         printf("*%d,%d,%d\n",i,op,tokens[op].type);
+        if(op == 1){
+                 //printf("%d,%d,%d\n",i,op,tokens[op].type);
+                 assert(0);
+              }
                 if(tokens[i].type == '{' || tokens[i].type == '[' || tokens[i].type == '('){
                         for(int j = q ;j > p; j--){
                                 if(check_parentheses(i , j)){
@@ -265,9 +269,7 @@ int Primary_op(int p , int q){
         
         
         //printf("%d,,\n",op);
-        if(op == -1)
-                printf("no main option.\n");
-                //assert(0);
+
         
         return op;
 }
