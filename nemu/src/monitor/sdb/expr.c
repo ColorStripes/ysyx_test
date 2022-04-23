@@ -240,7 +240,7 @@ int Primary_op(int p , int q){
                                 op = i;
                                 //printf("**%d,%d,%d\n",i,op,tokens[op].type);
                         }
-                        else{
+                        else{printf("%d,%d,%d\n",i,op,tokens[op].type);
                                 if(op == -1)
                                         op = i;
 				else if(tokens[op].type == '*' || tokens[op].type == '/')
@@ -255,9 +255,9 @@ int Primary_op(int p , int q){
               // printf("%d,%d,%d\n",i,op,tokens[op].type);
               
               if(op == 1){
-                 printf("%d,%d,%d\n",i,op,tokens[op].type);
+                 //printf("%d,%d,%d\n",i,op,tokens[op].type);
                  assert(0);
-                 }
+              }
         }
         
         
