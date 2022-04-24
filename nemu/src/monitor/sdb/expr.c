@@ -145,7 +145,7 @@ static bool make_token(char *e) {
                   tokens[nr_token ++].type = TK_ASS;
 	          break;
 	  case TK_PC:
-	          tokens[nr_token ++].type = TK_ASS;
+	          tokens[nr_token ++].type = TK_PC;
 	          break;
           default:
 		  tokens[nr_token ++].type = 256;
@@ -285,8 +285,8 @@ uint64_t eval(int p,int q,bool *success) {
              return n;
      }
      else if(tokens[p].type == TK_REG){
-             //bool success;
-             uint64_t reg = isa_reg_str2val(tokens[p].str,success);
+             //bool succe=true;
+             uint64_t reg = isa_reg_str2val(tokens[p].str+1,success);
              if(*success)
                 return reg;
              else
