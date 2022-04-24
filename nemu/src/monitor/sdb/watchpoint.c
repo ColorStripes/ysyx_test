@@ -95,12 +95,12 @@ void set_wp(char *expre,bool *successed){
         if(strcmp(expre,"$pc") != 0 && strcmp(expre,"$PC") != 0 && strcmp(expre,"$PC") != 0){
             strcpy(NEW->Type, "HW watchpoint");
             strcpy(NEW->What, expre);
-            printf("Watchpoint %d: %s",NEW->NO,NEW->What);
+            printf("Watchpoint %d: %s\n",NEW->NO,NEW->What);
         }
         else{
             strcpy(NEW->Type, "Breakpoint");
             strcpy(NEW->What, expre);
-            printf("Breakpoint %d: %s",NEW->NO,NEW->What);
+            printf("Breakpoint %d: %s\n",NEW->NO,NEW->What);
         }
 
     }
