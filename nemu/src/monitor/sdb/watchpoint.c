@@ -76,7 +76,7 @@ void print_wp(){
   else{
      WP *now = head;
      while(now != free_->next){
-         printf("NUM               TYPE                      What              \n");
+         printf("NUM                TYPE                        What              \n");
          printf("%-15d%-32s%-32s\n",now->NO,now->Type,now->What);
          now = now->next;
      }
