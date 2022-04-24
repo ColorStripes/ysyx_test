@@ -97,7 +97,7 @@ static bool make_token(char *e) {
 	  case TK_NUMBER:
 		  tokens[nr_token].type = TK_NUMBER; 
 		  strncpy(tokens[nr_token].str, substr_start, substr_len);
-		  tokens[nr_token++].str[substr_len] = '\n';
+		  tokens[nr_token++].str[substr_len] = '\0';
 		  break;
 	  case '+':
 		  tokens[nr_token ++].type = '+';
@@ -134,12 +134,12 @@ static bool make_token(char *e) {
 	  case TK_HEXNUM:
                   tokens[nr_token].type = TK_HEXNUM;
                   strncpy(tokens[nr_token].str, substr_start, substr_len);
-		  tokens[nr_token++].str[substr_len] = '\n';
+		  tokens[nr_token++].str[substr_len] = '\0';
 	          break;
 	  case TK_REG:
                   tokens[nr_token].type = TK_REG;
 	          strncpy(tokens[nr_token].str, substr_start, substr_len);
-		  tokens[nr_token++].str[substr_len] = '\n';
+		  tokens[nr_token++].str[substr_len] = '\0';
 	          break;
 	  case TK_ASS:
                   tokens[nr_token ++].type = TK_ASS;
