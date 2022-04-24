@@ -20,7 +20,7 @@ word_t isa_reg_str2val(const char *s, bool *success) {
   *success = false;
   int i;
   for(i = 0; i < 32; i++)
-      if(strcmp("ra",s) == 0){
+      if(strcmp(regs[i],s) == 0){
         *success = true;
       	break;
       }
