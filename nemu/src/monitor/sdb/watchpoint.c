@@ -112,7 +112,7 @@ static void print_s_wp(WP *wp,uint64_t new_result){
 
 void scan_wp(bool *isdebug){
     if(head == NULL){
-       return;
+       *isdebug = false;
     }
     else{
        WP *now = head;
