@@ -21,7 +21,7 @@ word_t isa_reg_str2val(const char *s, bool *success) {
   int i;
 
   for(i = 0; i < 32; i++)
-      if(!strcmp(regs[i],s)){
+      if(!strcmp("ra",s)){
         printf("88 %s 88\n",s);
         *success = true;
       	break;
