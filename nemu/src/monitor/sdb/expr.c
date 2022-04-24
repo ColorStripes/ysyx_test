@@ -8,7 +8,7 @@
 
 
 enum {
-  TK_NOTYPE = 256, TK_EQ = 255, TK_NQ = 254, TK_NUMBER = 253, TK_HEXNUM = 252, TK_REG = 251, TK_ASS = 250, DEREF = 249, TK_AND = 248, NEGAT = 247,
+  TK_NOTYPE = 256, TK_EQ = 255, TK_NQ = 254, TK_NUMBER = 253, TK_HEXNUM = 252, TK_REG = 251, TK_ASS = 250, DEREF = 249, TK_AND = 248, NEGAT = 247, TK_PC = 246,
 
   /* TODO: Add more token types */
 
@@ -37,6 +37,7 @@ static struct rule {
   {"\\b0[xX][0-9a-fA-F]+\\b",TK_HEXNUM},
   {"[0-9]+", TK_NUMBER},
   {"\\$[$arsgt0][ap]*[0-9]*\\b",TK_REG},
+  {"\\$[Pp][Cc]",TK_PC},
 };
 
 #define NR_REGEX ARRLEN(rules)
@@ -142,7 +143,9 @@ static bool make_token(char *e) {
 	          break;
 	  case TK_ASS:
                   tokens[nr_token ++].type = TK_ASS;
-	          
+	          break;
+	  case TK_PC:
+	          tokens[nr_token ++].type = TK_ASS;
 	          break;
           default:
 		  tokens[nr_token ++].type = 256;
@@ -288,6 +291,9 @@ uint64_t eval(int p,int q,bool *success) {
                 return reg;
              else
                 assert(0);
+     }
+     else if(tokens[p].type == TK_PC){
+             return cpu.pc;
      }
      else{
 	     printf("(fuhao)\n");
