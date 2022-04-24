@@ -88,7 +88,7 @@ void delete_wp(int n){
 }
 
 void set_wp(char *expre,bool *successed){
-    bool success;
+    bool success = true;
     expr(expre,&success);
     if(success){
         WP* NEW = new_wp();
@@ -117,7 +117,7 @@ void scan_wp(bool *isdebug){
     else{
        WP *now = head;
        while(now != free_->next){
-           bool success;
+           bool success=true;
            uint64_t expre = expr(now->What,&success);
            if(now->result == expre){
                continue;
