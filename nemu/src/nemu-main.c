@@ -14,7 +14,9 @@ int main(int argc, char *argv[]) {
   init_monitor(argc, argv);
 #endif
 
-
+/*
+  //Expression test
+  
   uint32_t result;
   char exp[33];
   FILE *fp = fopen("/home/xu/ysyx-workbench/nemu/tools/gen-expr/build/input","r");
@@ -31,6 +33,7 @@ int main(int argc, char *argv[]) {
        printf("no!\n");
   }while(fgetc(fp) != EOF);
   fclose(fp);
+*/
 
 
   /* Start engine. */
