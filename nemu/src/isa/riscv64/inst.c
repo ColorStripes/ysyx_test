@@ -37,7 +37,7 @@ static void decode_operand(Decode *s, word_t *dest, word_t *src1, word_t *src2, 
     case TYPE_S: destI(immS(i)); src1R(rs1); src2R(rs2); break;
     case TYPE_R: destR(rd); src1R(rs1); src2R(rs2); break;
     case TYPE_B: destI(immB(i)); src1R(rs1); src2R(rs2); break;
-    case TYPE_J: destR(rd); src1I(immJ(i));printf("**%ld**\n",immJ(i)); break;
+    case TYPE_J: destR(rd); src1I(immJ(i)); break;
   }
 }
 
@@ -115,7 +115,7 @@ static int decode_exec(Decode *s) {
   INSTPAT("??????? ????? ????? 001 ????? 11000 11", bne    , B, if((long int)src1 != (long int)src2) s->dnpc = s->pc + dest );
   
   //J
-  INSTPAT("??????? ????? ????? ??? ????? 11011 11", jal    , J, R(dest) = s->pc + 4;s->dnpc = src1);
+  INSTPAT("??????? ????? ????? ??? ????? 11011 11", jal    , J, R(dest) = s->pc + 4;s->dnpc = s->pc + src1);
 
   
   INSTPAT("0000000 00001 00000 000 00000 11100 11", ebreak , N, NEMUTRAP(s->pc, R(10))); // R(10) is $a0
