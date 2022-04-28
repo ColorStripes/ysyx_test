@@ -10,9 +10,10 @@ int main(int argc, char *argv[]) {
   /* Initialize the monitor. */
 #ifdef CONFIG_TARGET_AM
   am_init_monitor();
-  assert(0);
+  
 #else
   init_monitor(argc, argv);
+  assert(0);
 #endif
 
 /*
