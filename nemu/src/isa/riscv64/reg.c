@@ -9,8 +9,21 @@ const char *regs[] = {
 };
 
 void isa_reg_display() {
+    for(int i = 0;i < 32; i++){
+        printf("%-4s=  %-15ld ",regs[i],cpu.gpr[i]);
+        if((i+1)%4 == 0)
+            printf("\n");
+    }
 }
 
 word_t isa_reg_str2val(const char *s, bool *success) {
-  return 0;
+  *success = false;
+  int i;
+  for(i = 0; i < 32; i++)
+      if(strcmp(regs[i],s) == 0){
+        *success = true;
+      	break;
+      }
+  
+  return cpu.gpr[i];
 }
