@@ -3,7 +3,6 @@
 #include <cpu/difftest.h>
 #include <locale.h>
 
-
 /* The assembly code of instructions executed is only output to the screen
  * when the number of instructions executed is less than this value.
  * This is useful when you use the `si' command.
@@ -17,10 +16,6 @@ static uint64_t g_timer = 0; // unit: us
 static bool g_print_step = false;
 
 void device_update();
-void scan_wp(bool *isdebug);
-void sdb_mainloop();
-
-
 
 static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
 #ifdef CONFIG_ITRACE_COND
@@ -28,17 +23,6 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
 #endif
   if (g_print_step) { IFDEF(CONFIG_ITRACE, puts(_this->logbuf)); }
   IFDEF(CONFIG_DIFFTEST, difftest_step(_this->pc, dnpc));
-  
-//#ifdef CONFIG_WATCHPOINT
-  bool isdebug=false;
-  scan_wp(&isdebug);
-  if(isdebug){
-     nemu_state.state = NEMU_STOP;
-     printf("Debug on there.\n");
-     sdb_mainloop();
-  }
-//#endif
-
 }
 
 static void exec_once(Decode *s, vaddr_t pc) {
@@ -52,7 +36,7 @@ static void exec_once(Decode *s, vaddr_t pc) {
   int ilen = s->snpc - s->pc;
   int i;
   uint8_t *inst = (uint8_t *)&s->isa.inst.val;
-  for (i = 0; i < ilen; i ++) {
+  for (i = ilen - 1; i >= 0; i --) {
     p += snprintf(p, 4, " %02x", inst[i]);
   }
   int ilen_max = MUXDEF(CONFIG_ISA_x86, 8, 4);
@@ -115,9 +99,9 @@ void cpu_exec(uint64_t n) {
 
     case NEMU_END: case NEMU_ABORT:
       Log("nemu: %s at pc = " FMT_WORD,
-          (nemu_state.state == NEMU_ABORT ? ASNI_FMT("ABORT", ASNI_FG_RED) :
-           (nemu_state.halt_ret == 0 ? ASNI_FMT("HIT GOOD TRAP", ASNI_FG_GREEN) :
-            ASNI_FMT("HIT BAD TRAP", ASNI_FG_RED))),
+          (nemu_state.state == NEMU_ABORT ? ANSI_FMT("ABORT", ANSI_FG_RED) :
+           (nemu_state.halt_ret == 0 ? ANSI_FMT("HIT GOOD TRAP", ANSI_FG_GREEN) :
+            ANSI_FMT("HIT BAD TRAP", ANSI_FG_RED))),
           nemu_state.halt_pc);
       // fall through
     case NEMU_QUIT: statistic();
