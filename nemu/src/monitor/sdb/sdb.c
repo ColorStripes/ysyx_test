@@ -57,7 +57,9 @@ static int cmd_si(char *args){
 static int cmd_info(char *args){
     if(strcmp(args, "r") == 0) 
         isa_reg_display();
-    else if(strcmp(args, "w") == 0)    ;
+    else if(strcmp(args, "w") == 0){
+        print_wp();
+    }
     else 
         printf("Unknown parameter '%s'\n", args);
            //return -1;
@@ -95,6 +97,43 @@ static int cmd_x(char *args){
     return 0;
 }
 
+static int cmd_p(char *args){
+  bool success = true;
+  uint64_t expre = expr(args,&success);
+  if(success){
+     printf("The '%s' result is %lu.\n",args,expre);
+  }
+  else{
+     printf("The EXPR has error.\n");
+  }
+  return 0;
+}
+
+
+static int cmd_w(char *args){
+     
+     bool success = true;
+     set_wp(args,&success);
+     if(success){
+       return 0;
+     }
+     else{
+       printf("The EXPR have error.\n");
+       return -1;
+     }
+     
+     
+}
+
+
+static int cmd_d(char *args){
+     int n;
+     sscanf(args,"%d",&n);
+     delete_wp(n);
+     printf("The watchpoint-%-d was delete.\n",n);
+     return 0;
+}
+
 static struct {
   const char *name;
   const char *description;
@@ -106,7 +145,9 @@ static struct {
   { "si", "Single Step Execution", cmd_si },
   { "info", "info r: Print register status\n       info w: Print monitors information", cmd_info },
   { "x", "x N EXPR: To scan memory", cmd_x },
-
+  { "p", "x EXPR: To evaluation", cmd_p },
+  { "w", "w EXPR: To set watchpoint", cmd_w },
+  { "d", "d N: To delete watchpoint", cmd_d }
   /* TODO: Add more commands */
 
 };

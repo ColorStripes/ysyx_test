@@ -3,6 +3,7 @@
 #include <cpu/difftest.h>
 #include <locale.h>
 
+
 /* The assembly code of instructions executed is only output to the screen
  * when the number of instructions executed is less than this value.
  * This is useful when you use the `si' command.
@@ -16,6 +17,10 @@ static uint64_t g_timer = 0; // unit: us
 static bool g_print_step = false;
 
 void device_update();
+void scan_wp(bool *isdebug);
+void sdb_mainloop();
+
+
 
 static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
 #ifdef CONFIG_ITRACE_COND
@@ -23,6 +28,17 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
 #endif
   if (g_print_step) { IFDEF(CONFIG_ITRACE, puts(_this->logbuf)); }
   IFDEF(CONFIG_DIFFTEST, difftest_step(_this->pc, dnpc));
+  
+//#ifdef CONFIG_WATCHPOINT
+  bool isdebug=false;
+  scan_wp(&isdebug);
+  if(isdebug){
+     nemu_state.state = NEMU_STOP;
+     printf("Debug on there.\n");
+     sdb_mainloop();
+  }
+//#endif
+
 }
 
 static void exec_once(Decode *s, vaddr_t pc) {

@@ -20,7 +20,7 @@ int main(int argc, char *argv[]) {
   FILE *fp = fopen("/home/xu/ysyx-workbench/nemu/tools/gen-expr/build/input","r");
   if(fp == NULL)
   assert(fp);
-  bool b = true;
+  bool b = false;
   do{
     if(fscanf(fp,"%u %s",&result,exp));
     uint32_t q = expr(exp,&b);
