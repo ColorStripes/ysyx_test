@@ -8,9 +8,11 @@ word_t expr(char *e, bool *success);
 
 int main(int argc, char *argv[]) {
   /* Initialize the monitor. */
+  
+#define CONFIG_TARGET_AM 1  
+  
 #ifdef CONFIG_TARGET_AM
   am_init_monitor();
-  assert(0);
 #else
   init_monitor(argc, argv);
   
