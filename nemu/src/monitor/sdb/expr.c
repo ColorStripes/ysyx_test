@@ -4,11 +4,9 @@
  * Type 'man regex' for more information about POSIX regex functions.
  */
 #include <regex.h>
-#include <memory/vaddr.h>
-
 
 enum {
-  TK_NOTYPE = 256, TK_EQ = 255, TK_NQ = 254, TK_NUMBER = 253, TK_HEXNUM = 252, TK_REG = 251, TK_ASS = 250, DEREF = 249, TK_AND = 248, NEGAT = 247, TK_PC = 246,
+  TK_NOTYPE = 256, TK_EQ,TK_NUMBER = 9,
 
   /* TODO: Add more token types */
 
@@ -26,18 +24,12 @@ static struct rule {
   {" +", TK_NOTYPE},    // spaces
   {"\\+", '+'},         // plus
   {"==", TK_EQ},        // equal
-  {"!=", TK_NQ},
-  {"&&", TK_AND},
-  {"::=", TK_ASS},
   {"-", '-'},
   {"\\*", '*'},
   {"/", '/'},
   {"\\(", '('},
   {"\\)", ')'},
-  {"\\b0[xX][0-9a-fA-F]+\\b",TK_HEXNUM},
   {"[0-9]+", TK_NUMBER},
-  {"\\$[$arsgt0][ap]*[0-9]*\\b",TK_REG},
-  {"\\$[Pp][Cc]",TK_PC},
 };
 
 #define NR_REGEX ARRLEN(rules)
@@ -94,10 +86,10 @@ static bool make_token(char *e) {
          */
 
         switch (rules[i].token_type) {
-	  case TK_NUMBER:
+	  case 9:
 		  tokens[nr_token].type = TK_NUMBER; 
 		  strncpy(tokens[nr_token].str, substr_start, substr_len);
-		  tokens[nr_token++].str[substr_len] = '\0';
+		  tokens[nr_token++].str[substr_len] = '\n';
 		  break;
 	  case '+':
 		  tokens[nr_token ++].type = '+';
@@ -122,31 +114,7 @@ static bool make_token(char *e) {
                   tokens[nr_token++].type = ')';
 		  //strcpy(tokens[nr_token++].str, substr_start);
                   break;
-	  case TK_EQ:
-                  tokens[nr_token ++].type = TK_EQ;
-	          break;
-	  case TK_NQ:
-                  tokens[nr_token ++].type = TK_NQ;
-	          break;
-	  case TK_AND:
-                  tokens[nr_token ++].type = TK_AND;
-	          break;
-	  case TK_HEXNUM:
-                  tokens[nr_token].type = TK_HEXNUM;
-                  strncpy(tokens[nr_token].str, substr_start, substr_len);
-		  tokens[nr_token++].str[substr_len] = '\0';
-	          break;
-	  case TK_REG:
-                  tokens[nr_token].type = TK_REG;
-	          strncpy(tokens[nr_token].str, substr_start, substr_len);
-		  tokens[nr_token++].str[substr_len] = '\0';
-	          break;
-	  case TK_ASS:
-                  tokens[nr_token ++].type = TK_ASS;
-	          break;
-	  case TK_PC:
-	          tokens[nr_token ++].type = TK_PC;
-	          break;
+	 
           default:
 		  tokens[nr_token ++].type = 256;
 		  break;
@@ -163,6 +131,7 @@ static bool make_token(char *e) {
     }
   }
   
+
   return true;
 }
 
@@ -195,8 +164,7 @@ bool check_parentheses(int p , int q){
 	}
 
 	if (cnt != 0)
-		printf("The expression is illegal.\n");
-		//assert(0);
+		assert("The expression is illegal.\n");
 
 	if(NW_paren){
                 //printf("flase:%d %d\n",p,q);
@@ -221,52 +189,31 @@ int Primary_op(int p , int q){
                                 }
                         }
                 }
-                else if(tokens[i].type == TK_EQ || tokens[i].type == TK_NQ || tokens[i].type == TK_AND || tokens[i].type == DEREF || tokens[i].type == NEGAT){
-                        //printf("*%d,%d,%d\n",i,op,tokens[op].type);
-                        if(tokens[i].type == DEREF || tokens[i].type == NEGAT){
-                                 op = i;
-                                 break;
-                        }
-                        else if((tokens[i].type == TK_EQ || tokens[i].type == TK_NQ) && (op == -1 || tokens[op].type != TK_AND))
-                        {
-                                 op = i;
-                        }
-                        else if(tokens[i].type == TK_AND ){
-                                 op = i;
-                        }
-                        
-                }
-                else if((tokens[i].type == '+' || tokens[i].type == '-' || tokens[i].type == '*' || tokens[i].type == '/')&&
-                        (op == -1 || tokens[op].type == '+' || tokens[op].type == '-' || tokens[op].type == '*' || tokens[op].type == '/'  ))
-                {
-                        if(tokens[i].type == '+' || tokens[i].type == '-'){
+                else if(tokens[i].type == '+' || tokens[i].type == '-' || tokens[i].type == '*' || tokens[i].type == '/'){
+                        if(tokens[i].type == '+' || tokens[i].type == '-')
                                 op = i;
-                                //printf("**%d,%d,%d\n",i,op,tokens[op].type);
-                        }
-                        else{//printf("%d,%d,%d\n",i,op,tokens[op].type);
+                        else{
                                 if(op == -1)
                                         op = i;
 				else if(tokens[op].type == '*' || tokens[op].type == '/')
 					op = i;
-			        //printf("***%d,%d,%d\n",i,op,tokens[op].type);
                         }
-                        
                 }
                 else{
                         continue;
                 }
-
         }
-
+        if(op == -1)
+                assert("no main option.\n");
         return op;
 }
 
 
-uint64_t eval(int p,int q,bool *success) {
+uint32_t eval(int p,int q) {
   if (p > q) {
     printf("p is %d > q is %d\n",p,q);
-    assert(0);
-    //return 0;    
+    //assert(0);
+    return 0;    
   }
   else if (p == q) {
     /* Single token.
@@ -275,29 +222,12 @@ uint64_t eval(int p,int q,bool *success) {
      */
 
      if(tokens[p].type == TK_NUMBER) {
-	     uint64_t n;
-	     sscanf(tokens[p].str,"%lu",&n);
+	     uint32_t n;
+	     sscanf(tokens[p].str,"%u",&n);
 	     return n;
      }
-     else if(tokens[p].type == TK_HEXNUM){
-             uint64_t n;
-             sscanf(tokens[p].str+2,"%lu",&n);
-             return n;
-     }
-     else if(tokens[p].type == TK_REG){
-             //bool succe=true;
-             uint64_t reg = isa_reg_str2val(tokens[p].str+1,success);
-             if(*success)
-                return reg;
-             else
-                assert(0);
-     }
-     else if(tokens[p].type == TK_PC){
-             return cpu.pc;
-     }
      else{
-	     printf("(fuhao)\n");
-	     assert(0);
+	     assert("(fuhao)\n");
 	     return 0;
      }
   }
@@ -306,18 +236,15 @@ uint64_t eval(int p,int q,bool *success) {
      * If that is the case, just throw away the parentheses.
      */
      //printf("true:%d %d\n",p,q);
-    return eval(p + 1, q - 1,success);
+    return eval(p + 1, q - 1);
   }
   else {
     /* We should do more things here. */
       int op = Primary_op(p,q);                  // the position of 主运算符 in the token expression;
       //printf("%d,%c,%d,%d\n",op,tokens[op].type,p,q);
       //assert(0);
-      long int val1 = 0;
-      if(tokens[op].type != DEREF && tokens[op].type != NEGAT){
-               val1 = eval(p, op - 1,success);
-      }
-      long int val2 = eval(op + 1, q,success);
+      int val1 = eval(p, op - 1);
+      int val2 = eval(op + 1, q);
       //unsigned int cc = 13;
       //unsigned int dd = -2;
       //uint32_t b= cc / dd;
@@ -328,11 +255,11 @@ uint64_t eval(int p,int q,bool *success) {
 
     switch (tokens[op].type) {
       case '+': //printf("val1:%d, op:%c, val2:%d   ops:%d    res:%u   p:%d,  q:%d\n",val1,tokens[op].type,val2,op,val1+val2,p,q);
-                return val1 + val2;
+      return val1 + val2;
       case '-': //printf("val1:%d, op:%c, val2:%d   ops:%d    res:%u   p:%d,  q:%d\n",val1,tokens[op].type,val2,op,val1-val2,p,q);
-                return val1 - val2;
+      return val1 - val2;
       case '*': //printf("val1:%d, op:%c, val2:%d   ops:%d    res:%u   p:%d,  q:%d\n",val1,tokens[op].type,val2,op,val1*val2,p,q);
-                return val1 * val2;
+      return val1 * val2;
       case '/': if(val2 == 0){
 			printf("####This is division by 0 expression.#####\n");
 		        return 0;
@@ -340,20 +267,7 @@ uint64_t eval(int p,int q,bool *success) {
 		else{
 		        //printf("val1:%d, op:%c, val2:%d   ops:%d    res:%u  p:%d,  q:%d\n",val1,tokens[op].type,val2,op,val1/val2,p,q);
 		        return val1 / val2;
-		}
-      case TK_EQ:
-                 if(val1 == val2) return 1;
-                 else return 0;
-      case TK_NQ:
-                 if(val1 != val2) return 1;
-                 else return 0;
-      case TK_AND:
-                 if(val1 && val2) return 1;
-                 else return 0;
-      case NEGAT:
-                 return -val2;
-      case DEREF:
-                 return vaddr_read(val2, 4);
+		        }
       default: assert(0);
 	       return 0;
     }
@@ -363,7 +277,6 @@ uint64_t eval(int p,int q,bool *success) {
 word_t expr(char *e, bool *success) {
   if (!make_token(e)) {
     *success = false;
-    printf("***** ***\n");
     return 0;
   }
   //printf("9 is %s\n",tokens[9].str);
@@ -374,30 +287,12 @@ word_t expr(char *e, bool *success) {
   /* TODO: Insert codes to evaluate the expression. */
      //printf("long:%d\n",nr_token);
      
-  //printf("*****%d ***\n",*success);  
-  for (int i = 0; i < nr_token; i ++) {
-  	if (tokens[i].type == '*' && 
-  	   (i == 0 || tokens[i - 1].type == '(' || 
-  	   (tokens[i - 1].type != ')' && tokens[i - 1].type != TK_NUMBER && tokens[i - 1].type != TK_HEXNUM && tokens[i - 1].type != TK_REG)))
-        {
-   	      tokens[i].type = DEREF;
-  	}
-  	else if (tokens[i].type == '-' && 
-  	   (i == 0 || tokens[i - 1].type == '(' || 
-  	   (tokens[i - 1].type != ')' && tokens[i - 1].type != TK_NUMBER && tokens[i - 1].type != TK_HEXNUM && tokens[i - 1].type != TK_REG)))
-  	{
-   	      tokens[i].type = NEGAT;
-  	}
-  }
-
-  return eval(0,nr_token-1,success);
-
-
-
+     
      //for(int i = 0; i < 32;i++)
      //printf("%d:%c\n",i,tokens[i].type);
-     //uint64_t a = eval(0,nr_token-1);
-     //printf("a:%lu\n",a);
-     //return a;
+     uint32_t a = eval(0,nr_token-1);
+     //printf("a:%u\n",a);
+     return a;
 
+  return 0;
 }
