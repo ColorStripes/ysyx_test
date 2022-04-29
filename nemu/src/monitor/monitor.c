@@ -54,7 +54,6 @@ static long load_img() {
 }
 
 static int parse_args(int argc, char *argv[]) {
-  argc = 1;
   const struct option table[] = {
     {"batch"    , no_argument      , NULL, 'b'},
     {"log"      , required_argument, NULL, 'l'},
@@ -68,7 +67,7 @@ static int parse_args(int argc, char *argv[]) {
     switch (o) {
       case 'b': sdb_set_batch_mode(); printf("b*******\n");break;
       case 'p': sscanf(optarg, "%d", &difftest_port); printf("p*******\n"); break;
-      case 'l': log_file = optarg; printf("l*******\n");break;
+      case 'l': log_file = optarg; printf("%d*******\n",o);break;
       case 'd': diff_so_file = optarg; printf("d*******\n");break;
       case 1: img_file = optarg; printf("1*******\n");return 0;
       default:
