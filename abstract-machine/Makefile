@@ -144,7 +144,7 @@ $(ARCHIVE): $(OBJS)
 image: image-dep
 archive: $(ARCHIVE)
 image-dep: $(OBJS) am $(LIBS)
-	@echo \# wCreating image [$(ARCH)]
+	@echo \# Creating image [$(ARCH)]
 .PHONY: image image-dep archive run $(LIBS)
 	
 ### Clean a single project (remove `build/`)
@@ -157,4 +157,4 @@ CLEAN_ALL = $(dir $(shell find . -mindepth 2 -name Makefile))
 clean-all: $(CLEAN_ALL) clean
 $(CLEAN_ALL):
 	-@$(MAKE) -s -C $@ clean
-.PHONY: clean-all $(CLEAN_ALL)
+.PHONY: clean-all
