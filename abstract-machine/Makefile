@@ -3,7 +3,6 @@
 ### *Get a more readable version of this Makefile* by `make html` (requires python-markdown)
 html:
 	cat Makefile | sed 's/^\([^#]\)/    \1/g' | markdown_py > Makefile.html
-	@echo \# C image [$(ARCH)]
 .PHONY: html
 
 ## 1. Basic Setup and Checks
@@ -145,7 +144,7 @@ $(ARCHIVE): $(OBJS)
 image: image-dep
 archive: $(ARCHIVE)
 image-dep: $(OBJS) am $(LIBS)
-	@echo \# Creating image [$(ARCH)]
+	@echo \# wCreating image [$(ARCH)]
 .PHONY: image image-dep archive run $(LIBS)
 	
 ### Clean a single project (remove `build/`)
