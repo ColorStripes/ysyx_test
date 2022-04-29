@@ -144,9 +144,9 @@ $(ARCHIVE): $(OBJS)
 image: image-dep
 archive: $(ARCHIVE)
 image-dep: $(OBJS) am $(LIBS)
-	echo \# Creating image [$(ARCH)]
+	@echo \# Creating image [$(ARCH)]
 .PHONY: image image-dep archive run $(LIBS)
-	echo "wcaonima"
+	
 ### Clean a single project (remove `build/`)
 clean:
 	rm -rf Makefile.html $(WORK_DIR)/build/
