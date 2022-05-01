@@ -43,8 +43,8 @@ int sprintf(char *out, const char *fmt, ...) {
   memset(buf, 0, sizeof(buf));
   va_list ap;
   va_start(ap, fmt);
-  while(*fmt++){
-    //if(*fmt == '%'){
+  while(*fmt){
+    if(*fmt++ == '%'){
         //fmt++;
   	switch(*fmt){
   	    case 's':
@@ -73,7 +73,7 @@ int sprintf(char *out, const char *fmt, ...) {
   	        count++;
   	        break;
   	}
-    //}
+    }
     //else{
   	 //*out++ = *fmt++;
   	 //count++;
