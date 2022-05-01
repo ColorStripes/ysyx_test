@@ -49,7 +49,7 @@ int sprintf(char *out, const char *fmt, ...) {
   	switch(*fmt){
   	    case 's':
   	        s = va_arg(ap, char *);
-  	    	memcpy(out, s, strlen(s));
+  	    	strcpy(out, s);
   	    	out += strlen(s);
   	    	count += strlen(s);
   	    	break;
