@@ -74,10 +74,11 @@ int sprintf(char *out, const char *fmt, ...) {
   	        break;
   	}
     }
-    //else{
+    else{
+         fmt++;
   	 //*out++ = *fmt++;
   	 //count++;
-    //}  
+    }  
   }	    	
   va_end(ap);
   return count;
