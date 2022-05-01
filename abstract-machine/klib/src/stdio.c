@@ -46,7 +46,7 @@ int sprintf(char *out, const char *fmt, ...) {
   while(*fmt){
     if(*fmt == '%'){
         fmt++;
-  	switch(*fmt){
+  	switch(*fmt++){
   	    case 's':
   	        s = va_arg(ap, char *);
   	    	memcpy(out, s, strlen(s));
@@ -75,9 +75,8 @@ int sprintf(char *out, const char *fmt, ...) {
   	}
     }
     else{
-         fmt++;
-  	 //*out++ = *fmt++;
-  	 //count++;
+  	 *out++ = *fmt++;
+  	 count++;
     }  
   }	    	
   va_end(ap);
