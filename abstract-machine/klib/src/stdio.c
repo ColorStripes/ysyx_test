@@ -37,6 +37,7 @@ int sprintf(char *out, const char *fmt, ...) {
   
   int count = 0;
   char buf[65];
+  char *s;
   int d;
   char c;
   memset(buf, 0, sizeof(buf));
@@ -47,7 +48,10 @@ int sprintf(char *out, const char *fmt, ...) {
         fmt++;
   	switch(*fmt){
   	    case 's':
-  	    	out = va_arg(ap, char *);
+  	        s = va_arg(ap, char *);
+  	    	memcpy(out, s, strlen(s));
+  	    	out += strlen(s);
+  	    	count += strlen(s);
   	    	break;
   	    case 'd':
   	        d = va_arg(ap, int);
