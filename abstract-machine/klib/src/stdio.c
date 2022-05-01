@@ -44,12 +44,12 @@ int sprintf(char *out, const char *fmt, ...) {
   va_list ap;
   va_start(ap, fmt);
   while(*fmt){
-    if(*fmt == '%'){
-        fmt++;
+    //if(*fmt == '%'){
+        //fmt++;
   	switch(*fmt){
   	    case 's':
   	        s = va_arg(ap, char *);
-  	    	strcpy(out, s);
+  	    	memcpy(out, s, strlen(s));
   	    	out += strlen(s);
   	    	count += strlen(s);
   	    	break;
@@ -73,11 +73,11 @@ int sprintf(char *out, const char *fmt, ...) {
   	        count++;
   	        break;
   	}
-    }
-    else{
-  	 *out++ = *fmt++;
-  	 count++;
-    }  
+    //}
+    //else{
+  	 //*out++ = *fmt++;
+  	 //count++;
+    //}  
   }	    	
   va_end(ap);
   return count;
