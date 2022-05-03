@@ -245,6 +245,8 @@ int sprintf(char *out, const char *fmt, ...) {
                     }
                     Num[numindex++] = '\n';
                     num = atoi(Num);
+                    
+                    
                     break;
             case '#':
                     switch(*fmt++){
