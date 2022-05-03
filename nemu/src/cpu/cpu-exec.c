@@ -1,6 +1,7 @@
 #include <cpu/cpu.h>
 #include <cpu/decode.h>
 #include <cpu/difftest.h>
+#include <cpu/iringbuf.h>
 #include <locale.h>
 
 
@@ -10,10 +11,11 @@
  * You can modify this value as you want.
  */
 #define MAX_INST_TO_PRINT 10
-#define MAX_RINGBUFF 1024
+#define P_INS_NUM 15
+#define SIZEOF_INS 64
+#define MAX_RINGBUFF P_INS_NUM*64
 
 char buff[MAX_RINGBUFF];
-char buf[256] = {'0'};
 iringbuf rb;
 
 CPU_state cpu = {};
@@ -69,7 +71,7 @@ static void exec_once(Decode *s, vaddr_t pc) {
   disassemble(p, s->logbuf + sizeof(s->logbuf) - p,
       MUXDEF(CONFIG_ISA_x86, s->snpc, s->pc), (uint8_t *)&s->isa.inst.val, ilen);
      
-  ringbuf_write(*rb, s->logbuf, sizeof(s->logbuf));
+  ringbuf_write(&rb, s->logbuf, SIZEOF_INS);
 #endif
 }
 
@@ -110,7 +112,7 @@ void cpu_exec(uint64_t n) {
 
   uint64_t timer_start = get_time();
   
-  ringbuf_init(*rb, buff, MAX_RINGBUFF);
+  ringbuf_init(&rb, buff, MAX_RINGBUFF);
   execute(n);
   uint64_t timer_end = get_time();
   g_timer += timer_end - timer_start;
@@ -124,7 +126,109 @@ void cpu_exec(uint64_t n) {
            (nemu_state.halt_ret == 0 ? ASNI_FMT("HIT GOOD TRAP", ASNI_FG_GREEN) :
             ASNI_FMT("HIT BAD TRAP", ASNI_FG_RED))),
           nemu_state.halt_pc);
+      //printf_iring();
       // fall through
     case NEMU_QUIT: statistic();
   }
+}
+
+
+
+
+
+
+void ringbuf_init(iringbuf *rb, char *buf, uint32_t size){
+	rb->buff = buf;
+	rb->buff_size = size;
+
+	rb->read_mirror = rb->read_pointer = 0;
+	rb->write_mirror = rb->write_pointer = 0;
+}
+
+
+uint32_t Remain_size(iringbuf *rb){
+
+	if(rb->read_mirror == rb->write_mirror)
+		return rb->buff_size - (rb->write_pointer - rb->read_pointer);
+	else
+		return rb->read_pointer - rb->write_pointer;
+
+}
+
+uint32_t ringbuf_write(iringbuf *rb, char *str, uint32_t length){
+	if(length > rb->buff_size){
+		str = &str[length - rb->buff_size];
+		length = rb->buff_size;
+	}
+
+	uint32_t remain_size = Remain_size(rb);
+
+
+	if(length < rb->buff_size - rb->write_pointer){                       //have not arrive 0
+		memcpy(&rb->buff[rb->write_pointer], str, length);
+		rb->write_pointer += length;
+
+		if(length > remain_size)
+			rb->read_pointer = rb->write_pointer; //read_pointers always point the oldest one.
+		
+	}
+	else{
+
+		memcpy(&rb->buff[rb->write_pointer], str, rb->buff_size - rb->write_pointer);
+                memcpy(&rb->buff[0], &str[rb->buff_size - rb->write_pointer], length - (rb->buff_size - rb->write_pointer));
+        	rb->write_pointer = length - (rb->buff_size - rb->write_pointer);
+
+
+
+		//in mirror
+	        rb->write_mirror = ~rb->write_mirror;            //length is not enough,so in mirror
+		if(length > remain_size){                        //wirte catch up the read
+        	        rb->read_pointer = rb->write_pointer;     
+               		rb->read_mirror = ~rb->read_mirror;      //to distinguish the read and write is not at the same mirror
+                }
+
+
+	}
+	return length + rb->buff_size;
+}
+
+uint32_t ringbuf_read(iringbuf *rb, char *str, uint32_t length){
+
+	
+        if(length < rb->buff_size - rb->read_pointer){                       //have not arrive 0
+                memcpy(str, &rb->buff[rb->read_pointer], length);
+                rb->read_pointer += length;
+
+        }
+        else{
+
+                memcpy(str, &rb->buff[rb->read_pointer], rb->buff_size - rb->read_pointer);
+                memcpy(&str[rb->buff_size - rb->read_pointer], &rb->buff[0], length - (rb->buff_size - rb->read_pointer));
+                rb->read_pointer = length - (rb->buff_size - rb->read_pointer);
+
+
+
+                //in mirror
+                rb->read_mirror = ~rb->read_mirror;            //length is not enough,so in mirror
+                
+
+
+        }
+        return length;
+}
+
+void printf_iring()
+{       
+        if(*buff != '\0'){
+        	char *now = buff;
+       	 	int count = 0;
+       		while(count != P_INS_NUM){
+              	      if(now == rb.buff + rb.write_pointer - 1*SIZEOF_INS)
+                		printf("      -----> %s\n",now);
+              	      else
+        			printf("             %s\n",now);
+        	      now += SIZEOF_INS;
+        	      count++;
+       		}
+        }
 }
