@@ -105,9 +105,9 @@ void cpu_exec(uint64_t n) {
 
   uint64_t timer_start = get_time();
   
-  printf("5555\n");
+  
   execute(n);
-
+  printf("5555\n");
   uint64_t timer_end = get_time();
   g_timer += timer_end - timer_start;
 
