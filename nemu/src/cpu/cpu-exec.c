@@ -11,12 +11,23 @@
  * You can modify this value as you want.
  */
 #define MAX_INST_TO_PRINT 10
+//ftrace
+#define MAX_FTRACE 1024
+char ftbuff[MAX_FTRACE];
+
+//itrace
+
+#ifdef CONFIG_ITRACE
+
 #define P_INS_NUM 15
 #define SIZEOF_INS 64
-#define MAX_RINGBUFF P_INS_NUM*64
-
+#define MAX_RINGBUFF P_INS_NUM*SIZEOF_INS
 char buff[MAX_RINGBUFF];
 iringbuf rb;
+
+#endif
+
+
 
 CPU_state cpu = {};
 uint64_t g_nr_guest_inst = 0;
@@ -73,6 +84,17 @@ static void exec_once(Decode *s, vaddr_t pc) {
      
   ringbuf_write(&rb, s->logbuf, SIZEOF_INS);
 #endif
+
+  //TODO()
+  //printf("**%s**\n",s->logbuf+18);
+  if(!strcpy(s->logbuf + 32, "jal") || !strcpy(s->logbuf + 32, "jalr")){
+  	char nbuff[20];
+  	char cbuff[20];
+  	memcpy(nbuff, s->logbuf, 19);
+  	sprintf(cbuff,"0x%lx",s->dnpc);  	 
+  }
+  
+  
 }
 
 static void execute(uint64_t n) {
@@ -112,7 +134,10 @@ void cpu_exec(uint64_t n) {
 
   uint64_t timer_start = get_time();
   
+#ifdef CONFIG_ITRACE  
   ringbuf_init(&rb, buff, MAX_RINGBUFF);
+#endif
+  
   execute(n);
   uint64_t timer_end = get_time();
   g_timer += timer_end - timer_start;

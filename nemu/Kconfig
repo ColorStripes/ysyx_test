@@ -162,6 +162,14 @@ config WATCHPOINT
   help
     Enable watchpoints to debug your program.
     Note that this will significantly reduce the performance of NEMU.
+    
+config MTRAC
+  depends on TRACE
+  bool "Enable memory trace for debug."
+  default n
+  help
+    Enable memory to debug your program.
+    Note that this will significantly reduce the performance of NEMU.
 
 
 choice
