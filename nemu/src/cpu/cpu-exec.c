@@ -19,7 +19,7 @@ char ftbuff[MAX_FTRACE];
 
 #ifdef CONFIG_ITRACE
 
-#define P_INS_NUM 15
+#define P_INS_NUM 300
 #define SIZEOF_INS 64
 #define MAX_RINGBUFF P_INS_NUM*SIZEOF_INS
 char buff[MAX_RINGBUFF];
@@ -85,6 +85,7 @@ static void exec_once(Decode *s, vaddr_t pc) {
   ringbuf_write(&rb, s->logbuf, SIZEOF_INS);
 #endif
 
+/*
   //TODO()
   //printf("**%s**\n",s->logbuf+18);
   if(!strcpy(s->logbuf + 32, "jal") || !strcpy(s->logbuf + 32, "jalr")){
@@ -94,7 +95,7 @@ static void exec_once(Decode *s, vaddr_t pc) {
   	sprintf(cbuff,"0x%lx",s->dnpc);  	 
   }
   
-  
+*/ 
 }
 
 static void execute(uint64_t n) {
@@ -159,7 +160,7 @@ void cpu_exec(uint64_t n) {
 
 
 
-
+#ifdef CONFIG_ITRACE
 
 
 void ringbuf_init(iringbuf *rb, char *buf, uint32_t size){
@@ -257,3 +258,5 @@ void printf_iring()
        		}
         }
 }
+
+#endif

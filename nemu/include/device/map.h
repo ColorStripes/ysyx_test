@@ -9,8 +9,8 @@ uint8_t* new_space(int size);
 typedef struct {
   const char *name;
   // we treat ioaddr_t as paddr_t here
-  paddr_t low;
-  paddr_t high;
+  paddr_t low;          //Lowest address of allocated space
+  paddr_t high;         //The highest address of the allocated space
   void *space;
   io_callback_t callback;
 } IOMap;

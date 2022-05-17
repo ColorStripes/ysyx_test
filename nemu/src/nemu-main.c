@@ -37,9 +37,11 @@ int main(int argc, char *argv[]) {
   /* Start engine. */
   engine_start();
   
+#ifdef CONFIG_ITRACE  
   if(is_exit_status_bad()){
   	printf_iring();
   }
+#endif
 
   return is_exit_status_bad();
 }

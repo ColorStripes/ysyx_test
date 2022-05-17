@@ -48,7 +48,7 @@ void __am_audio_ctrl(AM_AUDIO_CTRL_T *ctrl) {
   s.samples = ctrl->samples;
   s.callback = audio_play;
   s.userdata = NULL;
-
+  //printf("******1111********\n");
   count = 0;
   int ret = SDL_InitSubSystem(SDL_INIT_AUDIO);
   if (ret == 0) {
@@ -62,6 +62,7 @@ void __am_audio_status(AM_AUDIO_STATUS_T *stat) {
 }
 
 void __am_audio_play(AM_AUDIO_PLAY_T *ctl) {
+  //printf("******%s********\n",ctl->buf.start);
   int len = ctl->buf.end - ctl->buf.start;
   audio_write(ctl->buf.start, len);
 }

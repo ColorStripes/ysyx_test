@@ -40,11 +40,11 @@ void init_map() {
 word_t map_read(paddr_t addr, int len, IOMap *map) {
   assert(len >= 1 && len <= 8);
   check_bound(map, addr);
-  paddr_t offset = addr - map->low;
-  invoke_callback(map->callback, offset, len, false); // prepare data to read
-  word_t ret = host_read(map->space + offset, len);
-  return ret;
-}
+  paddr_t offset = addr - map->low;             //map.h
+  invoke_callback(map->callback, offset, len, false); // prepare data to read ,,,,Before reading the data, update the value with the callback function, and then read it again 
+  word_t ret = host_read(map->space + offset, len);   //so then we can read the newest value and give cpu to use
+  return ret;                                      //the bug of P2.3 Clock is :offset=0 need to read the newest value,but when offset=0 the callback function do not to update.  
+}                                                  //see /nemu/src/device/timer.c  
 
 void map_write(paddr_t addr, int len, word_t data, IOMap *map) {
   assert(len >= 1 && len <= 8);
