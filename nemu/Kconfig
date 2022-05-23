@@ -1,5 +1,5 @@
 mainmenu "NEMU Configuration Menu"
-//
+
 choice
   prompt "Base ISA"
   default ISA_riscv32
