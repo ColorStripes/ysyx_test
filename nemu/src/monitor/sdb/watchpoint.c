@@ -92,7 +92,7 @@ void set_wp(char *expre,bool *successed){
     expr(expre,&success);
     if(success){
         WP* NEW = new_wp();
-        if(strncmp(expre,"$pc",3) != 0 && strcmp(expre,"$PC") != 0 && strcmp(expre,"$PC") != 0){
+        if(strncmp(expre,"$pc",3) != 0 && strcmp(expre,"$PC") != 0 && strcmp(expre,"$pc") != 0){
             strcpy(NEW->Type, "HW watchpoint");
             strcpy(NEW->What, expre);
             printf("Watchpoint %d: %s\n",NEW->NO,NEW->What);
