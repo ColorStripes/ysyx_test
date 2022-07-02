@@ -37,19 +37,19 @@ static inline paddr_t host_read(void *addr, int len)
 {
   switch (len)
   {
-  case 1:
-    return *(uint8_t *)addr;
-  case 2:
-    return *(uint16_t *)addr;
-  case 4:
-    return *(uint32_t *)addr;
-  case 8:
-    return *(uint64_t *)addr;
-  default:
-  {
-    assert(0);
-    return 0;
-  }
+    case 1:
+     return *(uint8_t *)addr;
+    case 2:
+      return *(uint16_t *)addr;
+    case 4:
+      return *(uint32_t *)addr;
+    case 8:
+      return *(uint64_t *)addr;
+    default:
+    {
+      assert(0);
+      return 0;
+    }
   }
 }
 
@@ -81,7 +81,7 @@ uint64_t pmem_read(paddr_t addr, int len)
   return ret;
 }
 
-static void pmem_write(paddr_t addr, int len, uint64_t data)
+void pmem_write(paddr_t addr, int len, uint64_t data)
 {
   host_write(guest_to_host(addr), len, data);
 }

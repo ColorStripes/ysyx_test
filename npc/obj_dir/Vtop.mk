@@ -39,10 +39,12 @@ VM_USER_CFLAGS = \
 # User LDLIBS (from -LDFLAGS on Verilator command line)
 VM_USER_LDLIBS = \
 	-lLLVM-12 \
+	/home/xu/ysyx-workbench/nemu/build/riscv64-nemu-interpreter-so \
 
 # User .cpp files (from .cpp's on Verilator command line)
 VM_USER_CLASSES = \
 	disasm \
+	difftest \
 	i_memory \
 	na \
 
@@ -62,6 +64,8 @@ include $(VERILATOR_ROOT)/include/verilated.mk
 VPATH += $(VM_USER_DIR)
 
 disasm.o: /home/xu/ysyx-workbench/nemu/src/utils/disasm.cc
+	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
+difftest.o: csrc/difftest.cpp
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
 i_memory.o: csrc/i_memory.cpp
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<

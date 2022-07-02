@@ -1,5 +1,6 @@
 #include $(NEMU_HOME)/src/utils/filelist.mk
 DISASMSRC = $(NEMU_HOME)/src/utils/disasm.cc
+REFSRC = $(NEMU_HOME)/build/riscv64-nemu-interpreter-so
 DISASMFLAGS = $(shell llvm-config --cxxflags) -fPIE
 TOPNAME = top
 NXDC_FILES = ./top.nxdc
@@ -49,13 +50,13 @@ all:
 
 sim:$(VSRCS) $(CSRCS) $(DISASMSRC)
 	$(call git_commit, "sim RTL")
-	verilator --cc -Ivsrc vsrc/top.v csrc/*.cpp $(DISASMSRC) --build --exe --trace -LDFLAGS $(shell llvm-config --libs)
+	verilator --cc -Ivsrc vsrc/top.v csrc/*.cpp $(DISASMSRC) --build --exe --trace -LDFLAGS $(shell llvm-config --libs) -LDFLAGS $(REFSRC)
 
 simw:siming
 	gtkwave $(WAVE_FLAG)
 siming:
 	$(call git_commit, "sim RTL")
-	verilator --cc -Ivsrc --trace vsrc/top.v csrc/*.cpp $(DISASMSRC) --build --exe -LDFLAGS $(shell llvm-config --libs)
+	verilator --cc -Ivsrc --trace vsrc/top.v csrc/*.cpp $(DISASMSRC) $(REFSRC) --build --exe -LDFLAGS $(shell llvm-config --libs) -LDFLAGS $(REFSRC)
 	-./obj_dir/Vtop $(IMG) 
 
 

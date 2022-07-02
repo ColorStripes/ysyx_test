@@ -1,18 +1,13 @@
 #define Vname V##top
 #include "Vtop.h"
 
+#include "difftest-def.h"
 #include "verilated.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <iostream>
-#include <fstream>
-#include <assert.h>
-#include <getopt.h>
 #include "verilated_vcd_c.h"
 #include "svdpi.h"
 #include "Vtop__Dpi.h"
 #include "verilated_dpi.h"
-typedef uint64_t paddr_t;
+
 uint64_t pmem_read(paddr_t addr, int len);
 void read_inst(char *filename);
 extern "C" void init_disasm(const char *triple);
@@ -40,10 +35,11 @@ void E(int a)
     isebreak = false;
 }
 
-uint64_t *cpu_gpr = NULL;
+//uint64_t *cpu_gpr = NULL;
+
 extern "C" void set_gpr_ptr(const svOpenArrayHandle r)
 {
-  cpu_gpr = (uint64_t *)(((VerilatedDpiOpenVar *)r)->datap());
+  cpu.gpr = (uint64_t *)(((VerilatedDpiOpenVar *)r)->datap());
 }
 
 FILE *fpw;
@@ -129,7 +125,7 @@ void dump_gpr()
   printf("The all regs is: \n");
   for (int i = 0; i < 32; i++)
   {
-    printf("gpr[%2d]=  %-15ld ", i, cpu_gpr[i]);
+    printf("gpr[%2d]=  %-15ld ", i, cpu.gpr[i]);
     if ((i + 1) % 4 == 0)
       printf("\n");
   }
