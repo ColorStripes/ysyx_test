@@ -33,8 +33,8 @@ bool isebreak = false;
 void E(int a)
 {
   if (a == 1){
-    isebreak = false;
-    printf("ddddddddddddddddddddd\n");
+    isebreak = true;
+    //printf("ddddddddddddddddddddd\n");
   }
   else
     isebreak = false;
