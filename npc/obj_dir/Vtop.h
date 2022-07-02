@@ -9,6 +9,7 @@
 #define VERILATED_VTOP_H_  // guard
 
 #include "verilated_heavy.h"
+#include "svdpi.h"
 
 class Vtop__Syms;
 class Vtop___024root;
@@ -27,9 +28,17 @@ class Vtop VL_NOT_FINAL {
     // PORTS
     // The application code writes and reads these signals to
     // propagate new values into/out from the Verilated model.
-    VL_IN8(&clk,0,0);
-    VL_IN8(&rst,0,0);
-    VL_OUT16(&led,15,0);
+    VL_IN8(&reset,0,0);
+    VL_IN8(&clock,0,0);
+    VL_IN(&instr,31,0);
+    VL_IN64(&momory_data,63,0);
+    VL_OUT8(&fetch_enb,0,0);
+    VL_OUT64(&pc,63,0);
+    VL_OUT8(&memop,1,0);
+    VL_OUT8(&mem_ena,0,0);
+    VL_OUT8(&mem_wr,0,0);
+    VL_OUT64(&mem_addr,63,0);
+    VL_OUT64(&mem_stor_data,63,0);
 
     // CELLS
     // Public to allow access to /* verilator public */ items.

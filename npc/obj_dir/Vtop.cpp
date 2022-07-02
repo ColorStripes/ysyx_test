@@ -4,15 +4,24 @@
 #include "Vtop.h"
 #include "Vtop__Syms.h"
 #include "verilated_vcd_c.h"
+#include "verilated_dpi.h"
 
 //============================================================
 // Constructors
 
 Vtop::Vtop(VerilatedContext* _vcontextp__, const char* _vcname__)
     : vlSymsp{new Vtop__Syms(_vcontextp__, _vcname__, this)}
-    , clk{vlSymsp->TOP.clk}
-    , rst{vlSymsp->TOP.rst}
-    , led{vlSymsp->TOP.led}
+    , reset{vlSymsp->TOP.reset}
+    , clock{vlSymsp->TOP.clock}
+    , instr{vlSymsp->TOP.instr}
+    , momory_data{vlSymsp->TOP.momory_data}
+    , fetch_enb{vlSymsp->TOP.fetch_enb}
+    , pc{vlSymsp->TOP.pc}
+    , memop{vlSymsp->TOP.memop}
+    , mem_ena{vlSymsp->TOP.mem_ena}
+    , mem_wr{vlSymsp->TOP.mem_wr}
+    , mem_addr{vlSymsp->TOP.mem_addr}
+    , mem_stor_data{vlSymsp->TOP.mem_stor_data}
     , rootp{&(vlSymsp->TOP)}
 {
 }
@@ -59,7 +68,7 @@ static void _eval_initial_loop(Vtop__Syms* __restrict vlSymsp) {
             Verilated::debug(1);
             __Vchange = Vtop___024root___change_request(&(vlSymsp->TOP));
             Verilated::debug(__Vsaved_debug);
-            VL_FATAL_MT("vsrc/top.v", 1, "",
+            VL_FATAL_MT("vsrc/top.v", 4, "",
                 "Verilated model didn't DC converge\n"
                 "- See https://verilator.org/warn/DIDNOTCONVERGE");
         } else {
@@ -90,7 +99,7 @@ void Vtop::eval_step() {
             Verilated::debug(1);
             __Vchange = Vtop___024root___change_request(&(vlSymsp->TOP));
             Verilated::debug(__Vsaved_debug);
-            VL_FATAL_MT("vsrc/top.v", 1, "",
+            VL_FATAL_MT("vsrc/top.v", 4, "",
                 "Verilated model didn't converge\n"
                 "- See https://verilator.org/warn/DIDNOTCONVERGE");
         } else {

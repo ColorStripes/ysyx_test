@@ -1,3 +1,6 @@
+#include $(NEMU_HOME)/src/utils/filelist.mk
+DISASMSRC = $(NEMU_HOME)/src/utils/disasm.cc
+DISASMFLAGS = $(shell llvm-config --cxxflags) -fPIE
 TOPNAME = top
 NXDC_FILES = ./top.nxdc
 INC_PATH ?=
@@ -39,19 +42,27 @@ $(BIN): $(VSRCS) $(CSRCS) $(NVBOARD_ARCHIVE)
                 $(addprefix -CFLAGS , $(CFLAGS)) $(addprefix -LDFLAGS , $(LDFLAGS)) \
                 --Mdir $(OBJ_DIR) --exe -o $(abspath $(BIN))
 
+WAVE_FLAG = wave.vcd
 
 all:
 	@echo "Write this Makefile by your self."
 
-sim:
-	$(call git_commit, "sim RTL") # DO NOT REMOVE THIS LINE!!!
-	verilator -Wall --cc --trace vsrc/top.v csrc/*.cpp --build --exe	
+sim:$(VSRCS) $(CSRCS) $(DISASMSRC)
+	$(call git_commit, "sim RTL")
+	verilator --cc -Ivsrc vsrc/top.v csrc/*.cpp $(DISASMSRC) --build --exe --trace -LDFLAGS $(shell llvm-config --libs)
 
+simw:siming
+	gtkwave $(WAVE_FLAG)
+siming:
+	$(call git_commit, "sim RTL")
+	verilator --cc -Ivsrc --trace vsrc/top.v csrc/*.cpp $(DISASMSRC) --build --exe -LDFLAGS $(shell llvm-config --libs)
+	-./obj_dir/Vtop $(IMG) 
 
 
 
 run:$(BIN)
-	@$^
+	echo $(BIN)
+	#@$^
 
 clean:
 	rm -rf $(BUILD_DIR)
