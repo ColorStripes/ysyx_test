@@ -32,8 +32,10 @@ using namespace std;
 bool isebreak = false;
 void E(int a)
 {
-  if (a == 1)
-    isebreak = true;
+  if (a == 1){
+    isebreak = false;
+    printf("ddddddddddddddddddddd\n");
+  }
   else
     isebreak = false;
 }
