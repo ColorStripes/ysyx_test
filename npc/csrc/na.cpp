@@ -1,15 +1,27 @@
 #define Vname V##top
 #include "Vtop.h"
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <iostream>
+#include <fstream>
+#include <assert.h>
+#include <getopt.h>
 #include "difftest-def.h"
 #include "verilated.h"
 #include "verilated_vcd_c.h"
 #include "svdpi.h"
 #include "Vtop__Dpi.h"
 #include "verilated_dpi.h"
+typedef uint64_t paddr_t;
 
 uint64_t pmem_read(paddr_t addr, int len);
-void read_inst(char *filename);
+void pmem_write(paddr_t addr, int len, uint64_t data);
+
+long read_inst(char *filename);
+void difftest_step(paddr_t pc, paddr_t npc);
+void init_difftest(char *ref_so_file, long img_size, int port);
+
 extern "C" void init_disasm(const char *triple);
 extern "C" void disassemble(char *str, int size, uint64_t pc, uint8_t *code, int nbyte);
 
@@ -22,6 +34,14 @@ static vluint64_t main_time = 0;
 static const vluint64_t sim_time = 1000;
 
 using namespace std;
+bool is_exit = false;
+
+struct CPU_state
+{
+  uint64_t gpr[32];
+  uint64_t pc;
+}cpuu;
+
 
 // DPI-C
 bool isebreak = false;
@@ -29,17 +49,16 @@ void E(int a)
 {
   if (a == 1){
     isebreak = true;
-    //printf("ddddddddddddddddddddd\n");
   }
   else
     isebreak = false;
 }
 
-//uint64_t *cpu_gpr = NULL;
-
+uint64_t *cpu_gpr = NULL;
 extern "C" void set_gpr_ptr(const svOpenArrayHandle r)
 {
-  cpu.gpr = (uint64_t *)(((VerilatedDpiOpenVar *)r)->datap());
+  cpu_gpr = (uint64_t *)(((VerilatedDpiOpenVar *)r)->datap());
+  //cpuu.pc = top->pc;
 }
 
 FILE *fpw;
@@ -51,11 +70,59 @@ void Inst(int instruct)
   if (instruct != 0 && !isebreak)
   {
     disassemble(p, log + sizeof(log) - p, top->pc, (uint8_t *)&instruct, 4);
-    // printf("log: %s\n", log);
+    printf("log: %s\n", log);
     fputs(log, fpw);
     fputs("\n", fpw);
   }
 }
+
+
+
+
+
+// DPI-C
+extern "C" void mem_read(long long raddr, long long *rdata)
+{  //printf("read_addr:%lx,pc:%llx, ena:%d\n",raddr,top->pc, top->mem_ena);
+  if(raddr<0x88000000 && raddr > 0x80000000 ){
+  if(top->mem_ena && !top->mem_wr){
+  // 总是读取地址为`raddr & ~0x7ull`的8字节返回给`rdata`
+     // pmem_read(      *(uint64_t *)(raddr & ~0x7ull) ;//;
+     //printf("rdata:%d\n",pmem_read((raddr & ~0x7ull), 8));
+    // printf("read_addr:%lx,pc:%llx\n",raddr,top->pc);
+    *rdata = pmem_read((raddr & ~0x7ull), 8) >> ((raddr & 0x7ull) * 8);
+     //printf("rdata2:%d\n",*rdata);
+  }
+  }
+}
+extern "C" void mem_write(long long waddr, long long wdata, char wmask)
+{
+  // 总是往地址为`waddr & ~0x7ull`的8字节按写掩码`wmask`写入`wdata`
+  // `wmask`中每比特表示`wdata`中1个字节的掩码,
+  // 如`wmask = 0x3`代表只写入最低2个字节, 内存中的其它字节保持不变
+  if(waddr<0x88000000 && waddr > 0x80000000 ){
+  if(top->mem_ena && top->mem_wr){
+    long long mask = 0;
+    for(int i = 0; i < 8; i++){
+      if((wmask >> i) & 0x01){
+        //printf("&wmask:%d, i: %d\n",wmask >> i, i);
+        long long f = 0xff; 
+        f = f << (i * 8);
+        mask |= f;
+        //printf("...mask:%lld,  ff: %lld\n",mask, f);
+      }
+    }
+    mask = ~mask;
+    //printf("wmask:%d, mask:%lld\n",wmask, mask);
+
+    long long wdata_z = wdata | (pmem_read((waddr & ~0x7ull), 8) & mask);
+
+    //printf("w_data_z:%lld,w_data:%lld, mask:%lld\n",wdata_z,wdata, mask);
+
+    pmem_write((waddr & ~0x7ull), 8, wdata_z);
+  }
+  }
+}
+
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 // read .bin
@@ -82,6 +149,7 @@ static int parse_args(int argc, char *argv[])
 
 void step_and_dump_wave()
 {
+
   top->eval();
   contextp->timeInc(1);
   tfp->dump(main_time);
@@ -95,6 +163,7 @@ void step_and_dump_wave()
     top->eval();
     top->clock = 1, top->eval();
   }
+  cpuu.pc = top->pc;
   main_time++;
 }
 
@@ -106,6 +175,10 @@ void sim_exit()
   fclose(fpw);
   delete top;
   delete contextp;
+}
+
+void exit_now(){
+  is_exit = true;
 }
 
 void sim_init()
@@ -125,9 +198,9 @@ void dump_gpr()
   printf("The all regs is: \n");
   for (int i = 0; i < 32; i++)
   {
-    printf("gpr[%2d]=  %-15ld ", i, cpu.gpr[i]);
+    printf("%2s =  %-15ld ", reg_name(i), cpuu.gpr[i]);
     if ((i + 1) % 4 == 0)
-      printf("\n");
+    printf("\n");
   }
 }
 static int cmd_info(char *args)
@@ -135,7 +208,7 @@ static int cmd_info(char *args)
   // printf("********%s,%d\n",args,strcmp(args, "r"));
   if (strcmp(args, "r") == 0)
   {
-    printf("********\n");
+    //printf("********\n");
     dump_gpr();
   }
 
@@ -148,6 +221,8 @@ static int cmd_info(char *args)
 
   return 0;
 }
+
+static uint64_t refpc = 0;
 
 static int cmd_si(char *args)
 {
@@ -173,25 +248,43 @@ static int cmd_si(char *args)
       if (top->fetch_enb == 1)
       {
         top->instr = pmem_read(top->pc, 4);
+        //printf("222pc:0x%lx, instr:0x%08lx\n", top->pc, pmem_read(top->pc, 4));
       }
-    }
+    }  
     step_and_dump_wave();
-
-    if (isebreak)
+    if (isebreak || is_exit)
     {
-      printf("____Isbreak____\n");
+      if(isebreak)
+        printf("____Isbreak____\n");
       break;
     }
+    
   }
+
   printf("pc:0x%lx, instr:0x%08lx\n", top->pc, pmem_read(top->pc, 4));
+  if(top->fetch_enb == 1){
+    //printf("hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh\n");
+    if(refpc == 0){
+      refpc = top->pc;
+    }
+    else{
+      for(int i = 0; i < 32; i++)
+        cpuu.gpr[i] = cpu_gpr[i];
+      difftest_step(refpc, top->pc);
+      refpc = top->pc;
+    }
+      
+     
+  }
   if (main_time < 15)
     printf("Reset!\n");
   return 0;
 }
 
+
 static int cmd_c(char *args)
 {
-  while (!contextp->gotFinish() && main_time < sim_time)
+  while (!contextp->gotFinish()) //&& main_time < sim_time)
   {
 
     if (main_time < 15)
@@ -205,15 +298,32 @@ static int cmd_c(char *args)
       if (top->fetch_enb == 1)
       {
         top->instr = pmem_read(top->pc, 4);
+        
       }
 
-      if (main_time % 10 == 0)
+      if (main_time % 10 == 0){
         printf("pc:0x%lx, instr:0x%08lx\n", top->pc, pmem_read(top->pc, 4));
+        if(top->fetch_enb == 1){
+          if(refpc == 0){
+            refpc = top->pc;
+          }
+          else{
+            for(int i = 0; i < 32; i++)
+              cpuu.gpr[i] = cpu_gpr[i];
+            difftest_step(refpc, top->pc);
+            refpc = top->pc;
+          }
+      
+     
+        }
+      }
     }
+    //printf("*******************\n");
     step_and_dump_wave();
-    if (isebreak)
+    if (isebreak || is_exit)
     {
-      printf("____Isbreak____\n");
+      if(isebreak)
+        printf("____Isbreak____\n");
       break;
     }
   }
@@ -292,24 +402,36 @@ void sdb_mainloop()
 
 int main(int argc, char **argv)
 {
+  parse_args(argc, argv);
+  //printf("log: %s\n", img_file);
+  long img_size = read_inst(img_file);
+
 #ifdef CONFIG_ITRACE
   init_disasm("riscv64-pc-linux-gnu");
   fpw = fopen("file.txt", "w+");
 #endif
-  parse_args(argc, argv);
-  read_inst(img_file);
+  
+  char str[] = "/home/xu/ysyx-workbench/nemu/build/riscv64-nemu-interpreter-so";
+  static char *diff_so_file = str;
+  static int difftest_port = 1234;
+  init_difftest(diff_so_file, img_size, difftest_port);
+  
+  //pmem_read((*(uint64_t *)0x80008fdc),8);
   Verilated::commandArgs(argc, argv);
   sim_init();
 
   while (1)
   {
     sdb_mainloop();
-    if (isebreak)
+    if (isebreak || is_exit)
     {
+      if(cpuu.gpr[10] != 0){
+        assert(0);
+      }
       break;
     }
   }
-
+//printf("ssssss\n");
   sim_exit();
   return 0;
 }

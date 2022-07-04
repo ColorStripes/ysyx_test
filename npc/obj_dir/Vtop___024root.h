@@ -90,6 +90,7 @@ VL_MODULE(Vtop___024root) {
         IData/*16:0*/ top__DOT__ysyx_22040931_ID__DOT__ysyx_22040931_Decoder__DOT__ysyx_22040931_Itype__DOT__chose3;
         IData/*17:0*/ top__DOT__ysyx_22040931_ID__DOT__ysyx_22040931_Decoder__DOT__ysyx_22040931_Itype__DOT__chose4;
         IData/*31:0*/ top__DOT__ysyx_22040931_ID__DOT__ysyx_22040931_Regfile__DOT__i;
+        QData/*63:0*/ top__DOT__rdata;
         QData/*63:0*/ top__DOT__branch;
         QData/*63:0*/ top__DOT__data1;
         QData/*63:0*/ top__DOT__data2;
@@ -97,9 +98,9 @@ VL_MODULE(Vtop___024root) {
         QData/*63:0*/ top__DOT__ex_w_data;
         QData/*63:0*/ top__DOT__ex_mem_addr;
         QData/*63:0*/ top__DOT__ysyx_22040931_IF__DOT__pc_i;
-        QData/*63:0*/ top__DOT__ysyx_22040931_ID__DOT__r_data2;
     };
     struct {
+        QData/*63:0*/ top__DOT__ysyx_22040931_ID__DOT__r_data2;
         QData/*63:0*/ top__DOT__ysyx_22040931_ID__DOT__branch_mux__DOT__i1__DOT__lut_out;
         QData/*63:0*/ top__DOT__ysyx_22040931_ID__DOT__ysyx_22040931_IMM__DOT__imm_mux__DOT__i1__DOT__lut_out;
         QData/*63:0*/ top__DOT__ysyx_22040931_EX__DOT__result;
@@ -157,15 +158,15 @@ VL_MODULE(Vtop___024root) {
         VlUnpacked<CData/*2:0*/, 5> top__DOT__ysyx_22040931_ID__DOT__ysyx_22040931_IMM__DOT__imm_mux__DOT__i1__DOT__key_list;
         VlUnpacked<QData/*63:0*/, 5> top__DOT__ysyx_22040931_ID__DOT__ysyx_22040931_IMM__DOT__imm_mux__DOT__i1__DOT__data_list;
         VlUnpacked<QData/*63:0*/, 32> top__DOT__ysyx_22040931_ID__DOT__ysyx_22040931_Regfile__DOT__regs;
-        VlUnpacked<VlWide<3>/*66:0*/, 2> top__DOT__ysyx_22040931_EX__DOT__w_data_mux__DOT__i1__DOT__pair_list;
-        VlUnpacked<CData/*2:0*/, 2> top__DOT__ysyx_22040931_EX__DOT__w_data_mux__DOT__i1__DOT__key_list;
-        VlUnpacked<QData/*63:0*/, 2> top__DOT__ysyx_22040931_EX__DOT__w_data_mux__DOT__i1__DOT__data_list;
+        VlUnpacked<VlWide<3>/*66:0*/, 3> top__DOT__ysyx_22040931_EX__DOT__w_data_mux__DOT__i1__DOT__pair_list;
+        VlUnpacked<CData/*2:0*/, 3> top__DOT__ysyx_22040931_EX__DOT__w_data_mux__DOT__i1__DOT__key_list;
+        VlUnpacked<QData/*63:0*/, 3> top__DOT__ysyx_22040931_EX__DOT__w_data_mux__DOT__i1__DOT__data_list;
         VlUnpacked<VlWide<3>/*66:0*/, 2> top__DOT__ysyx_22040931_EX__DOT__mem_addr_mux__DOT__i1__DOT__pair_list;
         VlUnpacked<CData/*2:0*/, 2> top__DOT__ysyx_22040931_EX__DOT__mem_addr_mux__DOT__i1__DOT__key_list;
         VlUnpacked<QData/*63:0*/, 2> top__DOT__ysyx_22040931_EX__DOT__mem_addr_mux__DOT__i1__DOT__data_list;
-        VlUnpacked<CData/*4:0*/, 7> top__DOT__ysyx_22040931_MEM__DOT__memop_mux__DOT__i1__DOT__pair_list;
     };
     struct {
+        VlUnpacked<CData/*4:0*/, 7> top__DOT__ysyx_22040931_MEM__DOT__memop_mux__DOT__i1__DOT__pair_list;
         VlUnpacked<CData/*2:0*/, 7> top__DOT__ysyx_22040931_MEM__DOT__memop_mux__DOT__i1__DOT__key_list;
         VlUnpacked<CData/*1:0*/, 7> top__DOT__ysyx_22040931_MEM__DOT__memop_mux__DOT__i1__DOT__data_list;
         VlUnpacked<VlWide<3>/*66:0*/, 7> top__DOT__ysyx_22040931_MEM__DOT__mem_r_data_mux__DOT__i1__DOT__pair_list;
@@ -198,13 +199,14 @@ VL_MODULE(Vtop___024root) {
     VlWide<3>/*67:0*/ top__DOT__ysyx_22040931_ID__DOT__ysyx_22040931_Decoder__DOT__ysyx_22040931_Itype__DOT____Vcellinp__Itype____pinNumber4;
     VlWide<4>/*119:0*/ top__DOT__ysyx_22040931_ID__DOT__ysyx_22040931_Decoder__DOT__ysyx_22040931_Btype__DOT____Vcellinp__Btype____pinNumber4;
     VlWide<11>/*334:0*/ top__DOT__ysyx_22040931_ID__DOT__ysyx_22040931_IMM__DOT____Vcellinp__imm_mux____pinNumber4;
-    VlWide<5>/*133:0*/ top__DOT__ysyx_22040931_EX__DOT____Vcellinp__w_data_mux____pinNumber4;
+    VlWide<7>/*200:0*/ top__DOT__ysyx_22040931_EX__DOT____Vcellinp__w_data_mux____pinNumber4;
     VlWide<5>/*133:0*/ top__DOT__ysyx_22040931_EX__DOT____Vcellinp__mem_addr_mux____pinNumber4;
     VlWide<15>/*468:0*/ top__DOT__ysyx_22040931_MEM__DOT____Vcellinp__mem_r_data_mux____pinNumber4;
     VlWide<9>/*267:0*/ top__DOT__ysyx_22040931_MEM__DOT____Vcellinp__mem_stor_data_mux____pinNumber4;
     VlWide<18>/*559:0*/ top__DOT__ysyx_22040931_MEM__DOT____Vcellinp__mem_stor_data1_mux____pinNumber4;
     VlWide<9>/*275:0*/ top__DOT__ysyx_22040931_MEM__DOT____Vcellinp__mem_stor_data2_mux____pinNumber4;
     VlWide<5>/*135:0*/ top__DOT__ysyx_22040931_MEM__DOT____Vcellinp__mem_stor_data3_mux____pinNumber4;
+    QData/*63:0*/ __Vtask_top__DOT__mem_read__4__rdata;
     VlUnpacked<CData/*0:0*/, 3> __Vm_traceActivity;
 
     // INTERNAL VARIABLES

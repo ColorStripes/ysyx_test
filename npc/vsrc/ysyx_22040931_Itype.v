@@ -37,13 +37,13 @@ module ysyx_22040931_Itype(
     `ysyx_22040931_addi,    {1'b1,`ysyx_22040931_Arith,`ysyx_22040931_ADD,`ysyx_22040931_MNO, 1'b0},
     `ysyx_22040931_addiw,   {1'b1,`ysyx_22040931_Short,`ysyx_22040931_ADD,`ysyx_22040931_MNO, 1'b0},
     `ysyx_22040931_andi,    {1'b1,`ysyx_22040931_Arith,`ysyx_22040931_AND,`ysyx_22040931_MNO, 1'b0},
-    `ysyx_22040931_ld,      {1'b1,`ysyx_22040931_LOAD,`ysyx_22040931_NO,`ysyx_22040931_R_EIG, 1'b0},
-    `ysyx_22040931_lw,      {1'b1,`ysyx_22040931_LOAD,`ysyx_22040931_NO,`ysyx_22040931_R_FOR, 1'b0},
-    `ysyx_22040931_lh,      {1'b1,`ysyx_22040931_LOAD,`ysyx_22040931_NO,`ysyx_22040931_R_DOU, 1'b0},
-    `ysyx_22040931_lb,      {1'b1,`ysyx_22040931_LOAD,`ysyx_22040931_NO,`ysyx_22040931_R_ONE, 1'b0},
-    `ysyx_22040931_lwu,     {1'b1,`ysyx_22040931_LOAD,`ysyx_22040931_NO,`ysyx_22040931_R_FORU, 1'b0},
-    `ysyx_22040931_lhu,     {1'b1,`ysyx_22040931_LOAD,`ysyx_22040931_NO,`ysyx_22040931_R_DOUU, 1'b0},
-    `ysyx_22040931_lbu,     {1'b1,`ysyx_22040931_LOAD,`ysyx_22040931_NO,`ysyx_22040931_R_ONEU, 1'b0},
+    `ysyx_22040931_ld,      {1'b1,`ysyx_22040931_LOAD,`ysyx_22040931_ADD,`ysyx_22040931_R_EIG, 1'b0},
+    `ysyx_22040931_lw,      {1'b1,`ysyx_22040931_LOAD,`ysyx_22040931_ADD,`ysyx_22040931_R_FOR, 1'b0},
+    `ysyx_22040931_lh,      {1'b1,`ysyx_22040931_LOAD,`ysyx_22040931_ADD,`ysyx_22040931_R_DOU, 1'b0},
+    `ysyx_22040931_lb,      {1'b1,`ysyx_22040931_LOAD,`ysyx_22040931_ADD,`ysyx_22040931_R_ONE, 1'b0},
+    `ysyx_22040931_lwu,     {1'b1,`ysyx_22040931_LOAD,`ysyx_22040931_ADD,`ysyx_22040931_R_FORU, 1'b0},
+    `ysyx_22040931_lhu,     {1'b1,`ysyx_22040931_LOAD,`ysyx_22040931_ADD,`ysyx_22040931_R_DOUU, 1'b0},
+    `ysyx_22040931_lbu,     {1'b1,`ysyx_22040931_LOAD,`ysyx_22040931_ADD,`ysyx_22040931_R_ONEU, 1'b0},
     `ysyx_22040931_xori,    {1'b1,`ysyx_22040931_Arith,`ysyx_22040931_XOR,`ysyx_22040931_MNO, 1'b0},
     `ysyx_22040931_jalr,    {1'b1,`ysyx_22040931_Arith,`ysyx_22040931_JUMP,`ysyx_22040931_MNO, 1'b1},
     `ysyx_22040931_ori,     {1'b1,`ysyx_22040931_Arith,`ysyx_22040931_OR,`ysyx_22040931_MNO, 1'b0}
@@ -59,7 +59,7 @@ module ysyx_22040931_Itype(
 
 
     ysyx_22040931_MuxD #(5, 17, 12) Itype3 (out3, chose3, 12'b0000_0000_00000, {
-    `ysyx_22040931_slliw,   {1'b1,`ysyx_22040931_Arith, `ysyx_22040931_SHILW, `ysyx_22040931_MNO},
+    `ysyx_22040931_slliw,   {1'b1,`ysyx_22040931_Short, `ysyx_22040931_SHILW, `ysyx_22040931_MNO},
     `ysyx_22040931_slti,    {1'b1,`ysyx_22040931_Arith, `ysyx_22040931_COM,   `ysyx_22040931_MNO},
     `ysyx_22040931_sltiu,   {1'b1,`ysyx_22040931_Arith, `ysyx_22040931_COMU,  `ysyx_22040931_MNO},
     `ysyx_22040931_sraiw,   {1'b1,`ysyx_22040931_Arith, `ysyx_22040931_SRAW,  `ysyx_22040931_MNO},
@@ -73,8 +73,8 @@ module ysyx_22040931_Itype(
 
     assign jump = out[0];
     assign memrop = out[3 : 1];
-    assign exop = out[6 : 4];
-    assign aluop = out[11 : 7];
+    assign aluop = out[8 : 4];
+    assign exop = out[11 : 9];
     assign itype = out[12];
 
 endmodule

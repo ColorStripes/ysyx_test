@@ -58,13 +58,14 @@ module ysyx_22040931_EX(
     );
 
 
-    ysyx_22040931_MuxD #(2, 3, 64)  w_data_mux (
+    ysyx_22040931_MuxD #(3, 3, 64)  w_data_mux (
         w_data,
         exop,
         `ysyx_22040931_ZERO_NUM,
         {   
             `ysyx_22040931_Arith,  result, 
-            `ysyx_22040931_Short,  {{32{result[31]}}, result[31 : 0]}
+            `ysyx_22040931_Short,  {{32{result[31]}}, result[31 : 0]},
+            `ysyx_22040931_LUI,    imm
         }
     );
 

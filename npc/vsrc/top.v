@@ -38,9 +38,19 @@ always @(instr) begin
 	end
 end
 
+wire [63:0] rdata;
+import "DPI-C" function void mem_read(input longint raddr, output longint rdata);
+import "DPI-C" function void mem_write(input longint waddr, input longint wdata, input byte wmask);
+wire [7 : 0] wmask;
+assign wmask = (memop == `ysyx_22040931_SIZE_D) ? 8'b1111_1111 :
+               (memop == `ysyx_22040931_SIZE_W) ? (mem_addr[2] ? 8'b1111_0000 : 8'b0000_1111) :
+               (memop == `ysyx_22040931_SIZE_H) ? (8'b0000_0011 << (mem_addr[2 : 0] << 1))    :
+               (memop == `ysyx_22040931_SIZE_B) ? (8'b0000_0001 <<  mem_addr[2 : 0] )         : 8'b0000_0000;
 
-
-
+always @(*) begin
+      	mem_read(mem_addr, rdata);
+      	mem_write(mem_addr, mem_stor_data, wmask);
+end
 
 ysyx_22040931_IF ysyx_22040931_IF(
     .reset(reset),
@@ -165,7 +175,7 @@ ysyx_22040931_MEM ysyx_22040931_MEM(
     .mem_wr_i(ex_mem_wr),
     .mem_addr_i(ex_mem_addr),
     .mem_stor_data_i(ex_mem_data),
-    .mem_data(momory_data),
+    .mem_data(rdata), ////////////////////////////////////////////
     
     //liushuixian
     .pc_i(ex_pc),

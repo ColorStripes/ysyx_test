@@ -24,8 +24,8 @@ module ysyx_22040931_Stype(
 
 
     assign memwop = out[2 : 0];
-    assign exop = out[5 : 3];
-    assign aluop = out[10 : 6];
+    assign aluop = out[7 : 3];
+    assign exop = out[10 : 8];
     assign stype = out[11];
 
 endmodule

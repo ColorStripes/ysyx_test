@@ -28,20 +28,20 @@ module ysyx_22040931_Rtype(
     `ysyx_22040931_sub,    {1'b1,`ysyx_22040931_Arith,`ysyx_22040931_SUB},
     `ysyx_22040931_subw,   {1'b1,`ysyx_22040931_Short,`ysyx_22040931_SUB},
     `ysyx_22040931_xor,    {1'b1,`ysyx_22040931_Arith,`ysyx_22040931_XOR},
-    `ysyx_22040931_remw,   {1'b1,`ysyx_22040931_Arith,`ysyx_22040931_NO},
-    `ysyx_22040931_remuw,  {1'b1,`ysyx_22040931_Arith,`ysyx_22040931_NO},
-    `ysyx_22040931_remu,   {1'b1,`ysyx_22040931_Arith,`ysyx_22040931_NO},
-    `ysyx_22040931_rem,    {1'b1,`ysyx_22040931_Arith,`ysyx_22040931_NO},
+    `ysyx_22040931_remw,   {1'b1,`ysyx_22040931_Short,`ysyx_22040931_REMW},
+    `ysyx_22040931_remuw,  {1'b1,`ysyx_22040931_Short,`ysyx_22040931_REMUW},
+    `ysyx_22040931_remu,   {1'b1,`ysyx_22040931_Arith,`ysyx_22040931_REMU},
+    `ysyx_22040931_rem,    {1'b1,`ysyx_22040931_Arith,`ysyx_22040931_REM},
     `ysyx_22040931_or,     {1'b1,`ysyx_22040931_Arith,`ysyx_22040931_OR},
-    `ysyx_22040931_mul,    {1'b1,`ysyx_22040931_Arith,`ysyx_22040931_NO},
-    `ysyx_22040931_mulh,   {1'b1,`ysyx_22040931_Arith,`ysyx_22040931_NO},
-    `ysyx_22040931_mulhsu, {1'b1,`ysyx_22040931_Arith,`ysyx_22040931_NO},
-    `ysyx_22040931_mulhu,  {1'b1,`ysyx_22040931_Arith,`ysyx_22040931_NO},
-    `ysyx_22040931_mulw,   {1'b1,`ysyx_22040931_Arith,`ysyx_22040931_NO},
-    `ysyx_22040931_div,    {1'b1,`ysyx_22040931_Arith,`ysyx_22040931_NO},
-    `ysyx_22040931_divu,   {1'b1,`ysyx_22040931_Arith,`ysyx_22040931_NO},
-    `ysyx_22040931_divuw,  {1'b1,`ysyx_22040931_Arith,`ysyx_22040931_NO},
-    `ysyx_22040931_divw,   {1'b1,`ysyx_22040931_Arith,`ysyx_22040931_NO}
+    `ysyx_22040931_mul,    {1'b1,`ysyx_22040931_Arith,`ysyx_22040931_MUL},
+    `ysyx_22040931_mulh,   {1'b1,`ysyx_22040931_Arith,`ysyx_22040931_MULH},
+    `ysyx_22040931_mulhsu, {1'b1,`ysyx_22040931_Arith,`ysyx_22040931_MULHSU},
+    `ysyx_22040931_mulhu,  {1'b1,`ysyx_22040931_Arith,`ysyx_22040931_MULHU},
+    `ysyx_22040931_mulw,   {1'b1,`ysyx_22040931_Short,`ysyx_22040931_MUL},
+    `ysyx_22040931_div,    {1'b1,`ysyx_22040931_Arith,`ysyx_22040931_DIV},
+    `ysyx_22040931_divu,   {1'b1,`ysyx_22040931_Arith,`ysyx_22040931_DIVU},
+    `ysyx_22040931_divuw,  {1'b1,`ysyx_22040931_Arith,`ysyx_22040931_DIVUW},
+    `ysyx_22040931_divw,   {1'b1,`ysyx_22040931_Short,`ysyx_22040931_DIV}
   });
 
     assign aluop = out[4 : 0];

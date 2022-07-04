@@ -10,11 +10,12 @@ struct diff_context_t
   word_t pc;
 };
 
+
 void diff_set_memcpy(paddr_t dest, void *src, size_t n)
 {
   for (size_t i = 0; i < n; i++)
-  {
-      paddr_write(dest + i, 1, *((uint8_t *)src + i));
+  { 
+      paddr_write(dest + i, 1, *((uint8_t *)src + i) );  
   }
 }
 
@@ -33,7 +34,7 @@ void diff_set_regs(void *diff_context)
   {
     cpu.gpr[i] = ctx->gpr[i];
   }
-  cpu.pc = ctx->pc;
+  //cpu.pc = ctx->pc;
 }
 
 void diff_get_regs(void* diff_context) {
@@ -79,7 +80,10 @@ void difftest_raise_intr(word_t NO) {
   assert(0);
 }
 
+
 void difftest_init(int port) {
+
   /* Perform ISA dependent initialization. */
   init_isa();
+  
 }
