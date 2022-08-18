@@ -566,9 +566,7 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
   	        	}	
   	        strcat(buff, buf);
             break;    
-  	        
-  	        
-   
+			
   	    default:
   	        return -1;        
         }

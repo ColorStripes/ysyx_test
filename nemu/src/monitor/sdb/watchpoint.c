@@ -128,19 +128,21 @@ void scan_wp(bool *isdebug){
        while(now != free_->next){
            bool success=true;
            uint64_t expre = expr(now->What,&success);
-           if(now->result == expre){
-               continue;
+           if((now->result == expre) || ((strncmp(now->Type, "Breakpoint", 10) == 0) && (expre == 0))){
+              now->result = expre;
+              now = now->next;
+              continue;
            }
            else{
                
-               print_s_wp(now,expre);
-               *isdebug = true;
-               printf("\n");
-               //now->result = expre;
+              print_s_wp(now,expre);
+              *isdebug = true;
+              printf("\n");
+              now->result = expre;
            }
            now = now->next;
        }
-    }
+    }  
 }
 
 
