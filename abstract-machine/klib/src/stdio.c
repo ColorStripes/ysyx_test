@@ -170,7 +170,7 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
   
   while(*fmt){
   
-  
+	
     if(*fmt == '%'){
         memset(buff, 0, sizeof(buf));
         memset(buf, 0, sizeof(buf));
@@ -314,6 +314,7 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
             case 'p':
                 p = (void *)va_arg(ap, void *);
                 ptoa(p, buf);
+				strcat(buff, buf);
                 break;
             case 'n':
             	switch(length){
@@ -484,7 +485,7 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
   	                *nbuff = '\0';
   	        }	
   	        strcat(buff, buf);
-                break;
+            break;
   	    case 'x': /*0x*/
   	        switch(length){
   	        	case 0:
@@ -524,7 +525,7 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
   	                *nbuff = '\0';
   	        }	
   	        strcat(buff, buf);
-                break;
+            break;
   	    case 'X':
                 switch(length){
   	        	case 0:
@@ -551,20 +552,20 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
   	                default:
   	                        u = va_arg(ap, unsigned int);
   	        	        break;
-  	        }
+  	        	}
                 Xtoa(u, buf);
                 if(flag == '#'){
-  	        	*nbuff++ = '0';
-  	        	*nbuff++ = '#';
-  	        }
+  	        		*nbuff++ = '0';
+  	        		*nbuff++ = '#';
+  	        	}
                 if(strlen(buf) < precision){
   	                int num_zero =  precision - strlen(buf);
   	        	for(int i = 0; i < num_zero; i++)
   	        		*nbuff++ = '0';
   	                *nbuff = '\0';
-  	        }	
+  	        	}	
   	        strcat(buff, buf);
-                break;    
+            break;    
   	        
   	        
    
