@@ -312,7 +312,7 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
                 *(buff+1) = '\0';                    
                 break;
             case 'p':
-                p = va_arg(ap, void *);
+                p = (void *)va_arg(ap, void *);
                 ptoa(p, buf);
                 break;
             case 'n':
