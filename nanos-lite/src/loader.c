@@ -75,9 +75,35 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
 }
 
 void naive_uload(PCB *pcb, const char *filename) {
-  
   uintptr_t entry = loader(pcb, filename);
   Log("Jump to entry = %lx", entry);
   ((void(*)())entry) ();
 }
 
+void context_kload(PCB *pcb, void (*entry)(void *), void *arg){
+  printf("IN kload: %p\n", entry);
+
+  pcb->as.area.start = (void *)pcb->stack;              //
+  pcb->as.area.end = pcb->as.area.start + STACK_SIZE;
+  pcb->cp = kcontext(pcb->as.area, entry, arg);
+
+  
+}
+
+
+void context_uload(PCB *pcb, const char* filename){
+  printf("IN uload: load: %s\n", filename);
+
+  //1.open the kernel stack
+  pcb->as.area.start = (void *)pcb->stack;            
+  pcb->as.area.end = pcb->as.area.start + STACK_SIZE;
+
+  //2.load the user program
+  uintptr_t entry = loader(pcb, filename);
+  pcb->cp = ucontext(&pcb->as, pcb->as.area, (void *)entry);
+
+  //3.set the stack top with heap.end
+  pcb->cp->GPRx = (uintptr_t)heap.end; 
+
+
+}

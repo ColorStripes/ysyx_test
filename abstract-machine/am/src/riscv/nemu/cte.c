@@ -40,13 +40,18 @@ bool cte_init(Context*(*handler)(Event, Context*)) {
 
   // register event handler
   user_handler = handler;
-  printf("user:%p\n",user_handler);
+  //printf("user:%p\n",user_handler);
 
   return true;
 }
 
 Context *kcontext(Area kstack, void (*entry)(void *), void *arg) {
-  return NULL;
+  printf("IN kcontext: %p\n", entry);
+  Context * context_make = (Context *)(kstack.end - sizeof(Context));      
+  context_make->mstatus = 0xa00001800;
+  context_make->mepc = (uintptr_t)entry;
+  context_make->GPR2 = (uintptr_t)arg;      //a0
+  return context_make;
 }
 
 void yield() {
