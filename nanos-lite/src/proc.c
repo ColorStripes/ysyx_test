@@ -34,7 +34,7 @@ void init_proc() {
   //context_uload(&pcb[0], "/bin/hello");
 
   char* argv[] = {
-    "pal --skip",
+    //"pal --skip",
     // "--skip",
     // "hello",
     //"/bin/exec-test",

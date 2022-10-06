@@ -22,14 +22,54 @@ static void sh_prompt() {
   sh_printf("sh> ");
 }
 
+// static void sh_handle_cmd(const char *cmd) {
+
+//   char file_name[128] = {0};
+//   strcpy(file_name, cmd);
+//   file_name[strlen(file_name) - 1] = 0;
+//   //查看是否为环境变量: 
+//   int i;
+//   for(i = 0; i < strlen(file_name); i++){
+//     if(file_name[i] == '=') {
+//       file_name[i] = 0;
+//       setenv(file_name, file_name+i+1, 0);
+//       return;
+//     }
+//   }
+  
+//   //运行程序
+//   if(strncmp(file_name, "./", 2) == 0){
+//     setenv("PATH", "/bin:/user/bin", 0);
+
+//     for(int i = 2; i < strlen(file_name); i++){
+//       if(file_name[i] == ' '){
+//         // printf("%d %s\n", i, file_name);
+//         file_name[i] = 0;
+//         // printf("exe_file: %s\narg: %s\n", file_name+4, file_name+i+1);
+//         execl(file_name+1, file_name+i+1, NULL);
+//       }
+//     }
+//     printf("%s %s\n", file_name, file_name+1);
+//     execvp(file_name+1, NULL);
+//   }
+
+//   //退出
+//   if(strncmp(file_name, "exit", 4) == 0){
+//     exit(0);
+//   }
+
+// }
+
+
+
+
 static void sh_handle_cmd(const char *cmd) {
 
   char file_name[128] = {0};
   strcpy(file_name, cmd);
   file_name[strlen(file_name) - 1] = 0;
   //查看是否为环境变量: 
-  int i;
-  for(i = 0; i < strlen(file_name); i++){
+  for(int i = 0; i < strlen(file_name); i++){
     if(file_name[i] == '=') {
       file_name[i] = 0;
       setenv(file_name, file_name+i+1, 0);
@@ -38,19 +78,35 @@ static void sh_handle_cmd(const char *cmd) {
   }
   
   //运行程序
-  if(strncmp(file_name, "./", 2) == 0){
-    setenv("PATH", "/bin:/user/bin", 0);
-    int i;
-    for(i = 2; i < strlen(file_name); i++){
-      if(file_name[i] == ' '){
-        // printf("%d %s\n", i, file_name);
-        file_name[i] = 0;
-        // printf("exe_file: %s\narg: %s\n", file_name+4, file_name+i+1);
-        execl(file_name+1, file_name+i+1, NULL);
-      }
+  // if(strncmp(file_name, "./", 2) == 0){
+  //   setenv("PATH", "/:/bin:/user/bin", 0);
+  //   for(int i = 2; i < strlen(file_name); i++){
+  //     if(file_name[i] == ' '){
+  //       file_name[i] = 0;
+  //       execl(file_name+2, file_name+i+1, NULL);      
+  //     }
+  //   }
+  //   printf("%s %s\n", file_name, file_name+1);
+  //   execvp(file_name+2, NULL);                        //无参数执行
+  // }
+
+
+  setenv("PATH", "/:/bin:/user/bin", 0);
+  char *argv[] ={};   int argc = 0;
+  for(int i = 0; i < strlen(cmd); i++){
+    if(file_name[i] == ' '){
+      argv[argc ++] = file_name + i + 1;
+      file_name[i] = 0;
     }
-    printf("%s %s\n", file_name, file_name+1);
-    execvp(file_name+1, NULL);
+  }
+  argv[argc] = NULL;
+  //printf("%s %s\n", file_name, file_name+1);
+
+  if(strncmp(file_name, "./", 2) == 0){ 
+    execvp(file_name + 2, argv);               //有参数执行
+  }
+  else{
+    execvp(file_name, argv);                  //运行Busybox
   }
 
   //退出
@@ -59,6 +115,7 @@ static void sh_handle_cmd(const char *cmd) {
   }
 
 }
+
 
 void builtin_sh_run() {
   sh_banner();

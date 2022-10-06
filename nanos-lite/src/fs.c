@@ -50,7 +50,7 @@ static Finfo file_table[] __attribute__((used)) = {
 };
 
 int fs_open(const char *pathname, int flags, int mode){
-  Log("Open the file <-----: %s",pathname);
+  //Log("Open the file <-----: %s",pathname);
   int i = 0;
   int file_num = FILE_NUM;
   for(; i < file_num; i ++){
@@ -59,8 +59,13 @@ int fs_open(const char *pathname, int flags, int mode){
       break;
     }
     else
-      if(i == file_num - 1)
-        panic("Can not open this file.\n");
+      if(i == file_num - 1){
+        //panic("Can not open this file.\n");
+        printf("Can not open this file: %s\n",pathname);
+        return -2;
+      }
+        
+        
   }
   return i;
 }
