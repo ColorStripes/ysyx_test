@@ -112,12 +112,12 @@ void context_uload(PCB *pcb, const char *filename, char *const argv[], char *con
 {
   printf("IN uload: load: %s\n", filename);
 
-  // 1.open the kernel stack
-  pcb->as.area.start = (void *)pcb->stack;
+  //// 1.open the kernel stack
+  pcb->as.area.start = new_page(8);
   pcb->as.area.end = pcb->as.area.start + STACK_SIZE;
 
 
-  // 2. args loading
+  //// 2. args loading
   uintptr_t argc = 0, envc = 0;
   while (argv && argv[argc])
     argc++;                                           // the number of argc
@@ -133,16 +133,16 @@ void context_uload(PCB *pcb, const char *filename, char *const argv[], char *con
   uintptr_t arg_pointer[argc];
   for (int i = 0; i < argc; i++)
   {
-    current_sp -= (strlen(argv[i]) + 1);
+    current_sp -= (strlen(argv[i]) + 1);           //+1 for '\0'
     arg_pointer[i] = (uintptr_t)current_sp;
-    strcpy(current_sp, argv[i]);                      // strcpy is +sp, so first sp is current_sp - strlen
+    strcpy(current_sp, argv[i]);                   // strcpy is +sp, so first sp is current_sp - strlen
   }
   uintptr_t env_pointer[envc];
   for (int j = 0; j < envc; j++)
   {
     current_sp -= (strlen(envp[j]) + 1);
     env_pointer[j] = (uintptr_t)current_sp;
-    strcpy(current_sp, envp[j]);                      // strcpy is +sp, so first sp is current_sp - size
+    strcpy(current_sp, envp[j]);                   // strcpy is +sp, so first sp is current_sp - strlen
   }
   // c. Unspecified
   int Unspecified_2 = sizeof(uintptr_t);
@@ -168,13 +168,13 @@ void context_uload(PCB *pcb, const char *filename, char *const argv[], char *con
   *(uintptr_t *)current_sp = argc;
 
 
-  // 3.load the user program
+  //// 3.load the user program
   pcb->as.area.end = current_sp;                              //stack end can't cover the args' stack
   uintptr_t entry = loader(pcb, filename);
   pcb->cp = ucontext(&pcb->as, pcb->as.area, (void *)entry);
 
 
-  // 4.set the stack top with argc's pointer
+  //// 4.set the stack top with argc's pointer
   pcb->cp->GPRx = (uintptr_t)current_sp;
 
 }

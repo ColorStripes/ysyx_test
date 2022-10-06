@@ -11,6 +11,8 @@ extern size_t fs_read(int fd, void *buf, size_t len);
 extern size_t fs_lseek(int fd, size_t offset, int whence);
 extern int fs_close(int fd);
 extern void naive_uload(PCB *pcb, const char *filename);
+extern void switch_boot_pcb();
+extern void context_uload(PCB *pcb, const char *filename, char *const argv[], char *const envp[]);
 
 
 
@@ -41,8 +43,11 @@ int syscall_gettimeofday(struct timeval *tv, struct timezone *tz){
 
 
 int syscall_execve(const char *pathname, char *const argv[], char *const envp[]){
-  naive_uload(NULL, pathname);
-  panic("Can not to next program!!!!\n");
+  // naive_uload(NULL, pathname);
+  // panic("Can not to next program!!!!\n");
+  context_uload(current, pathname, argv, envp);
+  switch_boot_pcb();
+  yield();
   return -1;
 }
 
