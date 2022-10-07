@@ -78,19 +78,6 @@ static void sh_handle_cmd(const char *cmd) {
   }
   
   //运行程序
-  // if(strncmp(file_name, "./", 2) == 0){
-  //   setenv("PATH", "/:/bin:/user/bin", 0);
-  //   for(int i = 2; i < strlen(file_name); i++){
-  //     if(file_name[i] == ' '){
-  //       file_name[i] = 0;
-  //       execl(file_name+2, file_name+i+1, NULL);      
-  //     }
-  //   }
-  //   printf("%s %s\n", file_name, file_name+1);
-  //   execvp(file_name+2, NULL);                        //无参数执行
-  // }
-
-
   setenv("PATH", "/:/bin:/user/bin", 0);
   char *argv[] ={};   int argc = 0;
   for(int i = 0; i < strlen(cmd); i++){
@@ -100,7 +87,6 @@ static void sh_handle_cmd(const char *cmd) {
     }
   }
   argv[argc] = NULL;
-  //printf("%s %s\n", file_name, file_name+1);
 
   if(strncmp(file_name, "./", 2) == 0){ 
     execvp(file_name + 2, argv);               //有参数执行
