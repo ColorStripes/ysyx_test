@@ -21,6 +21,8 @@ word_t* csr(paddr_t i){
     case 0x342:
         return &cpu.mcause;
     break;
+    case 0x180:
+        return &cpu.satp;
     default:
       assert(0);
     break;

@@ -10,6 +10,7 @@ typedef struct {
   word_t mepc;
   word_t mcause;
   word_t mtvec;
+  word_t satp;
 } riscv64_CPU_state;
 
 // decode
@@ -19,6 +20,6 @@ typedef struct {
   } inst;
 } riscv64_ISADecodeInfo;
 
-#define isa_mmu_check(vaddr, len, type) (MMU_DIRECT)
+//#define isa_mmu_check(vaddr, len, type) (MMU_DIRECT)
 
 #endif

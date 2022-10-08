@@ -12,10 +12,12 @@ static Area segments[] = {      // Kernel memory mappings
 };
 
 #define USER_SPACE RANGE(0x40000000, 0x80000000)
+#define PGTABLE_MASK 0x3ffffffffffc00
+#define VALID_MASK 1
 
 static inline void set_satp(void *pdir) {
-  uintptr_t mode = 1ul << (__riscv_xlen - 1);
-  asm volatile("csrw satp, %0" : : "r"(mode | ((uintptr_t)pdir >> 12)));
+  uintptr_t mode = 1ul << (__riscv_xlen - 1); 
+  asm volatile("csrw satp, %0" : : "r"(mode | ((uintptr_t)pdir >> 12))); 
 }
 
 static inline uintptr_t get_satp() {
@@ -38,8 +40,10 @@ bool vme_init(void* (*pgalloc_f)(int), void (*pgfree_f)(void*)) {
     }
   }
 
+
   set_satp(kas.ptr);
   vme_enable = 1;
+
 
   return true;
 }
@@ -67,7 +71,36 @@ void __am_switch(Context *c) {
 }
 
 void map(AddrSpace *as, void *va, void *pa, int prot) {
+  assert(as->ptr);
+
+  uint64_t virtual_add = (uint64_t)va;                   //39 bits virtual address
+  uint32_t first_vindx = (virtual_add >> 30) & 0x1ff;    //virtual_add[39 : 30]
+  uint64_t * first_vpage = (uint64_t*)as->ptr;           //the start virtual page content(64 bits)
+  
+
+  if(!(first_vpage[first_vindx] & 0x1)){                 //invalid in talbe item
+    void * new_ppage = pgalloc_usr(PGSIZE);              //apply the new physical page
+    first_vpage[first_vindx] =  (((uint64_t)new_ppage & 0xfffffffffff000) >> 2) | VALID_MASK;       //the [55 : 11] of physical page address + 10 bits flags | 1 bits valid
+  }
+
+  uint32_t second_vindx = (virtual_add >> 21) & 0x1ff;    //virtual_add[29 : 21]
+  uint64_t * second_vpage = (uint64_t*)((first_vpage[first_vindx] & PGTABLE_MASK) << 2);            //the address of the second virtual page content(64 bits)
+  
+  if(!(second_vpage[second_vindx] & 0x1)){                 //invalid in talbe item
+    void * new_ppage = pgalloc_usr(PGSIZE);                //apply the new physical page
+    second_vpage[second_vindx] = (((uint64_t)new_ppage & 0xfffffffffff000) >> 2) | VALID_MASK; 
+  }
+
+  uint32_t third_vindx = (virtual_add >> 12) & 0x1ff;     //virtual_add[29 : 21]
+  uint64_t * third_vpage = (uint64_t*)((second_vpage[second_vindx] << 2) & PGTABLE_MASK);           //the address of the second virtual page content(64 bits)
+  
+  if(!(third_vpage[third_vindx] & 0x1)){                  //invalid in talbe item
+    //void * new_ppage = pgalloc_usr(PGSIZE);             //apply the new physical page
+    third_vpage[third_vindx] = (((uint64_t)pa & 0xfffffffffff000) >> 2) | VALID_MASK;               //the address of the third virtual page is pa
+  }
+
 }
+
 
 Context *ucontext(AddrSpace *as, Area kstack, void *entry) {
   printf("IN ucontext: %p\n", entry);
