@@ -15,7 +15,7 @@ word_t vaddr_ifetch(vaddr_t addr, int len) {
 }
 
 word_t vaddr_read(vaddr_t addr, int len) {
-  
+  //printf("IN read\n");
   if(isa_mmu_check(addr, len, 0) == MMU_DIRECT){
     return paddr_read(addr, len);
   }
@@ -29,7 +29,7 @@ word_t vaddr_read(vaddr_t addr, int len) {
 }
 
 void vaddr_write(vaddr_t addr, int len, word_t data) {
-  
+  //printf("IN WRITE\n");
   if(isa_mmu_check(addr, len, 0) == MMU_DIRECT){
     return paddr_write(addr, len, data);
   }
@@ -39,5 +39,6 @@ void vaddr_write(vaddr_t addr, int len, word_t data) {
   }
   else
     assert(0);
+  //printf("out WRITE\n");
 
 }

@@ -13,7 +13,7 @@ extern int fs_close(int fd);
 extern void naive_uload(PCB *pcb, const char *filename);
 extern void switch_boot_pcb();
 extern void context_uload(PCB *pcb, const char *filename, char *const argv[], char *const envp[]);
-
+extern int mm_brk(uintptr_t brk);
 
 
 // size_t syscall_write(int fd, const void *buf, size_t count){
@@ -67,10 +67,11 @@ void do_syscall(Context *c) {
   a[1] = c->GPR2;
   a[2] = c->GPR3;
   a[3] = c->GPR4;
+  //printf("do_syscall: %ld\n",a[0]);
 
   switch (a[0]) {
     //case SYS_exit:  halt(a[1]); break;
-    case SYS_exit:  c->GPRx = syscall_execve("/bin/menu", NULL, NULL); break;
+    case SYS_exit:  halt(0); break; //c->GPRx = syscall_execve("/bin/menu", NULL, NULL); break;
     case SYS_yield: c->GPRx = 0; yield();  break;
     case SYS_open:  c->GPRx = fs_open((char *)a[1], (int)a[2], (int)a[3]); break;
     case SYS_read:  c->GPRx = fs_read((int)a[1], (void *)a[2], (size_t)a[3]); break;
@@ -78,7 +79,7 @@ void do_syscall(Context *c) {
     case SYS_close: c->GPRx = fs_close((int)a[1]); break;
     case SYS_lseek: c->GPRx = fs_lseek((int)a[1], (size_t)a[2], (int)a[3]); break;
     
-    case SYS_brk: c->GPRx = 0; break;
+    case SYS_brk: c->GPRx = mm_brk(a[1]); break;
     case SYS_execve: c->GPRx = syscall_execve((const char *)a[1], (char *const*)a[2], (char *const*)a[3]); break;
     case SYS_gettimeofday: c->GPRx = syscall_gettimeofday((struct timeval *)a[1], (struct timezone *)a[2]); break;
 

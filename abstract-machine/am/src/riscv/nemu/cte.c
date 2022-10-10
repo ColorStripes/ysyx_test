@@ -3,11 +3,15 @@
 #include <klib.h>
 
 static Context* (*user_handler)(Event, Context*) = NULL;
+void __am_get_cur_as(Context *c);
+void __am_switch(Context *c);
 
 Context* __am_irq_handle(Context *c) {
+  __am_get_cur_as(c);
   if (user_handler) {
     Event ev = {0};
     //printf("c->mcause:%lx\n",c->mcause);
+    //printf("c->ptr:%p\n",c->pdir);
     switch (c->mcause) {
       case 11: 
       	switch(c->GPR1){
@@ -28,7 +32,7 @@ Context* __am_irq_handle(Context *c) {
     c = user_handler(ev, c);  //do_event
     assert(c != NULL);
   }
-
+  __am_switch(c);
   return c;
 }
 
@@ -55,7 +59,6 @@ Context *kcontext(Area kstack, void (*entry)(void *), void *arg) {
 }
 
 void yield() {
-  //printf("ddddddddddddddddd\n");
   asm volatile("li a7, -1; ecall");
   //printf("yield pc\n");
 }

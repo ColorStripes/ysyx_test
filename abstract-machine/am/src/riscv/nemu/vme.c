@@ -91,7 +91,7 @@ void map(AddrSpace *as, void *va, void *pa, int prot) {
     second_vpage[second_vindx] = (((uint64_t)new_ppage & 0xfffffffffff000) >> 2) | VALID_MASK; 
   }
 
-  uint32_t third_vindx = (virtual_add >> 12) & 0x1ff;     //virtual_add[29 : 21]
+  uint32_t third_vindx = (virtual_add >> 12) & 0x1ff;     //virtual_add[20 : 12]
   uint64_t * third_vpage = (uint64_t*)((second_vpage[second_vindx] << 2) & PGTABLE_MASK);           //the address of the second virtual page content(64 bits)
   
   if(!(third_vpage[third_vindx] & 0x1)){                  //invalid in talbe item
@@ -104,10 +104,12 @@ void map(AddrSpace *as, void *va, void *pa, int prot) {
 
 Context *ucontext(AddrSpace *as, Area kstack, void *entry) {
   printf("IN ucontext: %p\n", entry);
-
-  Context * context_make = (Context *)(kstack.end - sizeof(Context)); 
+  
+  Context * context_make = (Context *)(kstack.end - sizeof(Context));
+  context_make->pdir = as->ptr; 
   context_make->mstatus = 0xa00001800;
   context_make->mepc = (uintptr_t)entry;
+  
 
   return context_make;
 }
