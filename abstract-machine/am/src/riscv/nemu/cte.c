@@ -55,6 +55,7 @@ Context *kcontext(Area kstack, void (*entry)(void *), void *arg) {
   context_make->mstatus = 0xa00001800;
   context_make->mepc = (uintptr_t)entry;
   context_make->GPR2 = (uintptr_t)arg;      //a0
+  context_make->pdir = NULL;
   return context_make;
 }
 
