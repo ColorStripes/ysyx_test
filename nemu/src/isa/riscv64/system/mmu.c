@@ -12,7 +12,7 @@ paddr_t isa_mmu_translate(vaddr_t vaddr, int len, int type) {
 
   //printf("*************%ld\n",root_physical_page[root_item]);
   if(!(root_item & 0x1)){
-    printf("Root physical page is invalid at vaddr:0x%lx\n", vaddr);
+    printf("Root physical page is invalid at vaddr:0x%lx  pc:0x%lx\n", vaddr, cpu.pc);
     assert(0);
   }
 
@@ -21,7 +21,7 @@ paddr_t isa_mmu_translate(vaddr_t vaddr, int len, int type) {
   word_t second_item = paddr_read((uintptr_t)(second_physical_page + second_pindx), sizeof(uintptr_t));
 
   if(!(second_item & 0x1)){
-    printf("Second physical page is invalid at vaddr:0x%lx\n", vaddr);
+    printf("Second physical page is invalid at vaddr:0x%lx  pc:0x%lx\n", vaddr, cpu.pc);
     assert(0);
   }
 
@@ -30,7 +30,7 @@ paddr_t isa_mmu_translate(vaddr_t vaddr, int len, int type) {
   word_t third_item = paddr_read((uintptr_t)(third_physical_page + third_pindx), sizeof(uintptr_t));
 
   if(!(third_item & 0x1)){
-    printf("Third physical page is invalid at vaddr:0x%lx\n", vaddr);
+    printf("Third physical page is invalid at vaddr:0x%lx  pc:0x%lx\n", vaddr, cpu.pc);
     assert(0);
   }
   return (third_item & PGTABLE_MASK) << 2  | (vaddr & 0xfff);             //item[53 : 10] << 2 | vaddr[11 : 0]  (= 56 bits physical address)

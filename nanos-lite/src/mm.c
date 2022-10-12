@@ -30,7 +30,7 @@ int mm_brk(uintptr_t brk) {
   if(current->max_brk >= brk) return 0;
   while(current->max_brk < brk){
     void *ppage = new_page(1);
-    map(&current->as, (void *)current->max_brk, ppage, 0);
+    map(&current->as, (void *)current->max_brk, ppage, 3);
     current->max_brk += PGSIZE; 
   }
   return 0;

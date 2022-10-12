@@ -183,9 +183,19 @@ void context_kload(PCB *pcb, void (*entry)(void *), void *arg)
 {
   printf("IN kload: %p\n", entry);
 
-  pcb->as.area.start = (void *)pcb->stack; //
-  pcb->as.area.end = pcb->as.area.start + STACK_SIZE;
-  pcb->cp = kcontext(pcb->as.area, entry, arg);
+  // pcb->as.area.start = (void *)pcb->stack; //
+  // pcb->as.area.end = pcb->as.area.start + STACK_SIZE;
+  // pcb->cp = kcontext(pcb->as.area, entry, arg);
+
+
+  // pcb->as.area.start = (void *)pcb->stack; //
+  // pcb->as.area.end = pcb->as.area.start + STACK_SIZE;
+  
+
+  void *kernel_stack_start = (void *)pcb->stack;
+  Area kernel_stack = {kernel_stack_start, kernel_stack_start + STACK_SIZE}; // physical stack
+  pcb->cp = kcontext(kernel_stack, entry, arg);
+
 }
 
 void context_uload(PCB *pcb, const char *filename, char *const argv[], char *const envp[])

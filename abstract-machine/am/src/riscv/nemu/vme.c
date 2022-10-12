@@ -71,7 +71,11 @@ void __am_switch(Context *c) {
 }
 
 void map(AddrSpace *as, void *va, void *pa, int prot) {
-  assert(as->ptr);
+  if(as->ptr == NULL){
+    printf("as->ptr is NULL at va: 0x%lx, pa: 0x%lx, prot:%d\n",va, pa, prot);
+    assert(as->ptr);
+  }
+    
 
   uint64_t virtual_add = (uint64_t)va;                   //39 bits virtual address
   uint32_t first_vindx = (virtual_add >> 30) & 0x1ff;    //virtual_add[39 : 30]
@@ -107,9 +111,8 @@ Context *ucontext(AddrSpace *as, Area kstack, void *entry) {
   
   Context * context_make = (Context *)(kstack.end - sizeof(Context));
   context_make->pdir = as->ptr; 
-  context_make->mstatus = 0xa00001800;
+  context_make->mstatus = 0xa00001880;
   context_make->mepc = (uintptr_t)entry;
-  
 
   return context_make;
 }

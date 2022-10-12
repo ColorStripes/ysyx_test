@@ -13,7 +13,8 @@ Context* __am_irq_handle(Context *c) {
     //printf("c->mcause:%lx\n",c->mcause);
     //printf("c->ptr:%p\n",c->pdir);
     switch (c->mcause) {
-      case 11: 
+      case 11:
+        c->mepc = c->mepc + 4; 
       	switch(c->GPR1){
       		case -1: ev.event = EVENT_YIELD; 
       		 	break;
@@ -24,11 +25,18 @@ Context* __am_irq_handle(Context *c) {
               		else{
                 		ev.event = EVENT_ERROR; break;
               		}
+                  break;
       	}
-      	c->mepc = c->mepc + 4;
-      break;
-    }
+        break;
+      case 0x8000000000000007:
+        ev.event = EVENT_IRQ_TIMER;
+        break;
 
+      default:
+        break;
+
+    }
+    
     c = user_handler(ev, c);  //do_event
     assert(c != NULL);
   }
@@ -52,7 +60,7 @@ bool cte_init(Context*(*handler)(Event, Context*)) {
 Context *kcontext(Area kstack, void (*entry)(void *), void *arg) {
   printf("IN kcontext: %p\n", entry);
   Context * context_make = (Context *)(kstack.end - sizeof(Context));      
-  context_make->mstatus = 0xa00001800;
+  context_make->mstatus = 0xa00001880;
   context_make->mepc = (uintptr_t)entry;
   context_make->GPR2 = (uintptr_t)arg;      //a0
   context_make->pdir = NULL;

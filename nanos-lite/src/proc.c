@@ -23,7 +23,7 @@ void hello_fun(void *arg) {
 }
 
 void init_proc() {
-  //switch_boot_pcb();
+  switch_boot_pcb();
 
   Log("Initializing processes...");
 
@@ -49,14 +49,30 @@ void init_proc() {
   
 }
 
+int cnt = 0;
 Context* schedule(Context *prev) {
   printf("IN schedule\n");
-
+  if(current == &pcb[1]){
+    cnt += 1;
+  }
+  else{
+    cnt = 0;
+  }    
   // save the context pointer
   current->cp = prev;
+
+
+  if(cnt >= 500){
+    current = &pcb[0];
+  }
+  else{
+    current = &pcb[1];
+  }
+
   // always select pcb[0] as the new process
-  current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);
+  //current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);
   //current = &pcb[0];
+  
   // then return the new context
   return current->cp;
 
