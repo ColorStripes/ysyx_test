@@ -43,7 +43,10 @@ void init_proc() {
     NULL
   };
 
-  context_uload(&pcb[1], "/bin/pal", argv, NULL);
+  context_uload(&pcb[3], "/bin/nterm", NULL, NULL);
+  context_uload(&pcb[2], "/bin/nterm", NULL, NULL);
+  context_uload(&pcb[1], "/bin/nterm", argv, NULL);
+  context_uload(&pcb[0], "/bin/nterm", NULL, NULL);
 
   // if(pcb[0].cp->np == 0){
   //   asm volatile("csrwi mscratch, 0");
@@ -56,30 +59,48 @@ void init_proc() {
   
 }
 
-int cnt = 0;
+
+int fg_pcb = 0;
+// int prev_pcb = 1;
+// int hang_up_pcb = 2;
+// int cnt = 0;
 Context* schedule(Context *prev) {
-  printf("IN schedule\n");
-  if(current == &pcb[1]){
-    cnt += 1;
-    //printf("to pcb[0]\n");
-  }
-  else{
-    cnt = 0;
-    //printf("to pcb[1]\n");
-  }    
-  // save the context pointer
-  current->cp = prev;
 
-
-  // if(cnt >= 500){
+  assert(prev);
+  // static int i = 0;
+  // i++;
+  // current->cp = prev;
+  // if(current == &pcb_boot) {
+  //   printf("leave boot\n");
   //   current = &pcb[0];
   // }
+  // if(i % 100 == 0) current = &pcb[3];
   // else{
-  //   current = &pcb[1];
+  //     current = &pcb[fg_pcb];
+  // }
+
+  //printf("IN schedule\n");
+
+  // if(current == &pcb[fg_pcb]){
+  //   cnt += 1;
+  // }
+  // else{
+  //   cnt = 0;
+  // } 
+
+  // save the context pointer
+  //current->cp = prev;
+
+  // if(cnt % 50 == 0){
+  //   current = &pcb[prev_pcb];
+  // }
+  // else{
+  //   current = &pcb[fg_pcb];
   // }
 
   // always select pcb[0] as the new process
-  current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);
+  current = &pcb[fg_pcb];
+  //current = (current == &pcb[0] ? &pcb[fg_pcb] : &pcb[0]);
   //current = (current == &pcb[0] ? &pcb[1] : &pcb[1] ? &pcb[2] : &pcb[3]);
   //current = &pcb[0];
   //printf("current:current->cp->np:%d, sp:%lx\n",current->cp->np, current->cp->gpr[2]);
@@ -88,4 +109,17 @@ Context* schedule(Context *prev) {
   return current->cp;
 
   //return NULL;
+}
+
+
+void set_next_pcb(int id){
+
+  // if(id != fg_pcb){
+  //   if(id == hang_up_pcb){
+  //     hang_up_pcb = prev_pcb;
+  //   }
+  //   prev_pcb = fg_pcb;
+    fg_pcb = id;
+  //}
+  //printf("fg_pcb:%d, prev_pcb:%d, hang_up_pcb:%d\n",fg_pcb, prev_pcb, hang_up_pcb);
 }

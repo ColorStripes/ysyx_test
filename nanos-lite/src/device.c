@@ -1,5 +1,7 @@
 #include <common.h>
 
+extern void set_next_pcb(int id);
+
 #if defined(MULTIPROGRAM) && !defined(TIME_SHARING)
 #define MULTIPROGRAM_YIELD() yield()
 #else
@@ -34,6 +36,8 @@ size_t events_read(void *buf, size_t offset, size_t len)
   {
     if(down){
       sprintf(buff, "kd %s\n", keyname[keycode]);
+      if(keycode >= AM_KEY_F1 && keycode <= AM_KEY_F4)
+        set_next_pcb(keycode - AM_KEY_F1);
     }
     else{
       sprintf(buff, "ku %s\n", keyname[keycode]);
@@ -119,7 +123,7 @@ size_t fsbctl_read(const void *buf, size_t offset, size_t len){
 }
 
 size_t fsbctl_write(const void *buf, size_t offset, size_t len){
-  printf("fsbctl_write\n");
+  //printf("fsbctl_write\n");
   int * buff = (int *)buf;
   int freq = buff[0];
   int channels = buff[1];
