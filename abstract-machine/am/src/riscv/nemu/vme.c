@@ -113,6 +113,8 @@ Context *ucontext(AddrSpace *as, Area kstack, void *entry) {
   context_make->pdir = as->ptr; 
   context_make->mstatus = 0xa00001880;
   context_make->mepc = (uintptr_t)entry;
+  context_make->np = 1;
+  //printf("context gpr[2]:%lx\n",context_make->gpr[2]);
 
   return context_make;
 }

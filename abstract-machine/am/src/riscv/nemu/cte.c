@@ -7,6 +7,8 @@ void __am_get_cur_as(Context *c);
 void __am_switch(Context *c);
 
 Context* __am_irq_handle(Context *c) {
+  assert(c);
+  //printf("c->np: 0x%lx\n",c->np);
   __am_get_cur_as(c);
   if (user_handler) {
     Event ev = {0};
@@ -64,6 +66,10 @@ Context *kcontext(Area kstack, void (*entry)(void *), void *arg) {
   context_make->mepc = (uintptr_t)entry;
   context_make->GPR2 = (uintptr_t)arg;      //a0
   context_make->pdir = NULL;
+  context_make->np = 0;
+
+  //asm volatile("csrwi mscratch, 0");
+
   return context_make;
 }
 

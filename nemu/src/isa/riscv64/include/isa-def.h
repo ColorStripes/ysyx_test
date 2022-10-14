@@ -11,6 +11,7 @@ typedef struct {
   word_t mcause;
   word_t mtvec;
   word_t satp;
+  word_t mscratch;
   bool INTR;
 } riscv64_CPU_state;
 

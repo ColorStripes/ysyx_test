@@ -14,6 +14,7 @@ void switch_boot_pcb() {
 }
 
 void hello_fun(void *arg) {
+  printf("dddd\n");
   int j = 1;
   while (1) {
     Log("Hello World from Nanos-lite with arg '%s' for the %dth time!", (uintptr_t)arg, j);
@@ -29,19 +30,25 @@ void init_proc() {
 
   // load program here
 
-  context_kload(&pcb[0], hello_fun, "one");
-  //context_uload(&pcb[0], "/bin/pal");
-  //context_uload(&pcb[0], "/bin/hello");
+  //context_kload(&pcb[0], hello_fun, "one");
+  //context_uload(&pcb[0], "/bin/hello", NULL, NULL);
+  context_uload(&pcb[0], "/bin/hello", NULL, NULL);
+  //context_uload(&pcb[1], "/bin/nterm", NULL, NULL);
 
   char* argv[] = {
     //"pal --skip",
-    // "--skip",
+     "--skip",
     // "hello",
     //"/bin/exec-test",
     NULL
   };
 
   context_uload(&pcb[1], "/bin/pal", argv, NULL);
+
+  // if(pcb[0].cp->np == 0){
+  //   asm volatile("csrwi mscratch, 0");
+  // }
+
   switch_boot_pcb();
 
 
@@ -54,24 +61,28 @@ Context* schedule(Context *prev) {
   printf("IN schedule\n");
   if(current == &pcb[1]){
     cnt += 1;
+    //printf("to pcb[0]\n");
   }
   else{
     cnt = 0;
+    //printf("to pcb[1]\n");
   }    
   // save the context pointer
   current->cp = prev;
 
 
-  if(cnt >= 500){
-    current = &pcb[0];
-  }
-  else{
-    current = &pcb[1];
-  }
+  // if(cnt >= 500){
+  //   current = &pcb[0];
+  // }
+  // else{
+  //   current = &pcb[1];
+  // }
 
   // always select pcb[0] as the new process
-  //current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);
+  current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);
+  //current = (current == &pcb[0] ? &pcb[1] : &pcb[1] ? &pcb[2] : &pcb[3]);
   //current = &pcb[0];
+  //printf("current:current->cp->np:%d, sp:%lx\n",current->cp->np, current->cp->gpr[2]);
   
   // then return the new context
   return current->cp;

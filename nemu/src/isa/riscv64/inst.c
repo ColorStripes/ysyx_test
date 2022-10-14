@@ -23,7 +23,12 @@ word_t* csr(paddr_t i){
     break;
     case 0x180:
         return &cpu.satp;
+    break;
+    case 0x340:
+      return &cpu.mscratch;
+    break;
     default:
+      printf("No CSR is addr: 0x%x, at pc: 0x%lx\n", i, cpu.pc);
       assert(0);
     break;
   }

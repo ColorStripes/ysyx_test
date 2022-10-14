@@ -191,7 +191,6 @@ void context_kload(PCB *pcb, void (*entry)(void *), void *arg)
   // pcb->as.area.start = (void *)pcb->stack; //
   // pcb->as.area.end = pcb->as.area.start + STACK_SIZE;
   
-
   void *kernel_stack_start = (void *)pcb->stack;
   Area kernel_stack = {kernel_stack_start, kernel_stack_start + STACK_SIZE}; // physical stack
   pcb->cp = kcontext(kernel_stack, entry, arg);
@@ -276,12 +275,17 @@ void context_uload(PCB *pcb, const char *filename, char *const argv[], char *con
   *(uintptr_t *)current_sp = argc;
 
   //// 3.load the user program
-  user_stack.end = current_sp; // stack end can't cover the args' stack
+  //user_stack.end = current_sp;                                  // stack end can't cover the args' stack
+
+  void *kernel_stack_start = (void *)pcb->stack;
+  Area kernel_stack = {kernel_stack_start, kernel_stack_start + STACK_SIZE};
+
   uintptr_t entry = loader(pcb, filename);
-  pcb->cp = ucontext(&pcb->as, user_stack, (void *)entry);
+  pcb->cp = ucontext(&pcb->as, kernel_stack, (void *)entry);
 
   //// 4.set the stack top with argc's pointer
   pcb->cp->GPRx = (uintptr_t)current_sp;
+  //pcb->cp->gpr[2] = (uintptr_t)current_sp;
   //pcb->as.area.start = pcb->as.area.end - 5 * PGSIZE;
-  //printf("pcb->cp->GPRx:0x%lx\n",pcb->cp->GPRx);
+  //printf("pcb->cp->GPRx:0x%lx, 0x%lx\n",pcb->cp->GPRx,pcb->cp->gpr[2]);
 }
