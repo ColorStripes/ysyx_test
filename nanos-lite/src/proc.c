@@ -46,7 +46,7 @@ void init_proc() {
   context_uload(&pcb[3], "/bin/nterm", NULL, NULL);
   context_uload(&pcb[2], "/bin/nterm", NULL, NULL);
   context_uload(&pcb[1], "/bin/nterm", argv, NULL);
-  context_uload(&pcb[0], "/bin/nterm", NULL, NULL);
+  context_uload(&pcb[0], "/bin/menu", NULL, NULL);
 
   // if(pcb[0].cp->np == 0){
   //   asm volatile("csrwi mscratch, 0");
