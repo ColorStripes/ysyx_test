@@ -14,7 +14,7 @@
 
   完成这个kcontext这个函数，需要了解如何指向一个Context的开头，内核线程的创建所创建的**context_make**上下文结构模拟的是保存完*上下文内容*的*上下文结构*
 
-  ![image-20221003230810166](C:/Users/Lenovo/AppData/Roaming/Typora/typora-user-images/image-20221003230810166.png)
+  ![image-20221003230810166](C:\Users\Lenovo\AppData\Roaming\Typora\typora-user-images\image-20221003230810166.png)
   
   ![image-20221004210809558](https://raw.githubusercontent.com/ColorStripes/Typora_Picture/master/picture/image-20221004210809558.png)
 
@@ -33,7 +33,7 @@ current = &pcb[0];
 return current->cp;
 ```
 
-![image-20221003235030465](C:/Users/Lenovo/AppData/Roaming/Typora/typora-user-images/image-20221003235030465.png)
+![image-20221003235030465](C:\Users\Lenovo\AppData\Roaming\Typora\typora-user-images\image-20221003235030465.png)
 
 #### 内核线程
 
@@ -41,17 +41,17 @@ return current->cp;
 
   - 因为模拟的是开栈后的结构，所以局部变量的Context指针指向的是开栈后的位置，也就是Context这个结构体的开头
 
-  ![image-20221003231407870](C:/Users/Lenovo/AppData/Roaming/Typora/typora-user-images/image-20221003231407870.png)
+  ![image-20221003231407870](C:\Users\Lenovo\AppData\Roaming\Typora\typora-user-images\image-20221003231407870.png)
 
 - context_kload的实现：
   - 因为和**naive_uload**函数同级，所以放在了loader.c下面。
-  - **PCB结构体**：![image-20221003232647796](C:/Users/Lenovo/AppData/Roaming/Typora/typora-user-images/image-20221003232647796.png)
+  - **PCB结构体**：![image-20221003232647796](C:\Users\Lenovo\AppData\Roaming\Typora\typora-user-images\image-20221003232647796.png)
 
 - **AddrSpace结构体：**（我们需要用到里面的Area，因为<u>kstack</u>参数）
 
-  ![image-20221003232830815](C:/Users/Lenovo/AppData/Roaming/Typora/typora-user-images/image-20221003232830815.png)
+  ![image-20221003232830815](C:\Users\Lenovo\AppData\Roaming\Typora\typora-user-images\image-20221003232830815.png)
 
-- PCB里有一个**stack**数组，数量是32K个，一个是1B，所以大小是32KB![image-20221003233650055](C:/Users/Lenovo/AppData/Roaming/Typora/typora-user-images/image-20221003233650055.png)
+- PCB里有一个**stack**数组，数量是32K个，一个是1B，所以大小是32KB![image-20221003233650055](C:\Users\Lenovo\AppData\Roaming\Typora\typora-user-images\image-20221003233650055.png)
 
 - **context_kload(PCB *pcb, void (*entry)(void *), void *arg)**函数：
 
@@ -61,9 +61,9 @@ return current->cp;
 
   实现：创建人工上下文，保存到上下文指针
 
-  ![image-20221003234519206](C:/Users/Lenovo/AppData/Roaming/Typora/typora-user-images/image-20221003234519206.png)
+  ![image-20221003234519206](C:\Users\Lenovo\AppData\Roaming\Typora\typora-user-images\image-20221003234519206.png)
 
-![image-20221003234612304](C:/Users/Lenovo/AppData/Roaming/Typora/typora-user-images/image-20221003234612304.png)
+![image-20221003234612304](C:\Users\Lenovo\AppData\Roaming\Typora\typora-user-images\image-20221003234612304.png)
 
 
 
@@ -71,23 +71,23 @@ return current->cp;
 
 ​	主函数运行过程：
 
-![image-20221004211318980](C:/Users/Lenovo/AppData/Roaming/Typora/typora-user-images/image-20221004211318980.png)
+![image-20221004211318980](C:\Users\Lenovo\AppData\Roaming\Typora\typora-user-images\image-20221004211318980.png)
 
 ​	1.内核线程创建过程：
 
-​	![image-20221004212434862](C:/Users/Lenovo/AppData/Roaming/Typora/typora-user-images/image-20221004212434862.png)
+​	![image-20221004212434862](C:\Users\Lenovo\AppData\Roaming\Typora\typora-user-images\image-20221004212434862.png)
 
-![image-20221004212959719](C:/Users/Lenovo/AppData/Roaming/Typora/typora-user-images/image-20221004212959719.png)
+![image-20221004212959719](C:\Users\Lenovo\AppData\Roaming\Typora\typora-user-images\image-20221004212959719.png)
 
-![image-20221004213518208](C:/Users/Lenovo/AppData/Roaming/Typora/typora-user-images/image-20221004213518208.png)
+![image-20221004213518208](C:\Users\Lenovo\AppData\Roaming\Typora\typora-user-images\image-20221004213518208.png)
 
-![image-20221004213807222](C:/Users/Lenovo/AppData/Roaming/Typora/typora-user-images/image-20221004213807222.png)
+![image-20221004213807222](C:\Users\Lenovo\AppData\Roaming\Typora\typora-user-images\image-20221004213807222.png)
 
 2. 内核自陷，进程调度过程：
 
    - 触发内核自陷
 
-     ![image-20221004214049803](C:/Users/Lenovo/AppData/Roaming/Typora/typora-user-images/image-20221004214049803.png)
+     ![image-20221004214049803](C:\Users\Lenovo\AppData\Roaming\Typora\typora-user-images\image-20221004214049803.png)
 
    - 进行PA3的一些列系统调用过程：
 
@@ -99,23 +99,23 @@ return current->cp;
 
    所以，这个返回的Context结构体在哪里？
 
-   ![image-20221004223423625](C:/Users/Lenovo/AppData/Roaming/Typora/typora-user-images/image-20221004223423625.png)
+   ![image-20221004223423625](C:\Users\Lenovo\AppData\Roaming\Typora\typora-user-images\image-20221004223423625.png)
 
    **所以我们来看调用约定：**
 
-   ![image-20221004224015914](C:/Users/Lenovo/AppData/Roaming/Typora/typora-user-images/image-20221004224015914.png)
+   ![image-20221004224015914](C:\Users\Lenovo\AppData\Roaming\Typora\typora-user-images\image-20221004224015914.png)
 
    **关键一步：**
 
-   ![image-20221004224549869](C:/Users/Lenovo/AppData/Roaming/Typora/typora-user-images/image-20221004224549869.png)
+   ![image-20221004224549869](C:\Users\Lenovo\AppData\Roaming\Typora\typora-user-images\image-20221004224549869.png)
 
 #### 内核线程参数
 
 - 这个问题其实在PA3就遇到过，通过调用约定，将参数传入
 
-  ![image-20221004000054602](C:/Users/Lenovo/AppData/Roaming/Typora/typora-user-images/image-20221004000054602.png)
+  ![image-20221004000054602](C:\Users\Lenovo\AppData\Roaming\Typora\typora-user-images\image-20221004000054602.png)
 
-![image-20221004225140413](C:/Users/Lenovo/AppData/Roaming/Typora/typora-user-images/image-20221004225140413.png)
+![image-20221004225140413](C:\Users\Lenovo\AppData\Roaming\Typora\typora-user-images\image-20221004225140413.png)
 
 - 所以往上下文机构中a0寄存器传入参数
 
@@ -149,7 +149,7 @@ return current->cp;
 
 - 用户栈结构：
 
-  ![image-20221006013824443](C:/Users/Lenovo/AppData/Roaming/Typora/typora-user-images/image-20221006013824443.png)
+  ![image-20221006013824443](C:\Users\Lenovo\AppData\Roaming\Typora\typora-user-images\image-20221006013824443.png)
 
 - 按照这个结构创建用户栈
 
@@ -240,7 +240,7 @@ return current->cp;
 
 - 修改`cell_main`进行测试：
 
-  ![image-20221006015301800](C:/Users/Lenovo/AppData/Roaming/Typora/typora-user-images/image-20221006015301800.png)
+  ![image-20221006015301800](C:\Users\Lenovo\AppData\Roaming\Typora\typora-user-images\image-20221006015301800.png)
 
 - `context_kload`传参参数设置
 
@@ -248,7 +248,7 @@ return current->cp;
 
 - 修改PAL代码
 
-  ![image-20221006020132072](C:/Users/Lenovo/AppData/Roaming/Typora/typora-user-images/image-20221006020132072.png)
+  ![image-20221006020132072](C:\Users\Lenovo\AppData\Roaming\Typora\typora-user-images\image-20221006020132072.png)
 
 
 
@@ -324,7 +324,7 @@ return current->cp;
 
 ![image-20221008211100370](https://raw.githubusercontent.com/ColorStripes/Typora_Picture/master/picture/image-20221008211100370.png)
 
-![image-20221008213029535](C:/Users/Lenovo/AppData/Roaming/Typora/typora-user-images/image-20221008213029535.png)
+![image-20221008213029535](C:\Users\Lenovo\AppData\Roaming\Typora\typora-user-images\image-20221008213029535.png)
 
 
 
@@ -375,7 +375,7 @@ void map(AddrSpace *as, void *va, void *pa, int prot) {
 
   - 由**va**虚拟地址确定一级页表索引，as确定页表地址，表项中填充由 **pgalloc_usr(PGSIZE)** 申请来的物理页表地址
 
-    ![image-20221008215110944](C:/Users/Lenovo/AppData/Roaming/Typora/typora-user-images/image-20221008215110944.png)
+    ![image-20221008215110944](C:\Users\Lenovo\AppData\Roaming\Typora\typora-user-images\image-20221008215110944.png)
 
   - 一级物理页表表项中，填充下一级物理页表地址，给标志位为0，表示指向下一页表
 
@@ -397,7 +397,7 @@ void map(AddrSpace *as, void *va, void *pa, int prot) {
 
   添加新的CSR寄存器（S级），SATP寄存器让NEMU知道开启了分页机制
 
-  ![image-20221010162859236](C:/Users/Lenovo/AppData/Roaming/Typora/typora-user-images/image-20221010162859236.png)
+  ![image-20221010162859236](https://raw.githubusercontent.com/ColorStripes/Typora_Picture/master/picture/image-20221010162859236.png)
 
 - 分页地址转换的具体过程应该如何实现?	   ---->     两个抽象的 mmu **API** 
 
@@ -416,7 +416,7 @@ void map(AddrSpace *as, void *va, void *pa, int prot) {
 
   通过check检查是否需要地址转换，如果需要则转换地址，然后再进行物理地址读取
 
-  ![image-20221008215640978](C:/Users/Lenovo/AppData/Roaming/Typora/typora-user-images/image-20221008215640978.png)
+  ![image-20221008215640978](C:\Users\Lenovo\AppData\Roaming\Typora\typora-user-images\image-20221008215640978.png)
 
 
 
@@ -503,7 +503,7 @@ void map(AddrSpace *as, void *va, void *pa, int prot) {
 
   - 这是系统调用函数，**SYS_brk**系统调用
 
-    ![image-20221010180508165](C:/Users/Lenovo/AppData/Roaming/Typora/typora-user-images/image-20221010180508165.png)
+    ![image-20221010180508165](https://raw.githubusercontent.com/ColorStripes/Typora_Picture/master/picture/image-20221010180508165.png)
 
   - **max_brk**标记着下一物理地址页的页首位置
 
@@ -561,29 +561,29 @@ AM创建的所有虚拟地址空间都会包含内核映射, 无论在切换之�
 
 - 在cpu结构体中添加一个`bool`成员`INTR`.
 
-  ![image-20221012232318608](C:/Users/Lenovo/AppData/Roaming/Typora/typora-user-images/image-20221012232318608.png)
+  ![image-20221012232318608](C:\Users\Lenovo\AppData\Roaming\Typora\typora-user-images\image-20221012232318608.png)
 
 - 在`dev_raise_intr()`中将INTR引脚设置为高电平.
 
-  ![image-20221012232203629](C:/Users/Lenovo/AppData/Roaming/Typora/typora-user-images/image-20221012232203629.png)
+  ![image-20221012232203629](C:\Users\Lenovo\AppData\Roaming\Typora\typora-user-images\image-20221012232203629.png)
 
 - 在`cpu_exec()`中for循环的末尾添加轮询INTR引脚的代码, 每次执行完一条指令就查看是否有硬件中断到来:
 
-  ![image-20221012233128720](C:/Users/Lenovo/AppData/Roaming/Typora/typora-user-images/image-20221012233128720.png)
+  ![image-20221012233128720](C:\Users\Lenovo\AppData\Roaming\Typora\typora-user-images\image-20221012233128720.png)
 
 - 添加中断事件识别与处理
 
   - 千万不要pc+4，因为这里是中断，中断的那条指令还没执行
 
-  ![image-20221012233258840](C:/Users/Lenovo/AppData/Roaming/Typora/typora-user-images/image-20221012233258840.png)
+  ![image-20221012233258840](C:\Users\Lenovo\AppData\Roaming\Typora\typora-user-images\image-20221012233258840.png)
 
-  ![image-20221012233501093](C:/Users/Lenovo/AppData/Roaming/Typora/typora-user-images/image-20221012233501093.png)
+  ![image-20221012233501093](C:\Users\Lenovo\AppData\Roaming\Typora\typora-user-images\image-20221012233501093.png)
 
 - 更改用户进程，内核线程创建的上下文
 
-  ![image-20221012233721271](C:/Users/Lenovo/AppData/Roaming/Typora/typora-user-images/image-20221012233721271.png)
+  ![image-20221012233721271](C:\Users\Lenovo\AppData\Roaming\Typora\typora-user-images\image-20221012233721271.png)
 
-![image-20221012233802417](C:/Users/Lenovo/AppData/Roaming/Typora/typora-user-images/image-20221012233802417.png)
+![image-20221012233802417](C:\Users\Lenovo\AppData\Roaming\Typora\typora-user-images\image-20221012233802417.png)
 
 
 
@@ -593,7 +593,7 @@ AM创建的所有虚拟地址空间都会包含内核映射, 无论在切换之�
 
 原因：返回的是之前的上下文，导致**hello_fun**也会进行**system call**
 
-![image-20221012231806105](C:/Users/Lenovo/AppData/Roaming/Typora/typora-user-images/image-20221012231806105.png)
+![image-20221012231806105](C:\Users\Lenovo\AppData\Roaming\Typora\typora-user-images\image-20221012231806105.png)
 
 
 
@@ -605,7 +605,7 @@ AM创建的所有虚拟地址空间都会包含内核映射, 无论在切换之�
 
 ![image-20221013171123163](https://raw.githubusercontent.com/ColorStripes/Typora_Picture/master/picture/image-20221013171123163.png)
 
-![image-20221013012220046](C:/Users/Lenovo/AppData/Roaming/Typora/typora-user-images/image-20221013012220046.png)
+![image-20221013012220046](C:\Users\Lenovo\AppData\Roaming\Typora\typora-user-images\image-20221013012220046.png)
 
 ```c
 __am_asm_trap:
